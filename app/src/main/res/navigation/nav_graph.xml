@@ -12,6 +12,9 @@
         tools:layout="@layout/fragment_first">
 
         <action
+            android:id="@+id/action_FirstFragment_to_forgotPassword"
+            app:destination="@id/forgotPassword" />
+        <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
     </fragment>
@@ -20,9 +23,17 @@
         android:name="com.example.shift.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
-
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPassword"
+        android:name="com.example.shift.ForgotPassword"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_forgotPassword_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
