@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.shift.databinding.FragmentSecondBinding;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class SecondFragment extends Fragment {
 
