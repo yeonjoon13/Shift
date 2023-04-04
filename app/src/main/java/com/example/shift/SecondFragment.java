@@ -9,6 +9,8 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.shift.databinding.FragmentSecondBinding;
@@ -35,7 +37,13 @@ public class SecondFragment extends Fragment {
         binding.registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((LogInActivity)getActivity()).registerClick(view);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                FirstFragment firstFragment = new FirstFragment();
+                fragmentTransaction.replace(R.id.fragment_content_main, firstFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }

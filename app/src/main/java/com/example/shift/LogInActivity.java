@@ -10,12 +10,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
@@ -24,11 +22,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.shift.databinding.ActivityLoginBinding;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,6 +51,11 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
+
+        // get rid of actionbar
+        if(this.getSupportActionBar()!=null)
+            this.getSupportActionBar().hide();
 
         // set firstFragment as default view
 
@@ -67,40 +70,25 @@ public class LogInActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         FirstFragment firstFragment = new FirstFragment();
-        fragmentTransaction.replace(R.id.my_framelayout, firstFragment);
+        fragmentTransaction.replace(R.id.fragment_content_main, firstFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
         context = getApplicationContext();
         myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
         // Get the parent layout
         FrameLayout parentLayout = findViewById(R.id.my_framelayout);
 
-        // Calculate the height of the view based on the parent's height
-        int parentHeight = parentLayout.getHeight();
-        int viewHeight = (int) (parentHeight * 0.6);
 
-        // Get the view and set its height
-        ImageView view = findViewById(R.id.imageView);
-        View view2 = findViewById(R.id.view2);
-        ConstraintLayout layout = findViewById(R.id.my_constraintlayout);
-
-        view.getLayoutParams().height = viewHeight;
-        view2.getLayoutParams().height = viewHeight;
-        layout.getLayoutParams().height = viewHeight;
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        // don't need the fab for now
+//        binding.fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
     }
 
     @Override
@@ -127,7 +115,7 @@ public class LogInActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavController navController = Navigation.findNavController(this, R.id.fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
