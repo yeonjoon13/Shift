@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.preference.PreferenceManager;
 import android.util.Patterns;
 import android.view.View;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -33,6 +35,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,7 +69,7 @@ public class LogInActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        LoginScreenFragment firstFragment = new LoginScreenFragment();
+        FirstFragment firstFragment = new FirstFragment();
         fragmentTransaction.replace(R.id.fragment_content_main, firstFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
@@ -199,7 +202,7 @@ public class LogInActivity extends AppCompatActivity {
                         Toast.makeText(LogInActivity.this, "Authentication created.",
                                 Toast.LENGTH_SHORT).show();
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.SecondFragment, new LoginScreenFragment());
+                        transaction.replace(R.id.fragment_content_main, new FirstFragment());
                         transaction.addToBackStack(null);
                         transaction.commit();
 
