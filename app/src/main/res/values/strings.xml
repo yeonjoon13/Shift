@@ -16,6 +16,8 @@
     <string name="firstName">First Name</string>
     <string name="lastName">Last Name</string>
     <string name="password">Password</string>
+    <string name="upcoming">Your Upcoming Jobs</string>
+    <string name="recommended">Your Recommended Jobs</string>
     <string name="confirm">Confirm password</string>
     <string name="wrongInput">Incorrect username/password\!</string>
     <!-- TODO: Remove or change this placeholder text -->

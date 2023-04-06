@@ -1,24 +1,20 @@
 package com.example.shift;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.shift.databinding.FragmentSecondBinding;
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.shift.databinding.FragmentRegisterBinding;
 
-public class SecondFragment extends Fragment {
+public class RegisterFragment extends Fragment {
 
-    private FragmentSecondBinding binding;
+    private FragmentRegisterBinding binding;
 
     @Override
     public View onCreateView(
@@ -26,7 +22,7 @@ public class SecondFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentSecondBinding.inflate(inflater, container, false);
+        binding = FragmentRegisterBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -42,7 +38,7 @@ public class SecondFragment extends Fragment {
                 FragmentManager fragmentManager = getChildFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                FirstFragment firstFragment = new FirstFragment();
+                LoginScreenFragment firstFragment = new LoginScreenFragment();
                 fragmentTransaction.replace(R.id.fragment_content_main, firstFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
