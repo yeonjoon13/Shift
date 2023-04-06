@@ -69,8 +69,8 @@ public class LogInActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        FirstFragment firstFragment = new FirstFragment();
-        fragmentTransaction.replace(R.id.fragment_content_main, firstFragment);
+        LoginScreenFragment loginScreenFragment = new LoginScreenFragment();
+        fragmentTransaction.replace(R.id.fragment_content_main, loginScreenFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
@@ -202,7 +202,7 @@ public class LogInActivity extends AppCompatActivity {
                         Toast.makeText(LogInActivity.this, "Authentication created.",
                                 Toast.LENGTH_SHORT).show();
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.fragment_content_main, new FirstFragment());
+                        transaction.replace(R.id.fragment_content_main, new LoginScreenFragment());
                         transaction.addToBackStack(null);
                         transaction.commit();
 
