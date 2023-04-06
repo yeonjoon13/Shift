@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
@@ -31,6 +33,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +44,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LogInActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
@@ -47,7 +54,8 @@ public class LogInActivity extends AppCompatActivity {
     private SharedPreferences myPrefs;
     private Context context;
     FirebaseAuth mAuth;
-
+    FirebaseFirestore fStore;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +74,7 @@ public class LogInActivity extends AppCompatActivity {
 //        setSupportActionBar(binding.toolbar);
 
         mAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -174,6 +183,9 @@ public class LogInActivity extends AppCompatActivity {
         SharedPreferences.Editor myEditor = myPrefs.edit();
         EditText email = (EditText) findViewById(R.id.editTextTextEmailAddress);
         EditText password = (EditText) findViewById(R.id.editPassword);
+        EditText firstName = (EditText) findViewById(R.id.editFirstName);
+        EditText lastName = (EditText) findViewById(R.id.editLastName);
+
         //if (email.getText().toString().trim().length() == 0 || password.getText().toString().trim().length() == 0) {
           //  Toast.makeText(LogInActivity.this, "Hello, world!", Toast.LENGTH_SHORT).show();
             //return;
@@ -184,6 +196,8 @@ public class LogInActivity extends AppCompatActivity {
 
         String email2 = email.getText().toString().trim();
         String password2 = password.getText().toString().trim();
+        String firstName2 = firstName.getText().toString();
+        String lastName2 = lastName.getText().toString();
 
         if (email2.isEmpty()) {
             email.setError("Email can't be empty");
@@ -196,6 +210,18 @@ public class LogInActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(LogInActivity.this, "Authentication created.",
                                 Toast.LENGTH_SHORT).show();
+                        userID = mAuth.getCurrentUser().getUid();
+                        DocumentReference documentReference = fStore.collection("users").document(userID);
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("fName", firstName2);
+                        user.put("lName", lastName2);
+                        user.put("email", email2);
+                        documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Log.d("TAG", "onSuccess: user profile is created for " + userID);
+                            }
+                        });
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.fragment_content_main, new LoginScreenFragment());
                         transaction.addToBackStack(null);
