@@ -9,15 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.shift.databinding.FragmentFirstBinding;
+import com.example.shift.databinding.FragmentLoginScreenBinding;
 
-public class FirstFragment extends Fragment {
+public class LoginScreenFragment extends Fragment {
 
-    private FragmentFirstBinding binding;
+    private FragmentLoginScreenBinding binding;
 
-    public FirstFragment() {
+    public LoginScreenFragment() {
 
     }
 
@@ -27,8 +26,9 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = FragmentLoginScreenBinding.inflate(inflater, container, false);
         return binding.getRoot();
+
 
     }
 
@@ -53,7 +53,7 @@ public class FirstFragment extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                SecondFragment second = new SecondFragment();
+                RegisterFragment second = new RegisterFragment();
                 fragmentTransaction.replace(R.id.fragment_content_main, second);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
@@ -66,6 +66,8 @@ public class FirstFragment extends Fragment {
                 ((LogInActivity)getActivity()).logInClick(view);
             }
         });
+
+
     }
 
     @Override
