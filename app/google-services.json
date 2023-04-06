@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "622915471787",
+    "project_id": "shift-61b7f",
+    "storage_bucket": "shift-61b7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622915471787:android:dc66e9af1022c44ad82aee",
+        "android_client_info": {
+          "package_name": "com.example.shift"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "622915471787-gdmn5p1fs8fo25n4d6c0hb4ua513fvro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3xtIsUqE9eLH_TrLLPpNK1zcvoPNjGCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "622915471787-gdmn5p1fs8fo25n4d6c0hb4ua513fvro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
