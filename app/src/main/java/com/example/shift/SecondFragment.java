@@ -39,7 +39,7 @@ public class SecondFragment extends Fragment {
             public void onClick(View view) {
                 ((LogInActivity) getActivity()).registerClick(view);
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = getChildFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 FirstFragment firstFragment = new FirstFragment();
