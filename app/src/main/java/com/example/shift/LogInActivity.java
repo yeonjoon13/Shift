@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 
@@ -124,7 +125,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if(currentUser == null){
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
             finish();
@@ -134,45 +135,39 @@ public class LogInActivity extends AppCompatActivity {
     public void logInClick(View view) {
         EditText email = (EditText) findViewById(R.id.userNameInput);
         EditText password = (EditText) findViewById(R.id.passwordInput);
-        String userText = email.getText().toString();
-        String passwordText = password.getText().toString();
+        /*
         if (!myPrefs.contains(userText) || !myPrefs.contains(passwordText)) {
             TextView wrong = (TextView) findViewById(R.id.wrongInputText);
             wrong.setVisibility(View.VISIBLE);
             return;
-        }
+        }*/
 
         String e = email.getText().toString();
         String p = password.getText().toString();
 
-        if (!e.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(e).matches()) {
-            if (!p.isEmpty()) {
-                mAuth.signInWithEmailAndPassword(e, p)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(LogInActivity.this, "Login Successful.",
-                                        Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LogInActivity.this, HomeActivity.class));
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(LogInActivity.this, "Login Failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            } else {
-                password.setError("Password can't be empty");
-            }
-        } else if (e.isEmpty()) {
-            email.setError("Email can't be empty");
+        if (TextUtils.isEmpty(e)) {
+            email.setError(("Email can't be empty"));
+            email.requestFocus();
+        } else if (TextUtils.isEmpty((p))) {
+            password.setError(("Password can't be empty"));
+            password.requestFocus();
         } else {
-            email.setError("Enter valid email");
+            mAuth.signInWithEmailAndPassword(e, p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LogInActivity.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(LogInActivity.this, HomeActivity.class);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(LogInActivity.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
-        Intent i = new Intent(this, HomeActivity.class);
-        startActivity(i);
+
+
     }
 
     public void registerClick(View view) {
