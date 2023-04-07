@@ -66,6 +66,12 @@ public class HomeActivity extends AppCompatActivity {
         recommended.add(new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
                 "2:00 pm", "$18/hr", false,R.drawable.fedex_logo));
 
+        upcoming.add(new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
+                "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo));
+
+        upcoming.add(new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
+                "2:00 pm", "$18/hr", false,R.drawable.fedex_logo));
+
 
 
 
