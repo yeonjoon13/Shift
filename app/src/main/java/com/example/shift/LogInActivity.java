@@ -38,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -63,13 +64,11 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
 
-        // get rid of actionbar
-        if(this.getSupportActionBar()!=null)
-            this.getSupportActionBar().hide();
-
         // set firstFragment as default view
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getSupportActionBar().hide();
         setContentView(binding.getRoot());
 
 //        setSupportActionBar(binding.toolbar);
