@@ -84,6 +84,9 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
 
 
+
+
+
     }
 
     @Override
