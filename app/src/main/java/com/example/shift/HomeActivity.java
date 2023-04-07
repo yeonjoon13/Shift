@@ -2,16 +2,13 @@ package com.example.shift;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.shift.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -31,13 +28,21 @@ public class HomeActivity extends AppCompatActivity {
     Button logOutButton;
     FirebaseAuth mAuth;
 
-    public ArrayList<Job> recommended = new ArrayList<>();
+    public static ArrayList<Job> recommended = new ArrayList<>();
 
     public ArrayList<Job> upcoming = new ArrayList<>();
 
     public ArrayList<Job> liked = new ArrayList<>();
 
     public ArrayList<Job> completed = new ArrayList<>();
+
+    public OnClickJobListener jobListener = new OnClickJobListener() {
+        @Override
+        public void onJobClick(Job job) {
+            //TODO start(Intent);
+            Toast.makeText(getApplicationContext(),"Hello Javatpoint",Toast.LENGTH_SHORT).show();
+        }
+    };
 
 
     @Override
@@ -78,6 +83,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+
+
         //logOutButton = findViewById(R.id.logOut);
 //        logOutButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -91,12 +98,12 @@ public class HomeActivity extends AppCompatActivity {
 
     public void showJobs(){
         RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
-        JobAdapter recommendedAdapter = new JobAdapter(recommended);
+        JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
         recyclerView.setAdapter(recommendedAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
         RecyclerView upcomingView = findViewById(R.id.upcommingRecycler);
-        JobAdapter upcomingAdapter = new JobAdapter(upcoming);
+        JobAdapter upcomingAdapter = new JobAdapter(upcoming, this, jobListener);
         upcomingView.setAdapter(upcomingAdapter);
 
         upcomingView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
@@ -106,7 +113,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
-        JobAdapter recommendedAdapter = new JobAdapter(recommended);
+        JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
         recyclerView.setAdapter(recommendedAdapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));

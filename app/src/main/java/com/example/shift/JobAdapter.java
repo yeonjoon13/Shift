@@ -1,15 +1,14 @@
 package com.example.shift;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.shift.ui.notifications.NotificationsFragment;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -19,8 +18,14 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
     ArrayList<Job> list;
 
-    public JobAdapter(ArrayList<Job> list){
+    private Context context;
+
+    private OnClickJobListener jobListener;
+
+    public JobAdapter(ArrayList<Job> list, Context context, OnClickJobListener jobListener){
         this.list = list;
+        this.context = context;
+        this.jobListener = jobListener;
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView roleText;
@@ -28,6 +33,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         public TextView timeText;
         public TextView payText;
 
+        public CardView card;
         public TextView trainingText;
 
         public ImageView logoImage;
@@ -40,6 +46,8 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
             payText = itemView.findViewById(R.id.pay);
             trainingText = itemView.findViewById(R.id.training);
             logoImage = itemView.findViewById(R.id.logoImage);
+            card = itemView.findViewById(R.id.cards);
+
 
         }
 
@@ -59,6 +67,13 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@androidx.annotation.NonNull ViewHolder holder, int position) {
         Job current = list.get(position);
+
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                jobListener.onJobClick(current);
+            }
+        });
 
         TextView roleText = holder.roleText;
         roleText.setText(current.getRole());
