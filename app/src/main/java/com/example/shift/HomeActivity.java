@@ -5,25 +5,40 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.shift.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shift.databinding.ActivityHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.ktx.Firebase;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
     Button logOutButton;
     FirebaseAuth mAuth;
+
+    public ArrayList<Job> recommended = new ArrayList<>();
+
+    public ArrayList<Job> upcoming = new ArrayList<>();
+
+    public ArrayList<Job> liked = new ArrayList<>();
+
+    public ArrayList<Job> completed = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,20 +60,45 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        logOutButton = findViewById(R.id.logOut);
-        logOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, LogInActivity.class);
-                startActivity(i);
-            }
-        });
+        recommended.add(new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
+                "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo));
 
+        recommended.add(new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
+                "2:00 pm", "$18/hr", false,R.drawable.fedex_logo));
+
+
+
+
+
+
+
+        //logOutButton = findViewById(R.id.logOut);
+//        logOutButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(HomeActivity.this, LogInActivity.class);
+//                startActivity(i);
+//            }
+//        });
+
+    }
+
+    public void showJobs(){
+        RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
+        JobAdapter recommendedAdapter = new JobAdapter(recommended);
+        recyclerView.setAdapter(recommendedAdapter);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
+        JobAdapter recommendedAdapter = new JobAdapter(recommended);
+        recyclerView.setAdapter(recommendedAdapter);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
             startActivity(new Intent(HomeActivity.this, LogInActivity.class));

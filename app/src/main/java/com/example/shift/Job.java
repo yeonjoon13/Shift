@@ -7,6 +7,8 @@ public class Job {
     private String company;
     private boolean checked_in;
 
+    private int imageId;
+
     private String description;
     private String date;
     private String address;
@@ -16,7 +18,7 @@ public class Job {
 
 
     public Job(String role, String company, String description, String date, String address,
-               String time, String pay, boolean training) {
+               String time, String pay, boolean training, int imageId) {
         this.role = role;
         this.company = company;
         this.checked_in = false;
@@ -26,6 +28,7 @@ public class Job {
         this.time = time;
         this.pay = pay;
         this.training = training;
+        this.imageId = imageId;
     }
 
     public String getRole() { return this.role; }
@@ -57,4 +60,5 @@ public class Job {
     public void setchecked_in() {
         this.checked_in = !this.checked_in;
     }
+    public int getImageId() {return imageId;}
 }
