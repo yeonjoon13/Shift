@@ -44,6 +44,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -168,6 +169,7 @@ public class LogInActivity extends AppCompatActivity {
                         Toast.makeText(LogInActivity.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(LogInActivity.this, HomeActivity.class);
                         startActivity(i);
+                        finish();
                     } else {
                         Toast.makeText(LogInActivity.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -198,6 +200,8 @@ public class LogInActivity extends AppCompatActivity {
         String password2 = password.getText().toString().trim();
         String firstName2 = firstName.getText().toString();
         String lastName2 = lastName.getText().toString();
+        ArrayList<Job> upcomingJobs = new ArrayList<>();
+        ArrayList<Job> likedJobs = new ArrayList<>();
 
         if (email2.isEmpty()) {
             email.setError("Email can't be empty");
@@ -216,6 +220,8 @@ public class LogInActivity extends AppCompatActivity {
                         user.put("fName", firstName2);
                         user.put("lName", lastName2);
                         user.put("email", email2);
+                        user.put("upcomingJobs", upcomingJobs);
+                        user.put("likedJobs", likedJobs);
                         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
