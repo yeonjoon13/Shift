@@ -83,10 +83,6 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         logoImage.setImageResource(current.getImageId());
 
 
-
-
-
-
     }
 
     @Override
