@@ -35,11 +35,11 @@ public class RegisterFragment extends Fragment {
             public void onClick(View view) {
                 ((LogInActivity) getActivity()).registerClick(view);
 
-                FragmentManager fragmentManager = getChildFragmentManager();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                LoginScreenFragment firstFragment = new LoginScreenFragment();
-                fragmentTransaction.replace(R.id.fragment_content_main, firstFragment);
+                LoginScreenFragment first = new LoginScreenFragment();
+                fragmentTransaction.replace(R.id.fragment_content_main, first);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
