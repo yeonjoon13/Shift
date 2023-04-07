@@ -93,8 +93,13 @@ public class HomeActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
         JobAdapter recommendedAdapter = new JobAdapter(recommended);
         recyclerView.setAdapter(recommendedAdapter);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+
+        RecyclerView upcomingView = findViewById(R.id.upcommingRecycler);
+        JobAdapter upcomingAdapter = new JobAdapter(upcoming);
+        upcomingView.setAdapter(upcomingAdapter);
+
+        upcomingView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
     }
 
     @Override
