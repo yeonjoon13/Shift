@@ -88,6 +88,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
             star.setVisibility(View.INVISIBLE);
             currJob.setSaved();
         }
+        // update firebase
     }
 
     public void changeStatus(View view) {
@@ -97,6 +98,8 @@ public class JobDescriptionActivity extends AppCompatActivity {
 
         String status = currJob.getchecked_in() ? "Quit" : "Apply";
         apply.setText(status);
+
+        // update firebase
     }
 
     public void goTraining(View view) {

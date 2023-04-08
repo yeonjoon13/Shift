@@ -117,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
                     recommended.add(j);
-                    upcoming.add(j);
+//                    upcoming.add(j);
                 }
                 saveData();
                 //JobAdapter adapter = new JobAdapter();
@@ -170,12 +170,12 @@ public class HomeActivity extends AppCompatActivity {
 
 
     public void showJobs(){
-        RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
+        RecyclerView recyclerView = findViewById(R.id.upcommingRecycler);
         JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
         recyclerView.setAdapter(recommendedAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
-        RecyclerView upcomingView = findViewById(R.id.upcommingRecycler);
+        RecyclerView upcomingView = findViewById(R.id.recommendedRecycler);
         JobAdapter upcomingAdapter = new JobAdapter(upcoming, this, jobListener);
         upcomingView.setAdapter(upcomingAdapter);
 
@@ -185,7 +185,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
+        RecyclerView recyclerView = findViewById(R.id.upcommingRecycler);
         JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
         recyclerView.setAdapter(recommendedAdapter);
 
