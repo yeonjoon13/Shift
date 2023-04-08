@@ -24,15 +24,15 @@
         android:id="@+id/star_empty"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:contentDescription="Empty Star"
         android:onClick="jobLike"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.96"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewLogo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.04"
-        app:srcCompat="@drawable/baseline_star_outline_24"
-        android:contentDescription="Empty Star" />
+        app:srcCompat="@drawable/baseline_star_outline_24" />
 
     <ImageView
         android:id="@+id/button_back"
@@ -40,10 +40,9 @@
         android:layout_height="40dp"
         android:onClick="goBack"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewLogo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintVertical_bias="0.04"
         app:srcCompat="@drawable/baseline_arrow_back_24" />
 
@@ -74,9 +73,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
+        android:layout_marginBottom="7dp"
         android:text="TextView"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textComplete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textAddress" />
@@ -86,10 +87,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="TextView"
-        android:textStyle="bold"
-        android:textSize="16sp"
         android:textColor="#DE1738"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/buttonTraining"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,10 +103,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="46dp"
         android:backgroundTint="@color/button_color"
+        android:onClick="goTraining"
         android:text="@string/finishTraining"
         android:textColor="@color/black"
-        android:onClick="goTraining"
+        app:layout_constraintBottom_toTopOf="@+id/textRoleName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textComplete" />
@@ -133,14 +138,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/button_color"
+        android:onClick="changeStatus"
         android:text="@string/quit"
         android:textColor="@color/black"
-        android:onClick="changeStatus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
+        app:layout_constraintTop_toBottomOf="@+id/textDescriptionWord" />
 
     <ImageView
         android:id="@+id/imageViewLogo"
