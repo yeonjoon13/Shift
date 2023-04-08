@@ -1,4 +1,4 @@
-package com.example.shift.ui.dashboard;
+package com.example.shift.ui.library;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,20 +12,20 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shift.databinding.FragmentDashboardBinding;
 
-public class DashboardFragment extends Fragment {
+public class LibraryFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        LibraryViewModel libraryViewModel =
+                new ViewModelProvider(this).get(LibraryViewModel.class);
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        libraryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
