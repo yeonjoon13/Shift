@@ -18,9 +18,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 
 import com.example.shift.databinding.ActivityJobDescriptionBinding;
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 

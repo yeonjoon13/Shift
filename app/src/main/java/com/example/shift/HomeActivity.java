@@ -1,13 +1,16 @@
 package com.example.shift;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -17,17 +20,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shift.databinding.ActivityHomeBinding;
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 
 public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
     Button logOutButton;
     FirebaseAuth mAuth;
+    DatabaseReference jobDBRef;
 
     public static ArrayList<Job> recommended = new ArrayList<>();
 
@@ -62,6 +75,30 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
 
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        root.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.hasChild("Jobs")) {
+                    jobDBRef = FirebaseDatabase.getInstance().getReference().child("Jobs");
+                    Job j = new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
+                            "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo);
+                    Job k = new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
+                            "2:00 pm", "$18/hr", false,R.drawable.fedex_logo);
+                    jobDBRef.push().setValue(j);
+                    jobDBRef.push().setValue(k);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.print("hello");
+            }
+
+
+        });
+
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -72,7 +109,30 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        recommended.add(new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
+        DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference().child("Jobs");
+        jobReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                recommended.clear();
+                for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
+                    Job j = jobDatasnap.getValue(Job.class);
+                    recommended.add(j);
+                    upcoming.add(j);
+                }
+                saveData();
+                //JobAdapter adapter = new JobAdapter();
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.print("hello");
+            }
+        });
+
+        loadData();
+
+
+        /*recommended.add(new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
                 "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo));
 
         recommended.add(new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
@@ -83,25 +143,31 @@ public class HomeActivity extends AppCompatActivity {
 
         upcoming.add(new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
                 "2:00 pm", "$18/hr", false,R.drawable.fedex_logo));
+*/
 
-
-
-
-
-
-
-
-
-        //logOutButton = findViewById(R.id.logOut);
-//        logOutButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(HomeActivity.this, LogInActivity.class);
-//                startActivity(i);
-//            }
-//        });
 
     }
+
+    private void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(recommended);
+        editor.putString("listt", json);
+        editor.apply();
+    }
+
+    private void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("listt", null);
+
+        Type type = new TypeToken<ArrayList<Job>>() {}.getType();
+        recommended = gson.fromJson(json, type);
+
+    }
+
+
 
     public void showJobs(){
         RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
@@ -129,5 +195,6 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(new Intent(HomeActivity.this, LogInActivity.class));
         }
     }
+
 
 }

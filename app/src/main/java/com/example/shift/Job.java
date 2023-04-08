@@ -18,6 +18,8 @@ public class Job {
 
     private boolean saved;
 
+    public Job() { }
+
 
     public Job(String role, String company, String description, String date, String address,
                String time, String pay, boolean training, int imageId) {
