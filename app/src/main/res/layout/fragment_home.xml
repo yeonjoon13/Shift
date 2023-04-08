@@ -12,7 +12,7 @@
         android:layout_height="175dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Upcomming" />
+        app:layout_constraintTop_toBottomOf="@+id/Upcoming" />
 
     <TextView
         android:id="@+id/welcome"
@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Upcomming"
+        android:id="@+id/Upcoming"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -43,9 +43,9 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="200dp"
         android:fontFamily="sans-serif-black"
-        android:text="Your Upcoming Jobs"
+        android:text="@string/recommended"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Upcomming" />
+        app:layout_constraintTop_toBottomOf="@+id/Upcoming" />
 
     <ImageButton
         android:id="@+id/settingsButton"

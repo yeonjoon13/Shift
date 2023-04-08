@@ -16,6 +16,8 @@ public class Job {
     private String pay;
     private boolean training;
 
+    private boolean saved;
+
 
     public Job(String role, String company, String description, String date, String address,
                String time, String pay, boolean training, int imageId) {
@@ -29,6 +31,7 @@ public class Job {
         this.pay = pay;
         this.training = training;
         this.imageId = imageId;
+        this.saved = false;
     }
 
     public String getRole() { return this.role; }
@@ -60,5 +63,7 @@ public class Job {
     public void setchecked_in() {
         this.checked_in = !this.checked_in;
     }
-    public int getImageId() {return imageId;}
+
+    public void setSaved() { this.saved = !this.saved; }
+    public int getImageId() { return imageId; }
 }

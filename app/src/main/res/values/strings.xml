@@ -25,8 +25,13 @@
     <string name="hello_blank_fragment">Forgot Password not implemented</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_library">Library</string>
+    <string name="title_chat">Chat</string>
     <string name="logOut">LogOut</string>
+    <string name="quit">Quit</string>
+    <string name="finishTraining">Finish Training</string>
+    <string name="jobDescription">Job Description</string>
+    <string name="role">Role</string>
+    <string name="title_activity_job_description">JobDescriptionActivity</string>
 
 </resources>

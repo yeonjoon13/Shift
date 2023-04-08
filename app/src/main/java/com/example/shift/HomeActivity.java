@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shift.databinding.ActivityHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -39,8 +40,14 @@ public class HomeActivity extends AppCompatActivity {
     public OnClickJobListener jobListener = new OnClickJobListener() {
         @Override
         public void onJobClick(Job job) {
-            //TODO start(Intent);
-            Toast.makeText(getApplicationContext(),"Hello Javatpoint",Toast.LENGTH_SHORT).show();
+
+//            Toast.makeText(getApplicationContext(),"Hello Javatpoint",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomeActivity.this, JobDescriptionActivity.class);
+
+            Gson gson = new Gson();
+            String json = gson.toJson(job);
+            intent.putExtra("job", json);
+            startActivity(intent);
         }
     };
 
@@ -59,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_search, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_search, R.id.navigation_library, R.id.navigation_chat)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
