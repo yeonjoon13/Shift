@@ -180,6 +180,7 @@ public class HomeActivity extends AppCompatActivity {
         upcomingView.setAdapter(upcomingAdapter);
 
         upcomingView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+
     }
 
     @Override

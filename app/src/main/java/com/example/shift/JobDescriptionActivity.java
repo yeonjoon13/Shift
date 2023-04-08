@@ -89,6 +89,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
             currJob.setSaved();
         }
         // update firebase
+
     }
 
     public void changeStatus(View view) {
