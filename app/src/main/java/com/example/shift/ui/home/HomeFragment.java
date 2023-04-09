@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((HomeActivity) getActivity()).showJobs();
+
     }
 
     @Override

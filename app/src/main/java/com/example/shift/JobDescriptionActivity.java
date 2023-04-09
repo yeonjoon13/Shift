@@ -1,5 +1,6 @@
 package com.example.shift;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -62,7 +63,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
         TextView role = (TextView) findViewById(R.id.textRoleName);
 
 
-//        logo.setImageResource()
+        logo.setImageResource(currJob.getImageId());
 
         company.setText(currJob.getCompany());
         address.setText(currJob.getAddress());
@@ -78,38 +79,15 @@ public class JobDescriptionActivity extends AppCompatActivity {
         role.setText(currJob.getRole());
     }
 
-//    public void onButtonShowPopupWindowClick(View view) {
-//
-//        // inflate the layout of the popup window
-//        LayoutInflater inflater = (LayoutInflater)
-//                getSystemService(LAYOUT_INFLATER_SERVICE);
-//        View popupView = inflater.inflate(R.layout.popup, null);
-//
-//        // create the popup window
-//        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-//        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-//        boolean focusable = true; // lets taps outside the popup also dismiss it
-//        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-//
-//        // show the popup window
-//        // which view you pass in doesn't matter, it is only used for the window tolken
-//        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-//
-//        Button leaveAnywaysButton = (Button) findViewById(R.id.leave)
-//
-//        // dismiss the popup window when touched
-//        popupView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                popupWindow.dismiss();
-//                return true;
-//            }
-//        });
-//    }
+
 
     public void goBack(View view) {
         Intent intent = new Intent(JobDescriptionActivity.this, HomeActivity.class);
         startActivity(intent);
+        Gson gson = new Gson();
+        String json = gson.toJson(currJob);
+        intent.putExtra("job", json);
+        setResult(Activity.RESULT_OK);
         finish();
     }
 
@@ -129,10 +107,50 @@ public class JobDescriptionActivity extends AppCompatActivity {
     public void changeStatus(View view) {
         Button apply = (Button) findViewById(R.id.buttonQuit);
 
-        currJob.setchecked_in();
+        if (currJob.getchecked_in()) {
+            // inflate the layout of the popup window
+            LayoutInflater inflater = (LayoutInflater)
+                    getSystemService(LAYOUT_INFLATER_SERVICE);
+            View popupView = inflater.inflate(R.layout.popup, null);
+
+            // create the popup window
+            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            boolean focusable = true; // lets taps outside the popup also dismiss it
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+            // show the popup window
+            // which view you pass in doesn't matter, it is only used for the window tolken
+            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+            TextView leaveAnywaysButton = popupView.findViewById(R.id.leave_anyway);
+            ImageView closePopUp = popupView.findViewById(R.id.close_popup);
+
+            leaveAnywaysButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    currJob.setchecked_in();
+                    popupWindow.dismiss();
+                    String status = currJob.getchecked_in() ? "Quit" : "Apply";
+                    apply.setText(status);
+                }
+            });
+
+            // dismiss the popup window when touched
+            closePopUp.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    popupWindow.dismiss();
+                }
+            });
+        } else {
+            currJob.setchecked_in();
+        }
 
         String status = currJob.getchecked_in() ? "Quit" : "Apply";
         apply.setText(status);
+
 
         // update firebase
     }

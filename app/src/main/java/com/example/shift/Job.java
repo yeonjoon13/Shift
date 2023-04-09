@@ -3,6 +3,7 @@ package com.example.shift;
 import android.widget.ImageView;
 
 public class Job {
+    private int jobId;
     private String role;
     private String company;
     private boolean checked_in;
@@ -17,6 +18,10 @@ public class Job {
     private boolean training;
 
     private boolean saved;
+
+    private boolean recommended;
+
+    private boolean upcoming;
 
     public Job() { }
 
@@ -34,6 +39,8 @@ public class Job {
         this.training = training;
         this.imageId = imageId;
         this.saved = false;
+//        this.recommended =
+        this.upcoming = false;
     }
 
     public String getRole() { return this.role; }

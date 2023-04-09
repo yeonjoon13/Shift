@@ -1,16 +1,14 @@
 package com.example.shift;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.Toast;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -20,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shift.databinding.ActivityHomeBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,8 +31,6 @@ import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -42,13 +39,13 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference jobDBRef;
 
+    public ArrayList<Job> master = new ArrayList<>();
+
     public static ArrayList<Job> recommended = new ArrayList<>();
 
     public ArrayList<Job> upcoming = new ArrayList<>();
 
-    public ArrayList<Job> liked = new ArrayList<>();
-
-    public ArrayList<Job> completed = new ArrayList<>();
+    public ArrayList<Job> saved = new ArrayList<>();
 
     public OnClickJobListener jobListener = new OnClickJobListener() {
         @Override
@@ -60,10 +57,19 @@ public class HomeActivity extends AppCompatActivity {
             Gson gson = new Gson();
             String json = gson.toJson(job);
             intent.putExtra("job", json);
-            startActivity(intent);
+//            startActivityForResult(intent, 3);
         }
     };
 
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 3 && resultCode == Activity.RESULT_OK) {
+//            if (data != null) {
+//
+//            }
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,11 +178,13 @@ public class HomeActivity extends AppCompatActivity {
     public void showJobs(){
         RecyclerView recyclerView = findViewById(R.id.upcommingRecycler);
         JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
+        recommendedAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(recommendedAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
         RecyclerView upcomingView = findViewById(R.id.recommendedRecycler);
         JobAdapter upcomingAdapter = new JobAdapter(upcoming, this, jobListener);
+        upcomingAdapter.notifyDataSetChanged();
         upcomingView.setAdapter(upcomingAdapter);
 
         upcomingView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
