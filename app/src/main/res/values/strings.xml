@@ -33,5 +33,8 @@
     <string name="jobDescription">Job Description</string>
     <string name="role">Role</string>
     <string name="title_activity_job_description">JobDescriptionActivity</string>
+    <string name="warning">Warning:</string>
+    <string name="warning_text">If you leave a job 2 days prior without the manager\'s approval, you will face punitive measures.</string>
+    <string name="leave_anyway">Leave Anyway</string>
 
 </resources>
