@@ -1,14 +1,18 @@
 package com.example.shift;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,7 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shift.databinding.ActivityHomeBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +34,8 @@ import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -39,13 +44,15 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference jobDBRef;
 
-    public ArrayList<Job> master = new ArrayList<>();
+    String userID;
 
     public static ArrayList<Job> recommended = new ArrayList<>();
 
     public ArrayList<Job> upcoming = new ArrayList<>();
 
-    public ArrayList<Job> saved = new ArrayList<>();
+    public ArrayList<Job> liked = new ArrayList<>();
+
+    public ArrayList<Job> completed = new ArrayList<>();
 
     public OnClickJobListener jobListener = new OnClickJobListener() {
         @Override
@@ -58,19 +65,9 @@ public class HomeActivity extends AppCompatActivity {
             String json = gson.toJson(job);
             intent.putExtra("job", json);
             startActivity(intent);
-//            startActivityForResult(intent, 3);
         }
     };
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 3 && resultCode == Activity.RESULT_OK) {
-//            if (data != null) {
-//
-//            }
-//        }
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +101,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
         });
-
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -115,44 +110,70 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+        userID = mAuth.getCurrentUser().getUid();
 
         DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference().child("Jobs");
-        jobReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+        userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                recommended.clear();
-                for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
-                    Job j = jobDatasnap.getValue(Job.class);
-                    recommended.add(j);
-//                    upcoming.add(j);
+                if (!snapshot.hasChild("recommendedJobs")) {
+                    jobReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            recommended.clear();
+                            for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
+                                Job j = jobDatasnap.getValue(Job.class);
+                                recommended.add(j);
+                            }
+                            DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users");
+                            userReference.child(userID).child("recommendedJobs").setValue(recommended);
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
                 }
-                saveData();
-                //JobAdapter adapter = new JobAdapter();
-
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.print("hello");
+
             }
         });
 
+    }
+
+    public void showJobs(){
+
+        DatabaseReference recommendedReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("recommendJobs");
+        recommendedReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
+                    Job j = jobDatasnap.getValue(Job.class);
+                    recommended.add(j);
+                }
+
+                saveData();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         loadData();
+        RecyclerView recyclerView = findViewById(R.id.upcommingRecycler);
+        JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
+        recyclerView.setAdapter(recommendedAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
 
-        /*recommended.add(new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
-                "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo));
-
-        recommended.add(new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
-                "2:00 pm", "$18/hr", false,R.drawable.fedex_logo));
-
-        upcoming.add(new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
-                "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo));
-
-        upcoming.add(new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
-                "2:00 pm", "$18/hr", false,R.drawable.fedex_logo));
-*/
-
-
+        RecyclerView upcomingView = findViewById(R.id.recommendedRecycler);
+        JobAdapter upcomingAdapter = new JobAdapter(upcoming, this, jobListener);
+        upcomingView.setAdapter(upcomingAdapter);
+        upcomingView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
     }
 
     private void saveData() {
@@ -174,28 +195,10 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-
-
-    public void showJobs(){
-        RecyclerView recyclerView = findViewById(R.id.upcommingRecycler);
-        JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
-//        recommendedAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(recommendedAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-
-        RecyclerView upcomingView = findViewById(R.id.recommendedRecycler);
-        JobAdapter upcomingAdapter = new JobAdapter(upcoming, this, jobListener);
-//        upcomingAdapter.notifyDataSetChanged();
-        upcomingView.setAdapter(upcomingAdapter);
-
-        upcomingView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
-        RecyclerView recyclerView = findViewById(R.id.upcommingRecycler);
+        RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
         JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
         recyclerView.setAdapter(recommendedAdapter);
 
@@ -205,6 +208,4 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(new Intent(HomeActivity.this, LogInActivity.class));
         }
     }
-
-
 }

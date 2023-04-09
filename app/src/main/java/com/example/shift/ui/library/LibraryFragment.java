@@ -10,23 +10,25 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.shift.databinding.FragmentDashboardBinding;
+import com.example.shift.HomeActivity;
+import com.example.shift.databinding.FragmentHomeBinding;
+import com.example.shift.databinding.FragmentLibraryBinding;
 
 public class LibraryFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentLibraryBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        LibraryViewModel libraryViewModel =
-                new ViewModelProvider(this).get(LibraryViewModel.class);
-
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentLibraryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        final TextView textView = binding.textDashboard;
-        libraryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity) getActivity()).showJobs();
     }
 
     @Override

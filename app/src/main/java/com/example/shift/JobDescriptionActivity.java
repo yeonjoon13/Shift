@@ -45,13 +45,12 @@ public class JobDescriptionActivity extends AppCompatActivity {
 
     private Job currJob;
 
+    FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityJobDescriptionBinding.inflate(getLayoutInflater());
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getSupportActionBar().hide();
         setContentView(binding.getRoot());
 
 //        setSupportActionBar(binding.toolbar);
@@ -60,17 +59,17 @@ public class JobDescriptionActivity extends AppCompatActivity {
         Gson gson = new Gson();
         currJob = gson.fromJson(json, Job.class);
 
-        ImageView logo = (ImageView) findViewById(R.id.imageViewLogo);
-        TextView company = (TextView) findViewById(R.id.textCompany);
-        TextView address = (TextView) findViewById(R.id.textAddress);
-        TextView date = (TextView) findViewById(R.id.textDate);
-        TextView training = (TextView) findViewById(R.id.textComplete);
-        Button apply = (Button) findViewById(R.id.buttonQuit);
-        TextView description = (TextView) findViewById(R.id.textDescriptionWord);
-        TextView role = (TextView) findViewById(R.id.textRoleName);
+        ImageView logo = findViewById(R.id.imageViewLogo);
+        TextView company = findViewById(R.id.textCompany);
+        TextView address = findViewById(R.id.textAddress);
+        TextView date = findViewById(R.id.textDate);
+        TextView training = findViewById(R.id.textComplete);
+        Button apply = findViewById(R.id.buttonQuit);
+        TextView description = findViewById(R.id.textDescriptionWord);
+        TextView role = findViewById(R.id.textRoleName);
 
 
-        logo.setImageResource(R.drawable.fedex_logo);
+//        logo.setImageResource()
 
         company.setText(currJob.getCompany());
         address.setText(currJob.getAddress());
@@ -79,8 +78,31 @@ public class JobDescriptionActivity extends AppCompatActivity {
         String completion = currJob.getTraining() ? "Requirements Complete" : "Incomplete Requirements";
         training.setText(completion);
 
-        String status = currJob.getchecked_in() ? "Quit" : "Apply";
-        apply.setText(status);
+        final String[] a = {"Not there"};
+        mAuth = FirebaseAuth.getInstance();
+        String userID = mAuth.getCurrentUser().getUid();
+        DatabaseReference uR = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("upcomingJobs");
+        uR.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    if ((d.child("company").getValue(String.class)).equals(currJob.getCompany())) {
+                        a[0] = "There";
+                    }
+                }
+                if (a[0].equals("Not there")) {
+                    String status = "APPLY";
+                    apply.setText(status);
+                } else {
+                    currJob.setchecked_in();
+                    String status = "QUIT";
+                    apply.setText(status);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
         description.setText(currJob.getDescription());
         role.setText(currJob.getRole());
@@ -91,25 +113,8 @@ public class JobDescriptionActivity extends AppCompatActivity {
     public void goBack(View view) {
         Intent intent = new Intent(JobDescriptionActivity.this, HomeActivity.class);
         startActivity(intent);
-//        Gson gson = new Gson();
-//        String json = gson.toJson(currJob);
-//        intent.putExtra("job", json);
-//        setResult(Activity.RESULT_OK);
         finish();
     }
-
-//    public void jobLike(View view) {
-//        ImageView star = (ImageView) findViewById(R.id.star_fill);
-//        if (star.getVisibility() == View.INVISIBLE) {
-//            star.setVisibility(View.VISIBLE);
-//            currJob.setSaved();
-//        } else {
-//            star.setVisibility(View.INVISIBLE);
-//            currJob.setSaved();
-//        }
-//        // update firebase
-//
-//    }
 
     public void jobLike(View view) {
         ImageView star = (ImageView) findViewById(R.id.star_fill);
@@ -142,6 +147,9 @@ public class JobDescriptionActivity extends AppCompatActivity {
 
     public void changeStatus(View view) {
         Button apply = (Button) findViewById(R.id.buttonQuit);
+        mAuth = FirebaseAuth.getInstance();
+        String userID = mAuth.getCurrentUser().getUid();
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("upcomingJobs");
 
         if (currJob.getchecked_in()) {
             // inflate the layout of the popup window
@@ -169,6 +177,18 @@ public class JobDescriptionActivity extends AppCompatActivity {
                     popupWindow.dismiss();
                     String status = currJob.getchecked_in() ? "Quit" : "Apply";
                     apply.setText(status);
+                    userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot d : snapshot.getChildren()) {
+                                if ((d.child("company").getValue(String.class)).equals(currJob.getCompany())) {
+                                    userReference.child(d.getKey()).removeValue();
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
                 }
             });
 
@@ -182,6 +202,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
             });
         } else {
             currJob.setchecked_in();
+            userReference.push().setValue(currJob);
         }
 
         String status = currJob.getchecked_in() ? "Quit" : "Apply";

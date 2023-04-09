@@ -10,21 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.shift.databinding.FragmentNotificationsBinding;
+import com.example.shift.databinding.FragmentChatBinding;
 
 public class ChatFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentChatBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ChatViewModel chatViewModel =
                 new ViewModelProvider(this).get(ChatViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentChatBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
+        final TextView textView = binding.textChat;
         chatViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }

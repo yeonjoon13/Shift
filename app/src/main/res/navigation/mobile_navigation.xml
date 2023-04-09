@@ -15,13 +15,13 @@
         android:id="@+id/navigation_library"
         android:name="com.example.shift.ui.library.LibraryFragment"
         android:label="@string/title_library"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_library" />
 
     <fragment
         android:id="@+id/navigation_chat"
         android:name="com.example.shift.ui.chat.ChatFragment"
         android:label="@string/title_chat"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_chat" />
 
     <fragment
         android:id="@+id/navigation_search"

@@ -33,6 +33,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -142,14 +144,8 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public void logInClick(View view) {
-        EditText email = (EditText) findViewById(R.id.userNameInput);
-        EditText password = (EditText) findViewById(R.id.passwordInput);
-        /*
-        if (!myPrefs.contains(userText) || !myPrefs.contains(passwordText)) {
-            TextView wrong = (TextView) findViewById(R.id.wrongInputText);
-            wrong.setVisibility(View.VISIBLE);
-            return;
-        }*/
+        EditText email = findViewById(R.id.userNameInput);
+        EditText password = findViewById(R.id.passwordInput);
 
         String e = email.getText().toString();
         String p = password.getText().toString();
@@ -175,25 +171,14 @@ public class LogInActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-
     }
 
-    public void registerClick(View view) {
-        SharedPreferences.Editor myEditor = myPrefs.edit();
-        EditText email = (EditText) findViewById(R.id.editTextTextEmailAddress);
-        EditText password = (EditText) findViewById(R.id.editPassword);
-        EditText firstName = (EditText) findViewById(R.id.editFirstName);
-        EditText lastName = (EditText) findViewById(R.id.editLastName);
 
-        //if (email.getText().toString().trim().length() == 0 || password.getText().toString().trim().length() == 0) {
-          //  Toast.makeText(LogInActivity.this, "Hello, world!", Toast.LENGTH_SHORT).show();
-            //return;
-        //}
-        //myEditor.putString("username", email.getText().toString());
-        //myEditor.putString("password", password.getText().toString());
-        //myEditor.apply();
+    public void registerClick(View view) {
+        EditText email = findViewById(R.id.editTextTextEmailAddress);
+        EditText password = findViewById(R.id.editPassword);
+        EditText firstName = findViewById(R.id.editFirstName);
+        EditText lastName = findViewById(R.id.editLastName);
 
         String email2 = email.getText().toString().trim();
         String password2 = password.getText().toString().trim();
@@ -201,6 +186,7 @@ public class LogInActivity extends AppCompatActivity {
         String lastName2 = lastName.getText().toString();
         ArrayList<Job> upcomingJobs = new ArrayList<>();
         ArrayList<Job> likedJobs = new ArrayList<>();
+        ArrayList<Job> recommendedJobs = new ArrayList<>();
 
         if (email2.isEmpty()) {
             email.setError("Email can't be empty");
@@ -214,19 +200,9 @@ public class LogInActivity extends AppCompatActivity {
                         Toast.makeText(LogInActivity.this, "Authentication created.",
                                 Toast.LENGTH_SHORT).show();
                         userID = mAuth.getCurrentUser().getUid();
-                        DocumentReference documentReference = fStore.collection("users").document(userID);
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("fName", firstName2);
-                        user.put("lName", lastName2);
-                        user.put("email", email2);
-                        user.put("upcomingJobs", upcomingJobs);
-                        user.put("likedJobs", likedJobs);
-                        documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Log.d("TAG", "onSuccess: user profile is created for " + userID);
-                            }
-                        });
+                        Users user = new Users(firstName2, lastName2, email2, upcomingJobs, likedJobs, recommendedJobs);
+                        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users");
+                        userReference.child(userID).setValue(user);
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.fragment_content_main, new LoginScreenFragment());
                         transaction.addToBackStack(null);
