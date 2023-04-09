@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.Gravity;
@@ -27,6 +28,12 @@ import androidx.navigation.ui.NavigationUI;
 //import com.google.gson.Gson;
 
 import com.example.shift.databinding.ActivityJobDescriptionBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
@@ -63,7 +70,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
         TextView role = (TextView) findViewById(R.id.textRoleName);
 
 
-        logo.setImageResource(currJob.getImageId());
+        logo.setImageResource(R.drawable.fedex_logo);
 
         company.setText(currJob.getCompany());
         address.setText(currJob.getAddress());
@@ -84,24 +91,53 @@ public class JobDescriptionActivity extends AppCompatActivity {
     public void goBack(View view) {
         Intent intent = new Intent(JobDescriptionActivity.this, HomeActivity.class);
         startActivity(intent);
-        Gson gson = new Gson();
-        String json = gson.toJson(currJob);
-        intent.putExtra("job", json);
-        setResult(Activity.RESULT_OK);
+//        Gson gson = new Gson();
+//        String json = gson.toJson(currJob);
+//        intent.putExtra("job", json);
+//        setResult(Activity.RESULT_OK);
         finish();
     }
 
+//    public void jobLike(View view) {
+//        ImageView star = (ImageView) findViewById(R.id.star_fill);
+//        if (star.getVisibility() == View.INVISIBLE) {
+//            star.setVisibility(View.VISIBLE);
+//            currJob.setSaved();
+//        } else {
+//            star.setVisibility(View.INVISIBLE);
+//            currJob.setSaved();
+//        }
+//        // update firebase
+//
+//    }
+
     public void jobLike(View view) {
         ImageView star = (ImageView) findViewById(R.id.star_fill);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String userID = mAuth.getCurrentUser().getUid();
         if (star.getVisibility() == View.INVISIBLE) {
             star.setVisibility(View.VISIBLE);
             currJob.setSaved();
+            DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users");
+            userReference.child(userID).child("likedJobs").push().setValue(currJob);
         } else {
             star.setVisibility(View.INVISIBLE);
             currJob.setSaved();
-        }
-        // update firebase
+            DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("likedJobs");
+            userReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot d : snapshot.getChildren()) {
+                        if (( d.child("company").getValue(String.class)).equals(currJob.getCompany())) {
+                            userReference.child(d.getKey()).removeValue();
+                        }
+                    }
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+        }
     }
 
     public void changeStatus(View view) {

@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
             Gson gson = new Gson();
             String json = gson.toJson(job);
             intent.putExtra("job", json);
+            startActivity(intent);
 //            startActivityForResult(intent, 3);
         }
     };
@@ -90,7 +91,7 @@ public class HomeActivity extends AppCompatActivity {
                     Job j = new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
                             "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo);
                     Job k = new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
-                            "2:00 pm", "$18/hr", false,R.drawable.fedex_logo);
+                            "2:00 pm", "$18/hr", false, R.drawable.fedex_logo);
                     jobDBRef.push().setValue(j);
                     jobDBRef.push().setValue(k);
                 }
@@ -178,13 +179,13 @@ public class HomeActivity extends AppCompatActivity {
     public void showJobs(){
         RecyclerView recyclerView = findViewById(R.id.upcommingRecycler);
         JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
-        recommendedAdapter.notifyDataSetChanged();
+//        recommendedAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(recommendedAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
         RecyclerView upcomingView = findViewById(R.id.recommendedRecycler);
         JobAdapter upcomingAdapter = new JobAdapter(upcoming, this, jobListener);
-        upcomingAdapter.notifyDataSetChanged();
+//        upcomingAdapter.notifyDataSetChanged();
         upcomingView.setAdapter(upcomingAdapter);
 
         upcomingView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
