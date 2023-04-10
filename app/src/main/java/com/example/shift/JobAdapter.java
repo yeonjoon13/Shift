@@ -95,7 +95,8 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         }
 
         ImageView logoImage = holder.logoImage;
-        logoImage.setImageResource(current.getImageId());
+//        logoImage.setImageResource(current.getImageId());
+        logoImage.setImageResource(R.drawable.mcdonalds_logo);
 
 
     }

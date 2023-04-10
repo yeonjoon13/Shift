@@ -46,6 +46,8 @@ public class HomeActivity extends AppCompatActivity {
 
     String userID;
 
+    public ArrayList<Job> master = new ArrayList<>();
+
     public static ArrayList<Job> recommended = new ArrayList<>();
 
     public ArrayList<Job> upcoming = new ArrayList<>();
@@ -86,7 +88,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (!snapshot.hasChild("Jobs")) {
-                    jobDBRef = FirebaseDatabase.getInstance().getReference().child("Jobs");
+                    jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
                     Job j = new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
                             "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo);
                     Job k = new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
@@ -112,13 +114,8 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            userID = mAuth.getCurrentUser().getUid();
-        } else {
-            Intent intent = new Intent(HomeActivity.this, LogInActivity.class);
-            startActivity(intent);
-            finish();
-        }
+
+        userID = mAuth.getCurrentUser().getUid();
 
         // REMOVE LATER, HARD CODED ONLY FOR THIS SPRINT
         Job j = new Job("Barista", "Starbucks", "Cook up some coffee", "04/20/2023", "Orange Street",
@@ -129,22 +126,22 @@ public class HomeActivity extends AppCompatActivity {
         previous.add(j);
         previous.add(k);
 
-        DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference().child("Jobs");
+        DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.hasChild("recommendedJobs")) {
+                if (!snapshot.hasChild("masterJobs")) {
                     jobReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            recommended.clear();
+                            master.clear();
                             for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                                 Job j = jobDatasnap.getValue(Job.class);
-                                recommended.add(j);
+                                master.add(j);
                             }
-                            DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users");
-                            userReference.child(userID).child("recommendedJobs").setValue(recommended);
+                            DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users");
+                            userReference.child(userID).child("masterJobs").setValue(master);
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
@@ -163,16 +160,48 @@ public class HomeActivity extends AppCompatActivity {
 
     public void showJobs(){
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
-        DatabaseReference recommendedReference = userReference.child("recommendJobs");
-        recommendedReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference masterReference = userReference.child("masterJobs");
+        masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Job> liked = new ArrayList<>();
+                ArrayList<Job> upcoming = new ArrayList<>();
+                ArrayList<Job> recommended = new ArrayList<>();
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
-                    recommended.add(j);
+
+
+                    if (!j.getSaved() && j.getchecked_in()) {
+                        upcoming.add(j);
+                    }
+                    if (j.getSaved()) {
+                        liked.add(j);
+                    }
+                    if (!j.getSaved() && !j.getchecked_in()) {
+                        recommended.add(j);
+                    }
                 }
 
-                saveData();
+                if (!recommended.isEmpty()) {
+                    RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
+                    JobAdapter recommendedAdapter = new JobAdapter(recommended, getApplicationContext(), jobListener);
+                    recyclerView.setAdapter(recommendedAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+                }
+
+                if (!upcoming.isEmpty()) {
+                    RecyclerView upcomingView = findViewById(R.id.upcommingRecycler);
+                    JobAdapter upcomingAdapter = new JobAdapter(upcoming, getApplicationContext(), jobListener);
+                    upcomingView.setAdapter(upcomingAdapter);
+                    upcomingView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+                }
+
+                if (!liked.isEmpty()) {
+                    RecyclerView likedView = findViewById(R.id.likedRecycler);
+                    JobAdapter likedAdapter = new JobAdapter(liked, getApplicationContext(), jobListener);
+                    likedView.setAdapter(likedAdapter);
+                    likedView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+                }
             }
 
             @Override
@@ -180,70 +209,37 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-        loadData();
-        RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
-        JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
-        recyclerView.setAdapter(recommendedAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-
-
-        DatabaseReference upcomingReference = userReference.child("upcomingJobs");
-
-        upcomingReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
-                    Job j = jobDatasnap.getValue(Job.class);
-                    upcoming.add(j);
-                }
-
-                saveData();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        loadData();
-
-        RecyclerView upcomingView = findViewById(R.id.upcommingRecycler);
-        JobAdapter upcomingAdapter = new JobAdapter(upcoming, this, jobListener);
-        upcomingView.setAdapter(upcomingAdapter);
-        upcomingView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-
-        DatabaseReference likedReference = userReference.child("likedJobs");
-
-        likedReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
-                    Job j = jobDatasnap.getValue(Job.class);
-                    liked.add(j);
-                }
-
-                saveData();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        loadData();
-
-        RecyclerView likedView = findViewById(R.id.likedRecycler);
-        JobAdapter likedAdapter = new JobAdapter(liked, this, jobListener);
-        likedView.setAdapter(likedAdapter);
-        likedView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
     }
 
     public void showLibraryJobs() {
-        RecyclerView trainingView = findViewById(R.id.trainingRecycler);
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+        DatabaseReference masterReference = userReference.child("masterJobs");
+        masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Job> training = new ArrayList<>();
 
-        JobAdapter trainingAdapter = new JobAdapter(training, this, jobListener);
-        trainingView.setAdapter(trainingAdapter);
-        trainingView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+                for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
+                    Job j = jobDatasnap.getValue(Job.class);
+
+                    if (j.getTraining()) {
+                        training.add(j);
+                    }
+                }
+
+                RecyclerView trainingView = findViewById(R.id.trainingRecycler);
+
+                JobAdapter trainingAdapter = new JobAdapter(training, getApplicationContext(), jobListener);
+                trainingView.setAdapter(trainingAdapter);
+                trainingView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         RecyclerView previousView = findViewById(R.id.previousRecycler);
 

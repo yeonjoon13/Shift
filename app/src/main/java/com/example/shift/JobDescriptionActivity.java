@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -37,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class JobDescriptionActivity extends AppCompatActivity {
 
@@ -96,31 +98,34 @@ public class JobDescriptionActivity extends AppCompatActivity {
         String completion = currJob.getTraining() ? "Requirements Complete" : "Incomplete Requirements";
         training.setText(completion);
 
-        final String[] a = {"Not there"};
-        mAuth = FirebaseAuth.getInstance();
-        String userID = mAuth.getCurrentUser().getUid();
-        DatabaseReference uR = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("upcomingJobs");
-        uR.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot d : snapshot.getChildren()) {
-                    if ((d.child("company").getValue(String.class)).equals(currJob.getCompany())) {
-                        a[0] = "There";
-                    }
-                }
-                if (a[0].equals("Not there")) {
-                    String status = "APPLY";
-                    apply.setText(status);
-                } else {
-                    currJob.setchecked_in();
-                    String status = "QUIT";
-                    apply.setText(status);
-                }
-            }
+        String status = currJob.getchecked_in() ? "QUIT" : "APPLY";
+        apply.setText(status);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
+//        final String[] a = {"Not there"};
+//        mAuth = FirebaseAuth.getInstance();
+//        String userID = mAuth.getCurrentUser().getUid();
+//        DatabaseReference uR = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("upcomingJobs");
+//        uR.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot d : snapshot.getChildren()) {
+//                    if ((d.child("company").getValue(String.class)).equals(currJob.getCompany())) {
+//                        a[0] = "There";
+//                    }
+//                }
+//                if (a[0].equals("Not there")) {
+//                    String status = "APPLY";
+//                    apply.setText(status);
+//                } else {
+//                    currJob.setchecked_in();
+//                    String status = "QUIT";
+//                    apply.setText(status);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {}
+//        });
 
         description.setText(currJob.getDescription());
         role.setText(currJob.getRole());
@@ -141,26 +146,29 @@ public class JobDescriptionActivity extends AppCompatActivity {
         if (star.getVisibility() == View.INVISIBLE) {
             star.setVisibility(View.VISIBLE);
             currJob.setSaved();
-            DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users");
-            userReference.child(userID).child("likedJobs").push().setValue(currJob);
         } else {
             star.setVisibility(View.INVISIBLE);
             currJob.setSaved();
-            DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("likedJobs");
-            userReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot d : snapshot.getChildren()) {
-                        if (( d.child("company").getValue(String.class)).equals(currJob.getCompany())) {
-                            userReference.child(d.getKey()).removeValue();
-                        }
+        }
+
+        DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
+        masterReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    Job j = d.getValue(Job.class);
+                    if (j.getCompany().equals(currJob.getCompany())) {
+                        HashMap<String, Object> User = new HashMap<>();
+                        User.put("saved", !j.getSaved());
+                        masterReference.child(d.getKey()).updateChildren(User);
+                        break;
                     }
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 
     public void changeStatus(View view) {
@@ -168,7 +176,6 @@ public class JobDescriptionActivity extends AppCompatActivity {
         Button apply = (Button) findViewById(R.id.buttonQuit);
         mAuth = FirebaseAuth.getInstance();
         String userID = mAuth.getCurrentUser().getUid();
-        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("upcomingJobs");
 
         if (currJob.getchecked_in()) {
             // inflate the layout of the popup window
@@ -196,12 +203,16 @@ public class JobDescriptionActivity extends AppCompatActivity {
                     popupWindow.dismiss();
                     String status = currJob.getchecked_in() ? "Quit" : "Apply";
                     apply.setText(status);
-                    userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
+                    masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot d : snapshot.getChildren()) {
-                                if ((d.child("company").getValue(String.class)).equals(currJob.getCompany())) {
-                                    userReference.child(d.getKey()).removeValue();
+                                Job j = d.getValue(Job.class);
+                                if ( j.getCompany().equals(currJob.getCompany())) {
+                                    HashMap<String, Object> User = new HashMap<>();
+                                    User.put("checked_in", !j.getchecked_in());
+                                    masterReference.child(d.getKey()).updateChildren(User);
                                 }
                             }
                         }
@@ -221,7 +232,22 @@ public class JobDescriptionActivity extends AppCompatActivity {
             });
         } else {
             currJob.setchecked_in();
-            userReference.push().setValue(currJob);
+            DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
+            masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot d : snapshot.getChildren()) {
+                        Job j = d.getValue(Job.class);
+                        if ( j.getCompany().equals(currJob.getCompany())) {
+                            HashMap<String, Object> User = new HashMap<>();
+                            User.put("checked_in", !j.getchecked_in());
+                            masterReference.child(d.getKey()).updateChildren(User);
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
         }
 
         String status = currJob.getchecked_in() ? "Quit" : "Apply";
