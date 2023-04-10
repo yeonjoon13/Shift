@@ -48,6 +48,18 @@ public class JobDescriptionActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        ImageView star = findViewById(R.id.star_fill);
+        if (currJob.getSaved()) {
+            star.setVisibility(View.VISIBLE);
+        } else {
+            star.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityJobDescriptionBinding.inflate(getLayoutInflater());
@@ -70,6 +82,12 @@ public class JobDescriptionActivity extends AppCompatActivity {
 
 
 //        logo.setImageResource()
+//        ImageView star = findViewById(R.id.star_fill);
+//        if (currJob.getSaved()) {
+//            star.setVisibility(View.VISIBLE);
+//        } else {
+//            star.setVisibility(View.INVISIBLE);
+//        }
 
         company.setText(currJob.getCompany());
         address.setText(currJob.getAddress());
@@ -117,7 +135,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
     }
 
     public void jobLike(View view) {
-        ImageView star = (ImageView) findViewById(R.id.star_fill);
+        ImageView star = findViewById(R.id.star_fill);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = mAuth.getCurrentUser().getUid();
         if (star.getVisibility() == View.INVISIBLE) {
@@ -146,6 +164,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
     }
 
     public void changeStatus(View view) {
+
         Button apply = (Button) findViewById(R.id.buttonQuit);
         mAuth = FirebaseAuth.getInstance();
         String userID = mAuth.getCurrentUser().getUid();

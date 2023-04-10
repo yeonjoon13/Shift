@@ -45,6 +45,8 @@ public class Job {
 
     public String getRole() { return this.role; }
 
+    public boolean getSaved() { return this.saved; }
+
     public String getCompany() { return this.company; }
 
     public boolean getchecked_in() { return this.checked_in; }

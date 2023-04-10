@@ -36,5 +36,11 @@
     <string name="warning">Warning:</string>
     <string name="warning_text">If you leave a job 2 days prior without the manager\'s approval, you will face punitive measures.</string>
     <string name="leave_anyway">Leave Anyway</string>
+    <string name="lib">Your Library</string>
+    <string name="rating">Your Rating</string>
+    <string name="training">Trainings to Complete</string>
+    <string name="prev">Your Previous Jobs</string>
+    <string name="liked">Your Liked Jobs</string>
+    <string name="welcome">Jobs</string>
 
 </resources>

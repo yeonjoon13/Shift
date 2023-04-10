@@ -28,7 +28,7 @@ public class LibraryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity) getActivity()).showJobs();
+        ((HomeActivity) getActivity()).showLibraryJobs();
     }
 
     @Override
