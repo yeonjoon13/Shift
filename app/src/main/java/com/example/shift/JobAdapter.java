@@ -88,10 +88,10 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         payText.setText(current.getPay());
 
         TextView trainingText = holder.trainingText;
-        if (!current.getTraining()) {
-            trainingText.setText("");
-        } else {
+        if (current.getchecked_in() && !current.getCompleted()) {
             trainingText.setText("Incomplete Requirements");
+        } else {
+            trainingText.setText("");
         }
 
         ImageView logoImage = holder.logoImage;

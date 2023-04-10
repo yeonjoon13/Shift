@@ -171,10 +171,10 @@ public class HomeActivity extends AppCompatActivity {
                     Job j = jobDatasnap.getValue(Job.class);
 
 
-                    if (!j.getSaved() && j.getchecked_in()) {
+                    if (j.getchecked_in()) {
                         upcoming.add(j);
                     }
-                    if (j.getSaved()) {
+                    if (!j.getchecked_in() && j.getSaved()) {
                         liked.add(j);
                     }
                     if (!j.getSaved() && !j.getchecked_in()) {

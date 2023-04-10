@@ -19,9 +19,7 @@ public class Job {
 
     private boolean saved;
 
-    private boolean recommended;
-
-    private boolean upcoming;
+    private boolean completed;
 
     public Job() { }
 
@@ -39,8 +37,7 @@ public class Job {
         this.training = training;
         this.imageId = imageId;
         this.saved = false;
-//        this.recommended =
-        this.upcoming = false;
+        this.completed = false;
     }
 
     public String getRole() { return this.role; }
@@ -71,10 +68,14 @@ public class Job {
 
     public boolean getTraining() { return this.training; }
 
+    public boolean getCompleted() { return this.completed; }
+
     public void setchecked_in() {
         this.checked_in = !this.checked_in;
     }
 
     public void setSaved() { this.saved = !this.saved; }
     public int getImageId() { return imageId; }
+
+    public void setCompleted() { this.completed = !this.completed; }
 }

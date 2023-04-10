@@ -6,30 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".JobDescriptionActivity">
 
-    <ImageView
+    <Button
         android:id="@+id/star_fill"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewLogo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04"
-        app:srcCompat="@drawable/baseline_star_24" />
-
-    <ImageView
-        android:id="@+id/star_empty"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
         android:onClick="jobLike"
-        android:contentDescription="Empty Star"
+        android:background="@drawable/baseline_star_outline_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewLogo"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04"
-        app:background="@drawable/baseline_star_outline_24" />
+        app:layout_constraintVertical_bias="0.04" />
+
 
     <ImageView
         android:id="@+id/button_back"

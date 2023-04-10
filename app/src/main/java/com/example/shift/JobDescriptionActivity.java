@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -52,11 +53,11 @@ public class JobDescriptionActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        ImageView star = findViewById(R.id.star_fill);
+        Button star = findViewById(R.id.star_fill);
         if (currJob.getSaved()) {
-            star.setVisibility(View.VISIBLE);
+            star.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_star_24));
         } else {
-            star.setVisibility(View.INVISIBLE);
+            star.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_star_outline_24));
         }
     }
 
@@ -83,14 +84,6 @@ public class JobDescriptionActivity extends AppCompatActivity {
         TextView role = findViewById(R.id.textRoleName);
 
 
-//        logo.setImageResource()
-//        ImageView star = findViewById(R.id.star_fill);
-//        if (currJob.getSaved()) {
-//            star.setVisibility(View.VISIBLE);
-//        } else {
-//            star.setVisibility(View.INVISIBLE);
-//        }
-
         company.setText(currJob.getCompany());
         address.setText(currJob.getAddress());
         date.setText(currJob.getDate());
@@ -100,32 +93,6 @@ public class JobDescriptionActivity extends AppCompatActivity {
 
         String status = currJob.getchecked_in() ? "QUIT" : "APPLY";
         apply.setText(status);
-
-//        final String[] a = {"Not there"};
-//        mAuth = FirebaseAuth.getInstance();
-//        String userID = mAuth.getCurrentUser().getUid();
-//        DatabaseReference uR = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("upcomingJobs");
-//        uR.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot d : snapshot.getChildren()) {
-//                    if ((d.child("company").getValue(String.class)).equals(currJob.getCompany())) {
-//                        a[0] = "There";
-//                    }
-//                }
-//                if (a[0].equals("Not there")) {
-//                    String status = "APPLY";
-//                    apply.setText(status);
-//                } else {
-//                    currJob.setchecked_in();
-//                    String status = "QUIT";
-//                    apply.setText(status);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {}
-//        });
 
         description.setText(currJob.getDescription());
         role.setText(currJob.getRole());
@@ -140,19 +107,20 @@ public class JobDescriptionActivity extends AppCompatActivity {
     }
 
     public void jobLike(View view) {
-        ImageView star = findViewById(R.id.star_fill);
+        System.out.println("Oncreatetestlog onCreate() Restoring previous state");
+        Button star = findViewById(R.id.star_fill);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = mAuth.getCurrentUser().getUid();
-        if (star.getVisibility() == View.INVISIBLE) {
-            star.setVisibility(View.VISIBLE);
+        if (!currJob.getSaved()) {
+            star.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_star_24));
             currJob.setSaved();
         } else {
-            star.setVisibility(View.INVISIBLE);
+            star.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_star_outline_24));
             currJob.setSaved();
         }
 
         DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
-        masterReference.addValueEventListener(new ValueEventListener() {
+        masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot d : snapshot.getChildren()) {
@@ -212,6 +180,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
                                 if ( j.getCompany().equals(currJob.getCompany())) {
                                     HashMap<String, Object> User = new HashMap<>();
                                     User.put("checked_in", !j.getchecked_in());
+                                    User.put("training", false);
                                     masterReference.child(d.getKey()).updateChildren(User);
                                 }
                             }
@@ -241,6 +210,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
                         if ( j.getCompany().equals(currJob.getCompany())) {
                             HashMap<String, Object> User = new HashMap<>();
                             User.put("checked_in", !j.getchecked_in());
+                            User.put("training", true);
                             masterReference.child(d.getKey()).updateChildren(User);
                         }
                     }
