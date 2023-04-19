@@ -125,9 +125,14 @@ public class HomeActivity extends AppCompatActivity {
 
         previous.add(j);
         previous.add(k);
-
+        DatabaseReference userReference;
         DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
-        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+        if (FirebaseDatabase.getInstance().getReference("Users") == null) {
+            throw new RuntimeException("fuck you bitch");
+        } else {
+            userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+        }
+
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
