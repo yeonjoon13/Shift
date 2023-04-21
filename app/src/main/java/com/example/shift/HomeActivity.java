@@ -118,6 +118,7 @@ public class HomeActivity extends AppCompatActivity {
         userID = mAuth.getCurrentUser().getUid();
 
         // REMOVE LATER, HARD CODED ONLY FOR THIS SPRINT
+        /*
         Job j = new Job("Barista", "Starbucks", "Cook up some coffee", "04/20/2023", "Orange Street",
                 "2:00 pm", "$20/hr", false, R.drawable.mcdonalds_logo);
         Job k = new Job("Package Handler", "Amazon", "Chuck some packages across the facility", "04/24/2023", "Red Street",
@@ -125,10 +126,12 @@ public class HomeActivity extends AppCompatActivity {
 
         previous.add(j);
         previous.add(k);
+
+         */
         DatabaseReference userReference;
         DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
         if (FirebaseDatabase.getInstance().getReference("Users") == null) {
-            throw new RuntimeException("fuck you bitch");
+            throw new RuntimeException("A");
         } else {
             userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
         }
@@ -184,6 +187,7 @@ public class HomeActivity extends AppCompatActivity {
                     if (!j.getSaved() && !j.getchecked_in()) {
                         recommended.add(j);
                     }
+
                 }
 
                 if (!recommended.isEmpty()) {
@@ -206,6 +210,7 @@ public class HomeActivity extends AppCompatActivity {
                     likedView.setAdapter(likedAdapter);
                     likedView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
                 }
+
             }
 
             @Override
@@ -221,21 +226,31 @@ public class HomeActivity extends AppCompatActivity {
         masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Job> previous = new ArrayList<>();
                 ArrayList<Job> training = new ArrayList<>();
 
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
 
-                    if (j.getTraining()) {
+                    if (j.getCompleted()) {
+                        previous.add(j);
+                    }
+                    if (j.getchecked_in()) {
                         training.add(j);
                     }
                 }
-
-                RecyclerView trainingView = findViewById(R.id.trainingRecycler);
-
-                JobAdapter trainingAdapter = new JobAdapter(training, getApplicationContext(), jobListener);
-                trainingView.setAdapter(trainingAdapter);
-                trainingView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+                if (!previous.isEmpty()) {
+                    RecyclerView previousView = findViewById(R.id.previousRecycler);
+                    JobAdapter trainingAdapter = new JobAdapter(previous, getApplicationContext(), jobListener);
+                    previousView.setAdapter(trainingAdapter);
+                    previousView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+                }
+                if (!training.isEmpty()) {
+                    RecyclerView trainingView = findViewById(R.id.trainingRecycler);
+                    JobAdapter trainingAdapter = new JobAdapter(training, getApplicationContext(), jobListener);
+                    trainingView.setAdapter(trainingAdapter);
+                    trainingView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+                }
 
             }
 
