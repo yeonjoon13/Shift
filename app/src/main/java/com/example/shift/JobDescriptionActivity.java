@@ -140,7 +140,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
     }
 
     public void jobLike(View view) {
-        ImageView star = findViewById(R.id.star_fill);
+        Button star = findViewById(R.id.star_fill);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = mAuth.getCurrentUser().getUid();
         if (star.getVisibility() == View.INVISIBLE) {

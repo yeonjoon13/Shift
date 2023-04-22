@@ -30,12 +30,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.ktx.Firebase;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -57,6 +59,10 @@ public class HomeActivity extends AppCompatActivity {
     public ArrayList<Job> training = new ArrayList<>();
 
     public ArrayList<Job> previous = new ArrayList<>();
+
+    public ArrayList<String> mcDonaldQuestions = new ArrayList<>();
+    public ArrayList<String> fedexQuestions = new ArrayList<>();
+
 
     public OnClickJobListener jobListener = new OnClickJobListener() {
         @Override
@@ -83,10 +89,22 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
 
+        mcDonaldQuestions.add("this is mcDonald's first question");
+        mcDonaldQuestions.add("this is mcDonald's second question");
+        mcDonaldQuestions.add("this is mcDonald's third question");
+
+        fedexQuestions.add("this is fedex's first question");
+        fedexQuestions.add("this is fedex's second question");
+        fedexQuestions.add("this is fedex's third question");
+
+
+
+
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
         root.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                String company;
                 if (!snapshot.hasChild("Jobs")) {
                     jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
                     Job j = new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
@@ -104,6 +122,41 @@ public class HomeActivity extends AppCompatActivity {
             }
 
 
+        });
+        DatabaseReference jobReference2 = FirebaseDatabase.getInstance().getReference("Jobs");
+        jobReference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String company;
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    Job j = d.getValue(Job.class);
+                    String jobKey = d.getKey();
+                    if (!j.getHaveQuestions()) {
+                        company = j.getCompany();
+                        if ((company).equals("McDonalds")) {
+                            HashMap<String, Object> User = new HashMap<>();
+                            User.put("haveQuestions", !j.getHaveQuestions());
+                            jobReference2.child(jobKey).updateChildren(User);
+                            j.setHaveQuestions();
+                            DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
+                            jobReference.child(jobKey).child("questions").setValue(mcDonaldQuestions);
+                        }
+                        if ((company).equals("Fedex")) {
+                            HashMap<String, Object> User = new HashMap<>();
+                            User.put("haveQuestions", !j.getHaveQuestions());
+                            j.setHaveQuestions();
+                            jobReference2.child(jobKey).updateChildren(User);
+                            DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
+                            jobReference.child(jobKey).child("questions").setValue(fedexQuestions);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -299,5 +352,10 @@ public class HomeActivity extends AppCompatActivity {
         if (user == null) {
             startActivity(new Intent(HomeActivity.this, LogInActivity.class));
         }
+    }
+
+
+    private void addQuestions(ArrayList<String> questions) {
+
     }
 }

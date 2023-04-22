@@ -2,6 +2,9 @@ package com.example.shift;
 
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Job {
     private int jobId;
     private String role;
@@ -20,6 +23,7 @@ public class Job {
     private boolean saved;
 
     private boolean completed;
+    private boolean haveQuestions;
 
     public Job() { }
 
@@ -38,6 +42,7 @@ public class Job {
         this.imageId = imageId;
         this.saved = false;
         this.completed = false;
+        this.haveQuestions = false;
     }
 
     public String getRole() { return this.role; }
@@ -78,4 +83,10 @@ public class Job {
     public int getImageId() { return imageId; }
 
     public void setCompleted() { this.completed = !this.completed; }
+
+    public boolean getHaveQuestions() { return this.haveQuestions; }
+    public void setHaveQuestions() { this.haveQuestions = !this.haveQuestions; }
+
+
+
 }
