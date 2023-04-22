@@ -52,7 +52,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        ImageView star = findViewById(R.id.star_fill);
+        Button star = findViewById(R.id.star_fill);
         if (currJob.getSaved()) {
             star.setVisibility(View.VISIBLE);
         } else {
