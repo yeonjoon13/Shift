@@ -244,26 +244,26 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
 
-                if (!recommended.isEmpty()) {
+//                if (!recommended.isEmpty()) {
                     RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
                     JobAdapter recommendedAdapter = new JobAdapter(recommended, getApplicationContext(), jobListener);
                     recyclerView.setAdapter(recommendedAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-                }
+//                }
 
-                if (!upcoming.isEmpty()) {
+//                if (!upcoming.isEmpty()) {
                     RecyclerView upcomingView = findViewById(R.id.upcommingRecycler);
                     JobAdapter upcomingAdapter = new JobAdapter(upcoming, getApplicationContext(), jobListener);
                     upcomingView.setAdapter(upcomingAdapter);
                     upcomingView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-                }
+//                }
 
-                if (!liked.isEmpty()) {
+//                if (!liked.isEmpty()) {
                     RecyclerView likedView = findViewById(R.id.likedRecycler);
                     JobAdapter likedAdapter = new JobAdapter(liked, getApplicationContext(), jobListener);
                     likedView.setAdapter(likedAdapter);
                     likedView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-                }
+//                }
 
             }
 
@@ -293,18 +293,18 @@ public class HomeActivity extends AppCompatActivity {
                         training.add(j);
                     }
                 }
-                if (!previous.isEmpty()) {
+//                if (!previous.isEmpty()) {
                     RecyclerView previousView = findViewById(R.id.previousRecycler);
-                    JobAdapter trainingAdapter = new JobAdapter(previous, getApplicationContext(), jobListener);
-                    previousView.setAdapter(trainingAdapter);
+                    JobAdapter previousAdapter = new JobAdapter(previous, getApplicationContext(), jobListener);
+                    previousView.setAdapter(previousAdapter);
                     previousView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-                }
-                if (!training.isEmpty()) {
+//                }
+//                if (!training.isEmpty()) {
                     RecyclerView trainingView = findViewById(R.id.trainingRecycler);
                     JobAdapter trainingAdapter = new JobAdapter(training, getApplicationContext(), jobListener);
                     trainingView.setAdapter(trainingAdapter);
                     trainingView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-                }
+//                }
 
             }
 
@@ -314,11 +314,12 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView previousView = findViewById(R.id.previousRecycler);
-
-        JobAdapter previousAdapter = new JobAdapter(previous, this, jobListener);
-        previousView.setAdapter(previousAdapter);
-        previousView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+//
+//        RecyclerView previousView = findViewById(R.id.previousRecycler);
+//
+//        JobAdapter previousAdapter = new JobAdapter(previous, this, jobListener);
+//        previousView.setAdapter(previousAdapter);
+//        previousView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
     }
 
@@ -349,6 +350,7 @@ public class HomeActivity extends AppCompatActivity {
 //        recyclerView.setAdapter(recommendedAdapter);
 //
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+//        showLibraryJobs();
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
             startActivity(new Intent(HomeActivity.this, LogInActivity.class));

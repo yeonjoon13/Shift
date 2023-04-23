@@ -101,8 +101,6 @@ public class JobDescriptionActivity extends AppCompatActivity {
 
 
     public void goBack(View view) {
-        Intent intent = new Intent(JobDescriptionActivity.this, HomeActivity.class);
-        startActivity(intent);
         finish();
     }
 
