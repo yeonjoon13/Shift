@@ -9,9 +9,14 @@ import android.widget.Button;
 import com.example.shift.databinding.ActivityHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+
 public class TrainingTasksActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
+
+    public ArrayList<Video> training_videos;
+
     FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
