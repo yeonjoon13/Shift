@@ -4,9 +4,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -82,6 +91,15 @@ public class HomeActivity extends AppCompatActivity {
         public void onVideoClick(Video video) {}
     };
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null) {
+            startActivity(new Intent(HomeActivity.this, LogInActivity.class));
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,29 +122,43 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-//        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
-//        root.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                String company;
-//                if (!snapshot.hasChild("Jobs")) {
-//                    jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
-//                    Job j = new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
-//                            "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo);
-//                    Job k = new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
-//                            "2:00 pm", "$18/hr", false, R.drawable.fedex_logo);
-//                    jobDBRef.push().setValue(j);
-//                    jobDBRef.push().setValue(k);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                System.out.print("hello");
-//            }
-//
-//
-//        });
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        root.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.hasChild("Jobs"));
+                jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
+                Job j = new Job("Cashier", 1, "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
+                        "2:00 pm", "$18/hr", false, 1.2, R.drawable.mcdonalds_logo);
+                Job k = new Job("Delivery", 4, "FedEx", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
+                        "2:00 pm", "$18/hr", true, 2.2, R.drawable.fedex_logo);
+                Job a = new Job("Package Handler", 3, "Amazon", "Chuck packages across the warehouse", "05/10/2023", "Yellow Street",
+                        "4:00 am", "$20/hr", false, 1.5, R.drawable.fedex_logo);
+                Job b = new Job("Barista", 2, "Starbucks", "Cook up some coffee and serve it to caffeine to people who are addicted", "05/09/2023", "Green Street",
+                        "6:00 am", "$20/hr", false, 3.6, R.drawable.fedex_logo);
+                Job c = new Job("Boba Barista", 2, "7 Leaves", "Make some matcha thai teas for the homies", "05/10/2023", "Leaves Boulevard",
+                        "2:00 pm", "$19/hr", false, 5.7, R.drawable.fedex_logo);
+                Job d = new Job("Cashier", 1, "Wendys", "Make some 4 for 4s for the people", "5/11/2023", "Red Street",
+                        "1:00 am", "$16/hr", false, 8.5, R.drawable.fedex_logo);
+                Job e = new Job("Delivery", 4, "UPS", "Drive and Learn to have Fun", "05/09/2023", "Brown Street",
+                        "4:00 am", "$20/hr", true, 0.8, R.drawable.mcdonalds_logo);
+
+                jobDBRef.push().setValue(j);
+                jobDBRef.push().setValue(k);
+                jobDBRef.push().setValue(a);
+                jobDBRef.push().setValue(b);
+                jobDBRef.push().setValue(c);
+                jobDBRef.push().setValue(d);
+                jobDBRef.push().setValue(e);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.print("hello");
+            }
+
+
+        });
         DatabaseReference jobReference2 = FirebaseDatabase.getInstance().getReference("Jobs");
         jobReference2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -174,17 +206,6 @@ public class HomeActivity extends AppCompatActivity {
 
         userID = mAuth.getCurrentUser().getUid();
 
-        // REMOVE LATER, HARD CODED ONLY FOR THIS SPRINT
-        /*
-        Job j = new Job("Barista", "Starbucks", "Cook up some coffee", "04/20/2023", "Orange Street",
-                "2:00 pm", "$20/hr", false, R.drawable.mcdonalds_logo);
-        Job k = new Job("Package Handler", "Amazon", "Chuck some packages across the facility", "04/24/2023", "Red Street",
-                "2:00 pm", "$18/hr", false, R.drawable.fedex_logo);
-
-        previous.add(j);
-        previous.add(k);
-
-         */
         DatabaseReference userReference;
         DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
         if (FirebaseDatabase.getInstance().getReference("Users") == null) {
@@ -212,6 +233,14 @@ public class HomeActivity extends AppCompatActivity {
                         public void onCancelled(@NonNull DatabaseError error) {
                         }
                     });
+                }
+
+                if (!snapshot.hasChild("searchFilter")) {
+                    FirebaseDatabase.getInstance().getReference("Users").child(userID).child("searchFilter").push().setValue(new Filter());
+                }
+
+                if (!snapshot.hasChild("homeFilter")) {
+                    FirebaseDatabase.getInstance().getReference("Users").child(userID).child("homeFilter").push().setValue(new Filter());
                 }
             }
 
@@ -247,26 +276,21 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
 
-//                if (!recommended.isEmpty()) {
-                    RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
-                    JobAdapter recommendedAdapter = new JobAdapter(recommended, getApplicationContext(), jobListener);
-                    recyclerView.setAdapter(recommendedAdapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-//                }
+                RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
+                JobAdapter recommendedAdapter = new JobAdapter(recommended, getApplicationContext(), jobListener);
+                recyclerView.setAdapter(recommendedAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
 
-//                if (!upcoming.isEmpty()) {
-                    RecyclerView upcomingView = findViewById(R.id.upcommingRecycler);
-                    JobAdapter upcomingAdapter = new JobAdapter(upcoming, getApplicationContext(), jobListener);
-                    upcomingView.setAdapter(upcomingAdapter);
-                    upcomingView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-//                }
+                RecyclerView upcomingView = findViewById(R.id.upcommingRecycler);
+                JobAdapter upcomingAdapter = new JobAdapter(upcoming, getApplicationContext(), jobListener);
+                upcomingView.setAdapter(upcomingAdapter);
+                upcomingView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
 
-//                if (!liked.isEmpty()) {
-                    RecyclerView likedView = findViewById(R.id.likedRecycler);
-                    JobAdapter likedAdapter = new JobAdapter(liked, getApplicationContext(), jobListener);
-                    likedView.setAdapter(likedAdapter);
-                    likedView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-//                }
+                RecyclerView likedView = findViewById(R.id.likedRecycler);
+                JobAdapter likedAdapter = new JobAdapter(liked, getApplicationContext(), jobListener);
+                likedView.setAdapter(likedAdapter);
+                likedView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+
 
             }
 
@@ -286,7 +310,7 @@ public class HomeActivity extends AppCompatActivity {
                 ArrayList<Job> previous = new ArrayList<>();
                 ArrayList<Job> training = new ArrayList<>();
 
-                previous.add(new Job("Barista", "Starbucks", "Cook up some coffee", "04/20/2023", "Orange Street",
+                previous.add(new Job("Barista", 2, "Starbucks", "Cook up some coffee", "04/20/2023", "Orange Street",
                         "2:00 pm", "$20/hr", false, 1.2, R.drawable.fedex_logo));
 
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
@@ -296,18 +320,16 @@ public class HomeActivity extends AppCompatActivity {
                         training.add(j);
                     }
                 }
-//                if (!previous.isEmpty()) {
-                    RecyclerView previousView = findViewById(R.id.previousRecycler);
-                    JobAdapter previousAdapter = new JobAdapter(previous, getApplicationContext(), jobListener);
-                    previousView.setAdapter(previousAdapter);
-                    previousView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-//                }
-//                if (!training.isEmpty()) {
-                    RecyclerView trainingView = findViewById(R.id.trainingRecycler);
-                    JobAdapter trainingAdapter = new JobAdapter(training, getApplicationContext(), jobListener);
-                    trainingView.setAdapter(trainingAdapter);
-                    trainingView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-//                }
+                RecyclerView previousView = findViewById(R.id.previousRecycler);
+                JobAdapter previousAdapter = new JobAdapter(previous, getApplicationContext(), jobListener);
+                previousView.setAdapter(previousAdapter);
+                previousView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+
+                RecyclerView trainingView = findViewById(R.id.trainingRecycler);
+                JobAdapter trainingAdapter = new JobAdapter(training, getApplicationContext(), jobListener);
+                trainingView.setAdapter(trainingAdapter);
+                trainingView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+
 
             }
 
@@ -316,52 +338,97 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-
-//
-//        RecyclerView previousView = findViewById(R.id.previousRecycler);
-//
-//        JobAdapter previousAdapter = new JobAdapter(previous, this, jobListener);
-//        previousView.setAdapter(previousAdapter);
-//        previousView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-
     }
 
-//    private void saveData() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(recommended);
-//        editor.putString("listt", json);
-//        editor.apply();
-//    }
-//
-//    private void loadData() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-//        Gson gson = new Gson();
-//        String json = sharedPreferences.getString("listt", null);
-//
-//        Type type = new TypeToken<ArrayList<Job>>() {}.getType();
-//        recommended = gson.fromJson(json, type);
-//
-//    }
+    public void homeFilterClick(View view) {
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.filter_popup, null);
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
-//        JobAdapter recommendedAdapter = new JobAdapter(recommended, this, jobListener);
-//        recyclerView.setAdapter(recommendedAdapter);
-//
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-//        showLibraryJobs();
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) {
-            startActivity(new Intent(HomeActivity.this, LogInActivity.class));
-        }
-    }
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
-    public void filterClick(View view) {
+        CheckBox one = popupView.findViewById(R.id.checkBoxFastFood);
+        CheckBox two = popupView.findViewById(R.id.checkBoxCafe);
+        CheckBox three = popupView.findViewById(R.id.checkBoxWarehouse);
+        CheckBox four = popupView.findViewById(R.id.checkBoxTransportation);
 
+        EditText dist = popupView.findViewById(R.id.distanceInput);
+
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+        DatabaseReference homeFilterReference = userReference.child("homeFilter");
+        homeFilterReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    one.setChecked(d.child("fastFood").getValue(Boolean.class));
+                    two.setChecked(d.child("cafe").getValue(Boolean.class));
+                    three.setChecked(d.child("warehouse").getValue(Boolean.class));
+                    four.setChecked(d.child("transportation").getValue(Boolean.class));
+                    dist.setText(String.format(Locale.US, "%f", d.child("distance").getValue(Double.class)));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        TextView ApplyChangesButton = popupView.findViewById(R.id.apply_changes_button);
+        ImageView closeFilterPopUp = popupView.findViewById(R.id.close_filter_popup);
+
+
+        ApplyChangesButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+                DatabaseReference homeFilterReference = userReference.child("homeFilter");
+                homeFilterReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot d : snapshot.getChildren()) {
+                            Filter f = d.getValue(Filter.class);
+                            HashMap<String, Object> filter = new HashMap<>();
+                            filter.put("fastFood", one.isChecked());
+                            filter.put("cafe", two.isChecked());
+                            filter.put("warehouse", three.isChecked());
+                            filter.put("transportation", four.isChecked());
+                            filter.put("distance", Double.parseDouble(dist.getText().toString()));
+                            homeFilterReference.child(d.getKey()).updateChildren(filter);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                showJobs();
+                popupWindow.dismiss();
+            }
+
+
+        });
+
+        // dismiss the popup window when touched
+        closeFilterPopUp.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
     }
 
 

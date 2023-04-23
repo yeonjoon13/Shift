@@ -4,11 +4,13 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Job {
     private int jobId;
     private String role;
     private String company;
+    private int jobType;
     private boolean checked_in;
 
     private int imageId;
@@ -29,8 +31,13 @@ public class Job {
     public Job() { }
 
 
-    public Job(String role, String company, String description, String date, String address,
+    public Job(String role, int jobType, String company, String description, String date, String address,
                String time, String pay, boolean training, double distance, int imageId) {
+        Random rand = new Random();
+        this.jobId = rand.nextInt(10000);
+
+        // 1 = Fast Food 2 = warehouse 3 = cafe 4 = transportation
+        this.jobType = jobType;
         this.role = role;
         this.company = company;
         this.checked_in = false;
@@ -46,6 +53,10 @@ public class Job {
         this.completed = false;
         this.haveQuestions = false;
     }
+
+    public int getJobId() { return this.jobId; }
+
+    public int getJobType() { return this.jobType; }
 
     public String getRole() { return this.role; }
 

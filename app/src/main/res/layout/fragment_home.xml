@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
         android:src="@drawable/baseline_filter_alt_24"
-        android:onClick="filterClick"
+        android:onClick="homeFilterClick"
         app:layout_constraintEnd_toStartOf="@+id/settingsButton"
         app:layout_constraintTop_toTopOf="parent" />
 
