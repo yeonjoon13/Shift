@@ -77,6 +77,9 @@ public class HomeActivity extends AppCompatActivity {
             intent.putExtra("job", json);
             startActivity(intent);
         }
+
+        @Override
+        public void onVideoClick(Video video) {}
     };
 
 
