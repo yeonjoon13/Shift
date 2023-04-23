@@ -54,9 +54,9 @@ public class JobDescriptionActivity extends AppCompatActivity {
         super.onStart();
         Button star = findViewById(R.id.star_fill);
         if (currJob.getSaved()) {
-            star.setVisibility(View.VISIBLE);
+            star.setBackgroundResource(R.drawable.baseline_star_24);
         } else {
-            star.setVisibility(View.INVISIBLE);
+            star.setBackgroundResource(R.drawable.baseline_star_outline_24);
         }
     }
 
@@ -82,14 +82,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
         TextView description = findViewById(R.id.textDescriptionWord);
         TextView role = findViewById(R.id.textRoleName);
 
-
-//        logo.setImageResource()
-//        ImageView star = findViewById(R.id.star_fill);
-//        if (currJob.getSaved()) {
-//            star.setVisibility(View.VISIBLE);
-//        } else {
-//            star.setVisibility(View.INVISIBLE);
-//        }
+        logo.setImageResource(currJob.getImageId());
 
         company.setText(currJob.getCompany());
         address.setText(currJob.getAddress());
@@ -100,32 +93,6 @@ public class JobDescriptionActivity extends AppCompatActivity {
 
         String status = currJob.getchecked_in() ? "QUIT" : "APPLY";
         apply.setText(status);
-
-//        final String[] a = {"Not there"};
-//        mAuth = FirebaseAuth.getInstance();
-//        String userID = mAuth.getCurrentUser().getUid();
-//        DatabaseReference uR = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("upcomingJobs");
-//        uR.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot d : snapshot.getChildren()) {
-//                    if ((d.child("company").getValue(String.class)).equals(currJob.getCompany())) {
-//                        a[0] = "There";
-//                    }
-//                }
-//                if (a[0].equals("Not there")) {
-//                    String status = "APPLY";
-//                    apply.setText(status);
-//                } else {
-//                    currJob.setchecked_in();
-//                    String status = "QUIT";
-//                    apply.setText(status);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {}
-//        });
 
         description.setText(currJob.getDescription());
         role.setText(currJob.getRole());
@@ -143,16 +110,16 @@ public class JobDescriptionActivity extends AppCompatActivity {
         Button star = findViewById(R.id.star_fill);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = mAuth.getCurrentUser().getUid();
-        if (star.getVisibility() == View.INVISIBLE) {
-            star.setVisibility(View.VISIBLE);
+        if (currJob.getSaved()) {
+            star.setBackgroundResource(R.drawable.baseline_star_outline_24);
             currJob.setSaved();
         } else {
-            star.setVisibility(View.INVISIBLE);
+            star.setBackgroundResource(R.drawable.baseline_star_24);
             currJob.setSaved();
         }
 
         DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
-        masterReference.addValueEventListener(new ValueEventListener() {
+        masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot d : snapshot.getChildren()) {

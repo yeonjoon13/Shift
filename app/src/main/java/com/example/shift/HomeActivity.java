@@ -100,29 +100,29 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
-        root.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                String company;
-                if (!snapshot.hasChild("Jobs")) {
-                    jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
-                    Job j = new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
-                            "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo);
-                    Job k = new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
-                            "2:00 pm", "$18/hr", false, R.drawable.fedex_logo);
-                    jobDBRef.push().setValue(j);
-                    jobDBRef.push().setValue(k);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.print("hello");
-            }
-
-
-        });
+//        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+//        root.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                String company;
+//                if (!snapshot.hasChild("Jobs")) {
+//                    jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
+//                    Job j = new Job("Cashier", "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
+//                            "2:00 pm", "$18/hr", false, R.drawable.mcdonalds_logo);
+//                    Job k = new Job("Delivery", "Fedex", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
+//                            "2:00 pm", "$18/hr", false, R.drawable.fedex_logo);
+//                    jobDBRef.push().setValue(j);
+//                    jobDBRef.push().setValue(k);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                System.out.print("hello");
+//            }
+//
+//
+//        });
         DatabaseReference jobReference2 = FirebaseDatabase.getInstance().getReference("Jobs");
         jobReference2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -282,13 +282,13 @@ public class HomeActivity extends AppCompatActivity {
                 ArrayList<Job> previous = new ArrayList<>();
                 ArrayList<Job> training = new ArrayList<>();
 
+                previous.add(new Job("Barista", "Starbucks", "Cook up some coffee", "04/20/2023", "Orange Street",
+                        "2:00 pm", "$20/hr", false, R.drawable.fedex_logo));
+
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
 
-                    if (j.getCompleted()) {
-                        previous.add(j);
-                    }
-                    if (j.getchecked_in()) {
+                    if (j.getchecked_in() && !j.getTraining()) {
                         training.add(j);
                     }
                 }

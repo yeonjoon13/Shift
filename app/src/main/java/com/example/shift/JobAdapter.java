@@ -1,6 +1,9 @@
 package com.example.shift;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,15 +91,23 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         payText.setText(current.getPay());
 
         TextView trainingText = holder.trainingText;
-        if (current.getchecked_in() && !current.getCompleted()) {
-            trainingText.setText("Incomplete Requirements");
+        if (current.getchecked_in()) {
+            if (current.getCompleted()) {
+                trainingText.setText("Incomplete Requirements");
+                trainingText.setTextColor(Color.parseColor("#FF0000"));
+            } else {
+                trainingText.setText("Completed Requirements!");
+                trainingText.setTextColor(Color.parseColor("#3CB043"));
+            }
         } else {
             trainingText.setText("");
         }
 
         ImageView logoImage = holder.logoImage;
-//        logoImage.setImageResource(current.getImageId());
-        logoImage.setImageResource(R.drawable.mcdonalds_logo);
+        Log.d("wtf", String.format("%d", current.getImageId()));
+        Log.d("wtf", String.format("%d", R.drawable.fedex_logo));
+        logoImage.setImageResource(current.getImageId());
+//        logoImage.setImageResource(R.drawable.mcdonalds_logo);
 
 
     }

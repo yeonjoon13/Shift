@@ -10,21 +10,19 @@
         android:id="@+id/likedRecycler"
         android:layout_width="409dp"
         android:layout_height="175dp"
-        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/liked" />
+        app:layout_constraintTop_toBottomOf="@+id/recommendedRecycler" />
 
     <TextView
         android:id="@+id/liked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="404dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/liked"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Upcoming" />
+        app:layout_constraintBottom_toTopOf="@+id/likedRecycler"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/upcommingRecycler"
@@ -61,11 +59,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="200dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/recommended"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Upcoming" />
+        app:layout_constraintBottom_toTopOf="@+id/recommendedRecycler"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/settingsButton"
@@ -90,9 +87,8 @@
         android:id="@+id/recommendedRecycler"
         android:layout_width="409dp"
         android:layout_height="175dp"
-        android:layout_marginTop="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Recommended" />
+        app:layout_constraintTop_toBottomOf="@+id/upcommingRecycler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

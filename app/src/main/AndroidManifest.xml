@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Shift"
         tools:targetApi="31">
         <activity
+            android:name=".TrainingTasksActivity"
+            android:exported="false" />
+        <activity
             android:name=".JobDescriptionActivity"
             android:exported="false"
             android:label="@string/title_activity_job_description"
