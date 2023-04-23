@@ -234,23 +234,13 @@ public class HomeActivity extends AppCompatActivity {
                     });
                 }
                 if (!snapshot.hasChild("searchFilter")) {
-                    HashMap<String, Object> filter = new HashMap<>();
-                    filter.put("fastFood", true);
-                    filter.put("cafe", true);
-                    filter.put("warehouse", true);
-                    filter.put("transportation", true);
-                    filter.put("distance", (Double) 10.0);
-                    userReference.child("searchFilter").setValue(filter);
+                    Filter f = new Filter();
+                    userReference.child("searchFilter").push().setValue(f);
                 }
 
                 if (!snapshot.hasChild("homeFilter")) {
-                    HashMap<String, Object> filter = new HashMap<>();
-                    filter.put("fastFood", true);
-                    filter.put("cafe", true);
-                    filter.put("warehouse", true);
-                    filter.put("transportation", true);
-                    filter.put("distance", (Double) 10.0);
-                    userReference.child("homeFilter").setValue(filter);
+                    Filter g = new Filter();
+                    userReference.child("homeFilter").push().setValue(g);
                 }
             }
 
@@ -269,6 +259,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<Job> liked = new ArrayList<>();
                 ArrayList<Job> upcoming = new ArrayList<>();
+                ArrayList<Job> recommended = new ArrayList<>();
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
 
@@ -278,39 +269,14 @@ public class HomeActivity extends AppCompatActivity {
                     } else if (!j.getchecked_in() && j.getSaved()) {
                         liked.add(j);
                     } else {
-
-                        DatabaseReference homeFilterReference = userReference.child("homeFilter");
-                        homeFilterReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                            ArrayList<Job> recommended = new ArrayList<>();
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                for (DataSnapshot d : snapshot.getChildren()) {
-                                    Filter f = d.getValue(Filter.class);
-                                    if (j.getDistance() <= f.getDistance() && f.isIn(j.getJobType())) {
-                                        recommended.add(j);
-                                    }
-                                }
-
-                                RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
-                                JobAdapter recommendedAdapter = new JobAdapter(recommended, getApplicationContext(), jobListener);
-                                recyclerView.setAdapter(recommendedAdapter);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                        recommended.add(j);
                     }
-
                 }
 
-//                RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
-//                JobAdapter recommendedAdapter = new JobAdapter(recommended, getApplicationContext(), jobListener);
-//                recyclerView.setAdapter(recommendedAdapter);
-//                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+                RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
+                JobAdapter recommendedAdapter = new JobAdapter(recommended, getApplicationContext(), jobListener);
+                recyclerView.setAdapter(recommendedAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
 
                 RecyclerView upcomingView = findViewById(R.id.upcommingRecycler);
                 JobAdapter upcomingAdapter = new JobAdapter(upcoming, getApplicationContext(), jobListener);
@@ -347,7 +313,7 @@ public class HomeActivity extends AppCompatActivity {
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
 
-                    if (j.getchecked_in() && !j.getTraining()) {
+                    if (j.getchecked_in() && j.getTraining()) {
                         training.add(j);
                     }
                 }

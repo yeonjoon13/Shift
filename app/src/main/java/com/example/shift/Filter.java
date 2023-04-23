@@ -36,4 +36,18 @@ public class Filter {
     public double getDistance() {
         return this.distance;
     }
+
+    public boolean getFastFood() {
+        return this.fastFood;
+    }
+
+    public boolean getCafe() {
+        return this.cafe;
+    }
+    public boolean getWarehouse() {
+        return this.warehouse;
+    }
+    public boolean getTransportation() {
+        return this.transportation;
+    }
 }
