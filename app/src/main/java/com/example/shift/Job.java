@@ -23,13 +23,14 @@ public class Job {
     private boolean saved;
 
     private boolean completed;
+    private double distance;
     private boolean haveQuestions;
 
     public Job() { }
 
 
     public Job(String role, String company, String description, String date, String address,
-               String time, String pay, boolean training, int imageId) {
+               String time, String pay, boolean training, double distance, int imageId) {
         this.role = role;
         this.company = company;
         this.checked_in = false;
@@ -40,6 +41,7 @@ public class Job {
         this.pay = pay;
         this.training = training;
         this.imageId = imageId;
+        this.distance = distance;
         this.saved = false;
         this.completed = false;
         this.haveQuestions = false;
@@ -74,6 +76,8 @@ public class Job {
     public boolean getTraining() { return this.training; }
 
     public boolean getCompleted() { return this.completed; }
+
+    public double getDistance() { return this.distance; }
 
     public void setchecked_in() {
         this.checked_in = !this.checked_in;

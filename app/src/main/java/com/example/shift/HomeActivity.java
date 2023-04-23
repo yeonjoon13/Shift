@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
@@ -158,7 +159,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+//        BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -283,7 +284,7 @@ public class HomeActivity extends AppCompatActivity {
                 ArrayList<Job> training = new ArrayList<>();
 
                 previous.add(new Job("Barista", "Starbucks", "Cook up some coffee", "04/20/2023", "Orange Street",
-                        "2:00 pm", "$20/hr", false, R.drawable.fedex_logo));
+                        "2:00 pm", "$20/hr", false, 1.2, R.drawable.fedex_logo));
 
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
@@ -321,24 +322,24 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(recommended);
-        editor.putString("listt", json);
-        editor.apply();
-    }
-
-    private void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("listt", null);
-
-        Type type = new TypeToken<ArrayList<Job>>() {}.getType();
-        recommended = gson.fromJson(json, type);
-
-    }
+//    private void saveData() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(recommended);
+//        editor.putString("listt", json);
+//        editor.apply();
+//    }
+//
+//    private void loadData() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+//        Gson gson = new Gson();
+//        String json = sharedPreferences.getString("listt", null);
+//
+//        Type type = new TypeToken<ArrayList<Job>>() {}.getType();
+//        recommended = gson.fromJson(json, type);
+//
+//    }
 
     @Override
     protected void onStart() {
@@ -352,6 +353,10 @@ public class HomeActivity extends AppCompatActivity {
         if (user == null) {
             startActivity(new Intent(HomeActivity.this, LogInActivity.class));
         }
+    }
+
+    public void filterClick(View view) {
+
     }
 
 

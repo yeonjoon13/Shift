@@ -79,7 +79,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
-        android:src="@drawable/baseline_dehaze_24"
+        android:src="@drawable/baseline_filter_alt_24"
+        android:onClick="filterClick"
         app:layout_constraintEnd_toStartOf="@+id/settingsButton"
         app:layout_constraintTop_toTopOf="parent" />
 
