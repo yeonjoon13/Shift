@@ -120,36 +120,35 @@ public class HomeActivity extends AppCompatActivity {
         fedexQuestions.add("this is fedex's third question");
 
 
-
-
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
         root.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (!snapshot.hasChild("Jobs"));
-                jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
-                Job j = new Job("Cashier", 1, "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
-                        "2:00 pm", "$18/hr", false, 1.2, R.drawable.mcdonalds_logo);
-                Job k = new Job("Delivery", 4, "FedEx", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
-                        "2:00 pm", "$18/hr", true, 2.2, R.drawable.fedex_logo);
-                Job a = new Job("Package Handler", 3, "Amazon", "Chuck packages across the warehouse", "05/10/2023", "Yellow Street",
-                        "4:00 am", "$20/hr", false, 1.5, R.drawable.fedex_logo);
-                Job b = new Job("Barista", 2, "Starbucks", "Cook up some coffee and serve it to caffeine to people who are addicted", "05/09/2023", "Green Street",
-                        "6:00 am", "$20/hr", false, 3.6, R.drawable.fedex_logo);
-                Job c = new Job("Boba Barista", 2, "7 Leaves", "Make some matcha thai teas for the homies", "05/10/2023", "Leaves Boulevard",
-                        "2:00 pm", "$19/hr", false, 5.7, R.drawable.fedex_logo);
-                Job d = new Job("Cashier", 1, "Wendys", "Make some 4 for 4s for the people", "5/11/2023", "Red Street",
-                        "1:00 am", "$16/hr", false, 8.5, R.drawable.fedex_logo);
-                Job e = new Job("Delivery", 4, "UPS", "Drive and Learn to have Fun", "05/09/2023", "Brown Street",
-                        "4:00 am", "$20/hr", true, 0.8, R.drawable.mcdonalds_logo);
+                if (!snapshot.hasChild("Jobs")) {
+                    jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
+                    Job j = new Job("Cashier", 1, "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
+                            "2:00 pm", "$18/hr", false, 1.2, R.drawable.mcdonalds_logo);
+                    Job k = new Job("Delivery", 4, "FedEx", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
+                            "2:00 pm", "$18/hr", true, 2.2, R.drawable.fedex_logo);
+                    Job a = new Job("Package Handler", 3, "Amazon", "Chuck packages across the warehouse", "05/10/2023", "Yellow Street",
+                            "4:00 am", "$20/hr", false, 1.5, R.drawable.fedex_logo);
+                    Job b = new Job("Barista", 2, "Starbucks", "Cook up some coffee and serve it to caffeine to people who are addicted", "05/09/2023", "Green Street",
+                            "6:00 am", "$20/hr", false, 3.6, R.drawable.fedex_logo);
+                    Job c = new Job("Boba Barista", 2, "7 Leaves", "Make some matcha thai teas for the homies", "05/10/2023", "Leaves Boulevard",
+                            "2:00 pm", "$19/hr", false, 5.7, R.drawable.fedex_logo);
+                    Job d = new Job("Cashier", 1, "Wendys", "Make some 4 for 4s for the people", "5/11/2023", "Red Street",
+                            "1:00 am", "$16/hr", false, 8.5, R.drawable.fedex_logo);
+                    Job e = new Job("Delivery", 4, "UPS", "Drive and Learn to have Fun", "05/09/2023", "Brown Street",
+                            "4:00 am", "$20/hr", true, 0.8, R.drawable.mcdonalds_logo);
 
-                jobDBRef.push().setValue(j);
-                jobDBRef.push().setValue(k);
-                jobDBRef.push().setValue(a);
-                jobDBRef.push().setValue(b);
-                jobDBRef.push().setValue(c);
-                jobDBRef.push().setValue(d);
-                jobDBRef.push().setValue(e);
+                    jobDBRef.push().setValue(j);
+                    jobDBRef.push().setValue(k);
+                    jobDBRef.push().setValue(a);
+                    jobDBRef.push().setValue(b);
+                    jobDBRef.push().setValue(c);
+                    jobDBRef.push().setValue(d);
+                    jobDBRef.push().setValue(e);
+                }
             }
 
             @Override
@@ -234,13 +233,24 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     });
                 }
-
                 if (!snapshot.hasChild("searchFilter")) {
-                    FirebaseDatabase.getInstance().getReference("Users").child(userID).child("searchFilter").push().setValue(new Filter());
+                    HashMap<String, Object> filter = new HashMap<>();
+                    filter.put("fastFood", true);
+                    filter.put("cafe", true);
+                    filter.put("warehouse", true);
+                    filter.put("transportation", true);
+                    filter.put("distance", (Double) 10.0);
+                    userReference.child("searchFilter").setValue(filter);
                 }
 
                 if (!snapshot.hasChild("homeFilter")) {
-                    FirebaseDatabase.getInstance().getReference("Users").child(userID).child("homeFilter").push().setValue(new Filter());
+                    HashMap<String, Object> filter = new HashMap<>();
+                    filter.put("fastFood", true);
+                    filter.put("cafe", true);
+                    filter.put("warehouse", true);
+                    filter.put("transportation", true);
+                    filter.put("distance", (Double) 10.0);
+                    userReference.child("homeFilter").setValue(filter);
                 }
             }
 
@@ -259,27 +269,48 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<Job> liked = new ArrayList<>();
                 ArrayList<Job> upcoming = new ArrayList<>();
-                ArrayList<Job> recommended = new ArrayList<>();
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
 
 
                     if (j.getchecked_in()) {
                         upcoming.add(j);
-                    }
-                    if (!j.getchecked_in() && j.getSaved()) {
+                    } else if (!j.getchecked_in() && j.getSaved()) {
                         liked.add(j);
-                    }
-                    if (!j.getSaved() && !j.getchecked_in()) {
-                        recommended.add(j);
+                    } else {
+
+                        DatabaseReference homeFilterReference = userReference.child("homeFilter");
+                        homeFilterReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            ArrayList<Job> recommended = new ArrayList<>();
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                for (DataSnapshot d : snapshot.getChildren()) {
+                                    Filter f = d.getValue(Filter.class);
+                                    if (j.getDistance() <= f.getDistance() && f.isIn(j.getJobType())) {
+                                        recommended.add(j);
+                                    }
+                                }
+
+                                RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
+                                JobAdapter recommendedAdapter = new JobAdapter(recommended, getApplicationContext(), jobListener);
+                                recyclerView.setAdapter(recommendedAdapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
 
                 }
 
-                RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
-                JobAdapter recommendedAdapter = new JobAdapter(recommended, getApplicationContext(), jobListener);
-                recyclerView.setAdapter(recommendedAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
+//                RecyclerView recyclerView = findViewById(R.id.recommendedRecycler);
+//                JobAdapter recommendedAdapter = new JobAdapter(recommended, getApplicationContext(), jobListener);
+//                recyclerView.setAdapter(recommendedAdapter);
+//                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false));
 
                 RecyclerView upcomingView = findViewById(R.id.upcommingRecycler);
                 JobAdapter upcomingAdapter = new JobAdapter(upcoming, getApplicationContext(), jobListener);
@@ -369,7 +400,7 @@ public class HomeActivity extends AppCompatActivity {
                     two.setChecked(d.child("cafe").getValue(Boolean.class));
                     three.setChecked(d.child("warehouse").getValue(Boolean.class));
                     four.setChecked(d.child("transportation").getValue(Boolean.class));
-                    dist.setText(String.format(Locale.US, "%f", d.child("distance").getValue(Double.class)));
+                    dist.setText(String.format(Locale.US, "%.1f", d.child("distance").getValue(Double.class)));
                 }
             }
 
