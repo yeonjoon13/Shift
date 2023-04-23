@@ -92,7 +92,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
         TextView trainingText = holder.trainingText;
         if (current.getchecked_in()) {
-            if (current.getCompleted()) {
+            if (!current.getCompleted()) {
                 trainingText.setText("Incomplete Requirements");
                 trainingText.setTextColor(Color.parseColor("#FF0000"));
             } else {
