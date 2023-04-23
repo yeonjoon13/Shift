@@ -1,6 +1,7 @@
 package com.example.shift;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,9 +19,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
     ArrayList<Video> videos;
     private Context context;
 
-    public VideoAdapter(ArrayList<Video> list, Context context){
+    private OnClickJobListener videoListener;
+
+    public VideoAdapter(ArrayList<Video> list, Context context, OnClickJobListener videoListener){
         this.videos = list;
         this.context = context;
+        this.videoListener = videoListener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -31,6 +35,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
         public ImageView thumbnailImage;
 
         public ImageView playImage;
+
 
 
 
@@ -47,11 +52,33 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
     @androidx.annotation.NonNull
     @Override
     public ViewHolder onCreateViewHolder(@androidx.annotation.NonNull ViewGroup parent, int viewType) {
-        return null;
+        View contactView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.video_card, parent, false);
+
+        // Return a new holder instance
+        VideoAdapter.ViewHolder viewHolder = new VideoAdapter.ViewHolder(contactView);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@androidx.annotation.NonNull ViewHolder holder, int position) {
+        Video current = videos.get(position);
+
+        holder.videoCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                videoListener.onVideoClick(current);
+            }
+        });
+
+        ImageView playImage = holder.playImage;
+        if (current.getWatched()) {
+            playImage.setImageResource(R.drawable.baseline_play_circle_outline_24);
+        } else {
+            playImage.setImageResource(R.drawable.baseline_check_circle_outline_24);
+        }
+
+
 
     }
 
