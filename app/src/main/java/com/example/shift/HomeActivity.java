@@ -254,6 +254,29 @@ public class HomeActivity extends AppCompatActivity {
     public void showJobs(){
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
         DatabaseReference masterReference = userReference.child("masterJobs");
+        DatabaseReference homeFilterReference = userReference.child("homeFilter");
+        final Filter[] f = new Filter[1];
+
+        homeFilterReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    boolean fastFood = d.child("fastFood").getValue(Boolean.class);
+                    boolean cafe = d.child("cafe").getValue(Boolean.class);
+                    boolean warehouse = d.child("warehouse").getValue(Boolean.class);
+                    boolean transportation = d.child("transportation").getValue(Boolean.class);
+                    double dist = d.child("distance").getValue(Double.class);
+                    f[0] = new Filter(fastFood, cafe, warehouse, transportation, dist);
+                    break;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -269,7 +292,9 @@ public class HomeActivity extends AppCompatActivity {
                     } else if (!j.getchecked_in() && j.getSaved()) {
                         liked.add(j);
                     } else {
-                        recommended.add(j);
+                        if (j.getDistance() <= f[0].getDistance() && f[0].isIn(j.getJobType())) {
+                            recommended.add(j);
+                        }
                     }
                 }
 

@@ -15,6 +15,15 @@ public class Filter {
         this.distance = 10;
     }
 
+    public Filter(boolean fastFood, boolean cafe, boolean warehouse, boolean transportation,
+                  double distance) {
+        this.fastFood = fastFood;
+        this.cafe = cafe;
+        this.warehouse = warehouse;
+        this.transportation = transportation;
+        this.distance = distance;
+    }
+
     public boolean isIn(int type) {
         switch (type) {
             case(1) : {
