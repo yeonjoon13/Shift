@@ -17,6 +17,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shift.ui.Question;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -70,8 +71,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public ArrayList<Job> previous = new ArrayList<>();
 
-    public ArrayList<String> mcDonaldQuestions = new ArrayList<>();
-    public ArrayList<String> fedexQuestions = new ArrayList<>();
+    public ArrayList<Question> mcDonaldQuestions = new ArrayList<>();
+    public ArrayList<Question> fedexQuestions = new ArrayList<>();
 
 
     public OnClickJobListener jobListener = new OnClickJobListener() {
@@ -110,15 +111,12 @@ public class HomeActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
-
-        mcDonaldQuestions.add("this is mcDonald's first question");
-        mcDonaldQuestions.add("this is mcDonald's second question");
-        mcDonaldQuestions.add("this is mcDonald's third question");
-
-        fedexQuestions.add("this is fedex's first question");
-        fedexQuestions.add("this is fedex's second question");
-        fedexQuestions.add("this is fedex's third question");
-
+        Question mcdQ1 = initalizeMcDQ1();
+        Question mcdQ2 = initalizeMcDQ2();
+        Question mcdQ3 = initalizeMcDQ3();
+        mcDonaldQuestions.add(1, mcdQ1);
+        mcDonaldQuestions.add(2, mcdQ2);
+        mcDonaldQuestions.add(3, mcdQ3);
 
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
         root.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -249,6 +247,55 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private Question initalizeMcDQ3() {
+        ArrayList<String> qBank = new ArrayList<>();
+        qBank.add("Yes, it is on the menu!");
+        qBank.add("No, but it may be back soon!");
+        qBank.add("It is part of our secret menu. Would you like one?");
+        qBank.add("I do not know what you are talking about it?");
+        Question retQ = new Question(qBank, "What is an example of something you could say " +
+                "to a customer after they ask about a menu item that is no longer on the menu?", "No, but it may be back soon!");
+        return retQ;
+    }
+
+    private Question initalizeMcDQ2() {
+        ArrayList<String> qBank = new ArrayList<>();
+        qBank.add("We're about to close and our ice cream machine does not work");
+        qBank.add("What do you want?");
+        qBank.add("Hi, Welcome to Wendys! How can I help you today?");
+        qBank.add("Hi, Welcome to McDonalds! How can I help you today?");
+        Question retQ = new Question(qBank, "What is an example of a proper way to greet a customer", "Hi, Welcome to McDonalds! How can I help you today?");
+        return retQ;
+    }
+
+    private Question initalizeMcDQ1() {
+        ArrayList<String> qBank = new ArrayList<>();
+        qBank.add("Cash");
+        qBank.add("Calculate");
+        qBank.add("Tip");
+        qBank.add("Receive");
+        Question retQ = new Question(qBank, "What button on the POS system opens the register", "Cash");
+        return retQ;
+    }
+
+    public void doQuiz() {
+        int numCorrect = 0;
+        int numNeeded;
+        DatabaseReference jobReference2 = FirebaseDatabase.getInstance().getReference("Jobs");
+        if(true) { //if its mcdonalds or fedex(next one), and if they have questions
+            for(int i = 0; i < mcDonaldQuestions.size(); i++) {
+                //String currQuestion = mcDonaldQuestions.get(i);
+                //Update textview in activity to reflect the new question
+                //In future, make it so that we can update the actual questions
+            }
+
+        } else if (true) {
+
+        } else {
+            return;
+        }
     }
 
     public void showJobs(){
