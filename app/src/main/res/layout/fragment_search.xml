@@ -7,10 +7,26 @@
     tools:context=".ui.search.SearchFragment">
 
 
-    <SearchView
-        android:layout_width="350dp"
-        android:layout_height="40dp"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/search_view_bg"
+        app:iconifiedByDefault="false"
+        app:queryHint="@string/Search..." />
+
+    <TextView
+        android:id="@+id/searchJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchV" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

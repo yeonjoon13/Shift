@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,8 @@ public class HomeActivity extends AppCompatActivity {
     Button logOutButton;
     FirebaseAuth mAuth;
     DatabaseReference jobDBRef;
+    private SearchView searchView;
+
 
     String userID;
 
@@ -369,6 +372,23 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    public void filterJobs() {
+        searchView = findViewById(R.id.searchV);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                filterList(s);
+                return true;
+            }
+        });
+    }
+
     public void showLibraryJobs() {
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
         DatabaseReference masterReference = userReference.child("masterJobs");
@@ -501,5 +521,26 @@ public class HomeActivity extends AppCompatActivity {
 
     private void addQuestions(ArrayList<String> questions) {
 
+    }
+
+    private void filterList(String text) {
+        ArrayList<Job> jobs = new ArrayList<>();
+        TextView textView = findViewById(R.id.searchJob);
+        DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
+        jobReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    Job j = d.getValue(Job.class);
+                    if (j.getCompany().contains(text)) {
+                        jobs.add(j);
+                        textView.setText(j.getCompany());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 }

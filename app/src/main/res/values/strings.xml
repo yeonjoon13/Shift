@@ -42,6 +42,7 @@
     <string name="prev">Your Previous Jobs</string>
     <string name="liked">Your Liked Jobs</string>
     <string name="welcome">Jobs</string>
+    <string name="Search...">Search</string>
     <string name="enter_email">Email</string>
     <string name="enter_password">Password</string>
     <string name="title_activity_quiz_start">QuizStartActivity</string>
