@@ -404,7 +404,7 @@ public class HomeActivity extends AppCompatActivity {
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
 
-                    if (j.getchecked_in() && !j.getTraining()) {
+                    if (j.getchecked_in() && j.getTraining()) {
                         training.add(j);
                     }
                 }
@@ -494,6 +494,7 @@ public class HomeActivity extends AppCompatActivity {
                             filter.put("distance", Double.parseDouble(dist.getText().toString()));
                             homeFilterReference.child(d.getKey()).updateChildren(filter);
                         }
+                        showJobs();
                     }
 
                     @Override
