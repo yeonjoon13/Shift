@@ -5,19 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.shift.databinding.ActivityHomeBinding;
 import com.example.shift.databinding.ActivityTrainingTasksBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -39,8 +35,12 @@ public class TrainingTasksActivity extends AppCompatActivity {
 
         @Override
         public void onVideoClick(Video video) {
+            Intent intent = new Intent(TrainingTasksActivity.this, VideoActivity.class);
 
-
+            Gson gson = new Gson();
+            String json = gson.toJson(currJob);
+            intent.putExtra("job", json);
+            startActivity(intent);
         }
 
     };
@@ -62,7 +62,7 @@ public class TrainingTasksActivity extends AppCompatActivity {
         String heading_text = currJob.getCompany() + " Training";
         heading.setText(heading_text);
 
-        ImageView logo = findViewById(R.id.imageView2);
+        ImageView logo = findViewById(R.id.imageView3);
         logo.setImageResource(currJob.getImageId());
 
         TextView subheading1 = (TextView) findViewById(R.id.textView5);
@@ -78,5 +78,9 @@ public class TrainingTasksActivity extends AppCompatActivity {
         VideoAdapter videoAdapter = new VideoAdapter(training_videos, getApplicationContext(), jobListener);
         videoView.setAdapter(videoAdapter);
         videoView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL,false));
+    }
+
+    public void goBackJob(View view) {
+        finish();
     }
 }

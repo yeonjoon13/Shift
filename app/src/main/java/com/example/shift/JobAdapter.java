@@ -104,8 +104,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         }
 
         ImageView logoImage = holder.logoImage;
-        Log.d("wtf", String.format("%d", current.getImageId()));
-        Log.d("wtf", String.format("%d", R.drawable.fedex_logo));
+
         logoImage.setImageResource(current.getImageId());
 //        logoImage.setImageResource(R.drawable.mcdonalds_logo);
 
