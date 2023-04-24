@@ -70,8 +70,8 @@ public class TrainingTasksActivity extends AppCompatActivity {
         subheading1.setText(subheading_text);
 
 
-        Video video1 = new Video("How to operate cashier");
-        Video video2 = new Video("How to interact with customers");
+        Video video1 = new Video("How to operate cashier", R.drawable.cashier);
+        Video video2 = new Video("How to interact with customers", R.drawable.customer);
         training_videos.add(video1);
         training_videos.add(video2);
         RecyclerView videoView = findViewById(R.id.videoRecycler);
