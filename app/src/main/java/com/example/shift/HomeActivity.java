@@ -279,23 +279,23 @@ public class HomeActivity extends AppCompatActivity {
         return retQ;
     }
 
-    public void doQuiz() {
-        int numCorrect = 0;
-        int numNeeded;
-        DatabaseReference jobReference2 = FirebaseDatabase.getInstance().getReference("Jobs");
-        if(true) { //if its mcdonalds or fedex(next one), and if they have questions
-            for(int i = 0; i < mcDonaldQuestions.size(); i++) {
-                //String currQuestion = mcDonaldQuestions.get(i);
-                //Update textview in activity to reflect the new question
-                //In future, make it so that we can update the actual questions
-            }
-
-        } else if (true) {
-
-        } else {
-            return;
-        }
-    }
+//    public void doQuiz() {
+//        int numCorrect = 0;
+//        int numNeeded;
+//        DatabaseReference jobReference2 = FirebaseDatabase.getInstance().getReference("Jobs");
+//        if(true) { //if its mcdonalds or fedex(next one), and if they have questions
+//            for(int i = 0; i < mcDonaldQuestions.size(); i++) {
+//                //String currQuestion = mcDonaldQuestions.get(i);
+//                //Update textview in activity to reflect the new question
+//                //In future, make it so that we can update the actual questions
+//            }
+//
+//        } else if (true) {
+//
+//        } else {
+//            return;
+//        }
+//    }
 
     public void showJobs(){
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
