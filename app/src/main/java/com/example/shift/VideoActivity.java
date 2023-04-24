@@ -25,8 +25,8 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getSupportActionBar().hide();
 
         String json = getIntent().getStringExtra("video");
 
