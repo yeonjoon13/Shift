@@ -79,7 +79,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
         }
 
         ImageView thumbnailImage = holder.thumbnailImage;
-        thumbnailImage.setImageResource(R.drawable.homeimage);
+        thumbnailImage.setImageResource(current.getThumbnail());
 
         TextView titleText = holder.titleText;
         titleText.setText(current.getTitle());
