@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,26 +18,29 @@ public class VideoActivity extends AppCompatActivity {
 
     WebView webView;
 
-    Job currJob;
+    Video video;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        String json = getIntent().getStringExtra("currJob");
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
+
+        String json = getIntent().getStringExtra("video");
 
         Gson gson = new Gson();
-        currJob = gson.fromJson(json, Job.class);
+        video = gson.fromJson(json, Video.class);
 
         TextView heading = findViewById(R.id.textView4);
-        String heading_text = currJob.getCompany() + " Training";
+        String heading_text =  video.getTitle();
         heading.setText(heading_text);
 
         ImageView logo = findViewById(R.id.imageView3);
-        logo.setImageResource(currJob.getImageId());
+        logo.setImageResource(R.drawable.mcdonalds_logo);
 
-        String frameVideo = "<html><body>Video From YouTube<br><iframe width=\"420\" height=\"315\" src=\"https://www.youtube.com/embed/3ZrlcDgS7qc\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+        String frameVideo = "<html><body><iframe width=\"400\" height=\"200\" src=\"https://www.youtube.com/embed/3ZrlcDgS7qc\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
 
         WebView displayYoutubeVideo = findViewById(R.id.mWebView);
 
@@ -50,6 +54,7 @@ public class VideoActivity extends AppCompatActivity {
     }
 
     public void goQuiz(View view) {
-//        Intent i = new Intent(VideoActivity.this, ____);
+        Intent i = new Intent(VideoActivity.this, StartQuiz.class);
+        startActivity(i);
     }
 }

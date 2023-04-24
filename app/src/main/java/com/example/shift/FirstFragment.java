@@ -34,14 +34,14 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TextView textCompany = binding.textCompany;
         TextView roleName = binding.roleName;
-        TextView textRoleDesc = binding.textRoleDesc;
+        TextView textRoleDesc = binding.textRoleName;
         String companyName = savedInstanceState.getString(CompanyName);
         textCompany.setText(companyName);
         String role = savedInstanceState.getString(roleName1);
         roleName.setText(role);
         String roleDesc = savedInstanceState.getString(JobDesc);
         roleName.setText(roleDesc);
-        binding.buttonContinue.setOnClickListener(new View.OnClickListener() {
+        binding.buttonQuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(FirstFragment.this)

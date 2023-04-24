@@ -38,8 +38,8 @@ public class TrainingTasksActivity extends AppCompatActivity {
             Intent intent = new Intent(TrainingTasksActivity.this, VideoActivity.class);
 
             Gson gson = new Gson();
-            String json = gson.toJson(currJob);
-            intent.putExtra("job", json);
+            String json = gson.toJson(video);
+            intent.putExtra("video", json);
             startActivity(intent);
         }
 
