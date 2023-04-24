@@ -16,6 +16,8 @@ public class Video {
     }
 
     public boolean getWatched() { return this.watched; }
+
+    public String getTitle() { return this.title; }
     public void setWatched() { this.watched = true; }
 
 }

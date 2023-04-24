@@ -72,11 +72,18 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
         });
 
         ImageView playImage = holder.playImage;
-        if (current.getWatched()) {
+        if (!current.getWatched()) {
             playImage.setImageResource(R.drawable.baseline_play_circle_outline_24);
         } else {
             playImage.setImageResource(R.drawable.baseline_check_circle_outline_24);
         }
+
+        ImageView thumbnailImage = holder.thumbnailImage;
+        thumbnailImage.setImageResource(R.drawable.homeimage);
+
+        TextView titleText = holder.titleText;
+        titleText.setText(current.getTitle());
+
 
 
 

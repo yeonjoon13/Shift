@@ -58,6 +58,19 @@ public class JobDescriptionActivity extends AppCompatActivity {
         } else {
             star.setBackgroundResource(R.drawable.baseline_star_outline_24);
         }
+        Button btn = (Button)findViewById(R.id.buttonTraining);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(JobDescriptionActivity.this, TrainingTasksActivity.class);
+
+                Gson gson = new Gson();
+                String json = gson.toJson(currJob);
+                intent.putExtra("currJob", json);
+                JobDescriptionActivity.this.startActivity(intent);
+            }
+        });
     }
 
 
@@ -223,6 +236,25 @@ public class JobDescriptionActivity extends AppCompatActivity {
     }
 
     public void goTraining(View view) {
+//        Button btn = (Button)findViewById(R.id.buttonTraining);
+//
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(JobDescriptionActivity.this, TrainingTasksActivity.class);
+//
+//                Gson gson = new Gson();
+//                String json = gson.toJson(currJob);
+//                intent.putExtra("currJob", json);
+//                startActivity(intent);
+//            }
+//        });
         // Make Training Section and go there
+//        Intent intent = new Intent(JobDescriptionActivity.this, TrainingTasksActivity.class);
+//
+//        Gson gson = new Gson();
+//        String json = gson.toJson(currJob);
+//        intent.putExtra("currJob", json);
+//        startActivity(intent);
     }
 }
