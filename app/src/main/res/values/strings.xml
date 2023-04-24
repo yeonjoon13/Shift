@@ -44,5 +44,6 @@
     <string name="welcome">Jobs</string>
     <string name="enter_email">Email</string>
     <string name="enter_password">Password</string>
+    <string name="title_activity_quiz_start">QuizStartActivity</string>
 
 </resources>

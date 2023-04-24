@@ -15,6 +15,11 @@
             android:name=".VideoActivity"
             android:exported="false" />
         <activity
+            android:name=".QuizStartActivity"
+            android:exported="false"
+            android:label="@string/title_activity_quiz_start"
+            android:theme="@style/Theme.Shift.NoActionBar" />
+        <activity
             android:name=".TrainingTasksActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
