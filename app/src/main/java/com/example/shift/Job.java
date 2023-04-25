@@ -2,6 +2,8 @@ package com.example.shift;
 
 import android.widget.ImageView;
 
+import com.example.shift.ui.Question;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,12 +29,16 @@ public class Job {
     private boolean completed;
     private double distance;
     private boolean haveQuestions;
+    private ArrayList<Question> questions;
+    private int requiredCorrect;
+    private boolean questionsCompleted;
 
-    public Job() { }
+    public Job() {
+    }
 
 
     public Job(String role, int jobType, String company, String description, String date, String address,
-               String time, String pay, boolean training, double distance, int imageId) {
+               String time, String pay, boolean training, double distance, int imageId, ArrayList<Question> questions, int requiredCorrect) {
         Random rand = new Random();
         this.jobId = rand.nextInt(10000);
 
@@ -52,21 +58,39 @@ public class Job {
         this.saved = false;
         this.completed = false;
         this.haveQuestions = false;
+        this.questions = new ArrayList<>();
+        this.requiredCorrect = requiredCorrect;
+        questionsCompleted = false;
+
     }
 
-    public int getJobId() { return this.jobId; }
+    public int getJobId() {
+        return this.jobId;
+    }
 
-    public int getJobType() { return this.jobType; }
+    public int getJobType() {
+        return this.jobType;
+    }
 
-    public String getRole() { return this.role; }
+    public String getRole() {
+        return this.role;
+    }
 
-    public boolean getSaved() { return this.saved; }
+    public boolean getSaved() {
+        return this.saved;
+    }
 
-    public String getCompany() { return this.company; }
+    public String getCompany() {
+        return this.company;
+    }
 
-    public boolean getchecked_in() { return this.checked_in; }
+    public boolean getchecked_in() {
+        return this.checked_in;
+    }
 
-    public String getDescription() { return this.description; }
+    public String getDescription() {
+        return this.description;
+    }
 
     public String getDate() {
         return this.date;
@@ -84,24 +108,63 @@ public class Job {
         return this.pay;
     }
 
-    public boolean getTraining() { return this.training; }
+    public boolean getTraining() {
+        return this.training;
+    }
 
-    public boolean getCompleted() { return this.completed; }
+    public boolean getCompleted() {
+        return this.completed;
+    }
 
-    public double getDistance() { return this.distance; }
+    public double getDistance() {
+        return this.distance;
+    }
 
     public void setchecked_in() {
         this.checked_in = !this.checked_in;
     }
 
-    public void setSaved() { this.saved = !this.saved; }
-    public int getImageId() { return imageId; }
+    public void setSaved() {
+        this.saved = !this.saved;
+    }
 
-    public void setCompleted() { this.completed = !this.completed; }
+    public int getImageId() {
+        return imageId;
+    }
 
-    public boolean getHaveQuestions() { return this.haveQuestions; }
-    public void setHaveQuestions() { this.haveQuestions = !this.haveQuestions; }
+    public void setCompleted() {
+        this.completed = !this.completed;
+    }
 
+    public boolean getHaveQuestions() {
+        return this.haveQuestions;
+    }
 
+    public void setHaveQuestions() {
+        this.haveQuestions = !this.haveQuestions;
+    }
 
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+
+    public int getRequiredCorrect() {
+        return requiredCorrect;
+    }
+
+    public void setRequiredCorrect(int requiredCorrect) {
+        this.requiredCorrect = requiredCorrect;
+    }
+
+    public void setQuestions(ArrayList<Question> questions) {
+        this.questions = questions;
+    }
+
+    public boolean isQuestionsCompleted() {
+        return questionsCompleted;
+    }
+
+    public void setQuestionsCompleted() {
+        this.questionsCompleted = !questionsCompleted;
+    }
 }

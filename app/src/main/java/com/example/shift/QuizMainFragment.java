@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,8 +18,8 @@ public class QuizMainFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String CompanyName = "McDonalds";
+    private static final String Position = "Cashier";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -40,8 +41,8 @@ public class QuizMainFragment extends Fragment {
     public static QuizMainFragment newInstance(String param1, String param2) {
         QuizMainFragment fragment = new QuizMainFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(CompanyName, param1); //need to use fb in the future
+        args.putString(Position, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,9 +51,10 @@ public class QuizMainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam1 = getArguments().getString(CompanyName);
+            mParam2 = getArguments().getString(Position);
         }
+
     }
 
     @Override
