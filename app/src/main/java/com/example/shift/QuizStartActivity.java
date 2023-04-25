@@ -119,7 +119,7 @@ public class QuizStartActivity extends AppCompatActivity {
                     numCorrect ++;
                 }
 
-                if (currQIndex >= currJob.getQuestions().size()) {
+                if (currQIndex >= currJob.getQuestions().size() - 1) {
                     //if numright score is greater than or equal to target score
                     if(numCorrect >= currJob.getRequiredCorrect()) {
                         //TODO: move back to main activity
@@ -168,7 +168,7 @@ public class QuizStartActivity extends AppCompatActivity {
                     numCorrect ++;
                 }
 
-                if (currQIndex >= currJob.getQuestions().size()) {
+                if (currQIndex >= currJob.getQuestions().size() - 1) {
                     //if numright score is greater than or equal to target score
                     if(numCorrect >= currJob.getRequiredCorrect()) {
                         //TODO: move back to main activity
@@ -217,7 +217,7 @@ public class QuizStartActivity extends AppCompatActivity {
                     numCorrect ++;
                 }
 
-                if (currQIndex >= currJob.getQuestions().size()) {
+                if (currQIndex >= currJob.getQuestions().size() - 1) {
                     //if numright score is greater than or equal to target score
                     if(numCorrect >= currJob.getRequiredCorrect()) {
                         //TODO: move back to main activity
@@ -266,7 +266,7 @@ public class QuizStartActivity extends AppCompatActivity {
                     numCorrect ++;
                 }
 
-                if (currQIndex >= currJob.getQuestions().size()) {
+                if (currQIndex >= currJob.getQuestions().size() - 1) {
                     //if numright score is greater than or equal to target score
                     if(numCorrect >= currJob.getRequiredCorrect()) {
                         //TODO: move back to main activity
