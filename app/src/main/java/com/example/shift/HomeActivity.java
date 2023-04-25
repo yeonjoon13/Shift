@@ -501,22 +501,34 @@ public class HomeActivity extends AppCompatActivity {
 
     private void filterList(String text) {
         ArrayList<Job> jobs = new ArrayList<>();
-        TextView textView = findViewById(R.id.searchJob);
+        RecyclerView searchView = findViewById(R.id.searchRecycler);
+        SearchJobAdapter searchAdapter = new SearchJobAdapter(jobs, getApplicationContext(), jobListener);
+        searchView.setAdapter(searchAdapter);
+        searchView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
+
         DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
         jobReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot d : snapshot.getChildren()) {
                     Job j = d.getValue(Job.class);
-                    if (j.getCompany().contains(text)) {
-                        jobs.add(j);
-                        textView.setText(j.getCompany());
+                    String company = j.getCompany().toUpperCase();
+                    if (company.contains(text.toUpperCase())) {
+                        if (text.equals("")) {
+                            jobs.clear();
+                            searchAdapter.notifyDataSetChanged();
+                        } else {
+                            jobs.add(j);
+                            searchAdapter.notifyDataSetChanged();
+
+                        }
                     }
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
     }
 }

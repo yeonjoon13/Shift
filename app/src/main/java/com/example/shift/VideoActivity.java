@@ -40,7 +40,7 @@ public class VideoActivity extends AppCompatActivity {
         ImageView logo = findViewById(R.id.imageView3);
         logo.setImageResource(R.drawable.mcdonalds_logo);
 
-        String frameVideo = "<html><body><iframe width=\"400\" height=\"200\" src=\"https://www.youtube.com/embed/3ZrlcDgS7qc\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+        String frameVideo = "<html><body><iframe width=\"400\" height=\"200\" src=\"https://www.youtube.com/embed/3ZrlcDgS7qc\" frameborder=\"0\" allow=\"fullscreen;\"></iframe></body></html>";
 
         WebView displayYoutubeVideo = findViewById(R.id.mWebView);
 
