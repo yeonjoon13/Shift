@@ -1,4 +1,4 @@
-package com.example.shift.ui;
+package com.example.shift;
 
 import java.util.ArrayList;
 import java.util.Random;

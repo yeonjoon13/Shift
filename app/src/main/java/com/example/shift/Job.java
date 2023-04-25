@@ -1,11 +1,6 @@
 package com.example.shift;
 
-import android.widget.ImageView;
-
-import com.example.shift.ui.Question;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Job {
@@ -31,7 +26,6 @@ public class Job {
     private boolean haveQuestions;
     private ArrayList<Question> questions;
     private int requiredCorrect;
-    private boolean questionsCompleted;
 
     public Job() {
     }
@@ -60,7 +54,6 @@ public class Job {
         this.haveQuestions = false;
         this.questions = new ArrayList<>();
         this.requiredCorrect = requiredCorrect;
-        questionsCompleted = false;
 
     }
 
@@ -160,11 +153,7 @@ public class Job {
         this.questions = questions;
     }
 
-    public boolean isQuestionsCompleted() {
-        return questionsCompleted;
-    }
 
-    public void setQuestionsCompleted() {
-        this.questionsCompleted = !questionsCompleted;
-    }
+
+
 }
