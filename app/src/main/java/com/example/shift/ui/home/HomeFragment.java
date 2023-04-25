@@ -38,8 +38,8 @@ public class HomeFragment extends Fragment {
         return root;
     }
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         ((HomeActivity) getActivity()).showJobs();
 
     }

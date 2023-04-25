@@ -54,7 +54,7 @@ public class VideoActivity extends AppCompatActivity {
     }
 
     public void goQuiz(View view) {
-        Intent i = new Intent(VideoActivity.this, StartQuiz.class);
+        Intent i = new Intent(VideoActivity.this, QuizStartActivity.class);
         startActivity(i);
     }
 }
