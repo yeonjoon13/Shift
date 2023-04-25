@@ -3,5 +3,5 @@ package com.example.shift;
 public interface OnClickJobListener {
     void onJobClick(Job job);
 
-    void onVideoClick(Video video);
+    void onVideoClick(Video video, Job job);
 }

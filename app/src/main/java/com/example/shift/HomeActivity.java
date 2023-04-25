@@ -82,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onVideoClick(Video video) {}
+        public void onVideoClick(Video video, Job job) {}
     };
 
     @Override

@@ -34,11 +34,13 @@ public class TrainingTasksActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onVideoClick(Video video) {
+        public void onVideoClick(Video video, Job job) {
             Intent intent = new Intent(TrainingTasksActivity.this, VideoActivity.class);
 
             Gson gson = new Gson();
             String json = gson.toJson(video);
+            String json2 = gson.toJson(job);
+            intent.putExtra("currJob", json2);
             intent.putExtra("video", json);
             startActivity(intent);
         }
@@ -75,7 +77,7 @@ public class TrainingTasksActivity extends AppCompatActivity {
         training_videos.add(video1);
         training_videos.add(video2);
         RecyclerView videoView = findViewById(R.id.videoRecycler);
-        VideoAdapter videoAdapter = new VideoAdapter(training_videos, getApplicationContext(), jobListener);
+        VideoAdapter videoAdapter = new VideoAdapter(training_videos, getApplicationContext(), jobListener, currJob);
         videoView.setAdapter(videoAdapter);
         videoView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL,false));
     }

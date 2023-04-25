@@ -21,10 +21,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
 
     private OnClickJobListener videoListener;
 
-    public VideoAdapter(ArrayList<Video> list, Context context, OnClickJobListener videoListener){
+    private Job currJob;
+
+    public VideoAdapter(ArrayList<Video> list, Context context, OnClickJobListener videoListener, Job job){
         this.videos = list;
         this.context = context;
         this.videoListener = videoListener;
+        this.currJob = job;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -67,7 +70,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
         holder.videoCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                videoListener.onVideoClick(current);
+                videoListener.onVideoClick(current, currJob);
             }
         });
 

@@ -19,6 +19,7 @@ public class VideoActivity extends AppCompatActivity {
     WebView webView;
 
     Video video;
+    Job currJob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +30,11 @@ public class VideoActivity extends AppCompatActivity {
 //        getSupportActionBar().hide();
 
         String json = getIntent().getStringExtra("video");
+        String json2 = getIntent().getStringExtra("currJob");
 
         Gson gson = new Gson();
         video = gson.fromJson(json, Video.class);
+        currJob = gson.fromJson(json2, Job.class);
 
         TextView heading = findViewById(R.id.textView4);
         String heading_text =  video.getTitle();
@@ -55,6 +58,10 @@ public class VideoActivity extends AppCompatActivity {
 
     public void goQuiz(View view) {
         Intent i = new Intent(VideoActivity.this, StartQuizActivity.class);
+        Gson gson = new Gson();
+        String json2 = gson.toJson(currJob);
+        i.putExtra("currJob", json2);
         startActivity(i);
+        finish();
     }
 }
