@@ -23,6 +23,7 @@ public class TrainingTasksActivity extends AppCompatActivity {
 
     public ArrayList<Video> training_videos = new ArrayList<>();
 
+    public ArrayList<Job> jobs = new ArrayList<>();
     FirebaseAuth mAuth;
 
     Job currJob;
@@ -30,6 +31,11 @@ public class TrainingTasksActivity extends AppCompatActivity {
     public OnClickJobListener jobListener = new OnClickJobListener() {
         @Override
         public void onJobClick(Job job) {
+            Intent intent = new Intent(TrainingTasksActivity.this, StartQuizActivity.class);
+            Gson gson = new Gson();
+            String json = gson.toJson(job);
+            intent.putExtra("currJob", json);
+            startActivity(intent);
 
         }
 
@@ -68,8 +74,12 @@ public class TrainingTasksActivity extends AppCompatActivity {
         logo.setImageResource(currJob.getImageId());
 
         TextView subheading1 = (TextView) findViewById(R.id.textView5);
-        String subheading_text = "Required Training videos";
+        String subheading_text = "Required Training Videos";
         subheading1.setText(subheading_text);
+
+        TextView subheading2 = (TextView) findViewById(R.id.textView2);
+        String subheading_text2 = "Quizzes to Complete";
+        subheading2.setText(subheading_text2);
 
 
         Video video1 = new Video("How to operate cashier", R.drawable.cashier, "https://www.youtube.com/embed/3ZrlcDgS7qc");
@@ -80,6 +90,13 @@ public class TrainingTasksActivity extends AppCompatActivity {
         VideoAdapter videoAdapter = new VideoAdapter(training_videos, getApplicationContext(), jobListener, currJob);
         videoView.setAdapter(videoAdapter);
         videoView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL,false));
+        jobs.add(currJob);
+
+        RecyclerView quizView = findViewById(R.id.quizRecycler);
+        QuizAdapter quizAdapter = new QuizAdapter(jobs, getApplicationContext(), jobListener);
+        quizView.setAdapter(quizAdapter);
+        quizView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL,false));
+
     }
 
     public void goBackJob(View view) {
