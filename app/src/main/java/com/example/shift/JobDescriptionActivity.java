@@ -91,7 +91,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
         address.setText(currJob.getAddress());
         date.setText(currJob.getDate());
 
-        String completion = currJob.getTraining() ? "Requirements Complete" : "Incomplete Requirements";
+        String completion = currJob.getCompleted() ? "Requirements Complete" : "Incomplete Requirements";
         training.setText(completion);
 
         String status = currJob.getchecked_in() ? "QUIT" : "APPLY";

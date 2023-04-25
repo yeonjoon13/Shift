@@ -379,7 +379,7 @@ public class HomeActivity extends AppCompatActivity {
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
 
-                    if (j.getchecked_in() && j.getTraining()) {
+                    if (j.getchecked_in() && !j.getCompleted()) {
                         training.add(j);
                     }
                 }

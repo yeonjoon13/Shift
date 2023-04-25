@@ -17,14 +17,12 @@ public class Job {
     private String address;
     private String time;
     private String pay;
-    private boolean training;
 
     private boolean saved;
 
     private boolean completed;
     private double distance;
     private boolean haveQuestions;
-    private ArrayList<Question> questions;
     private int requiredCorrect;
 
     public Job() {
@@ -32,7 +30,7 @@ public class Job {
 
 
     public Job(String role, int jobType, String company, String description, String date, String address,
-               String time, String pay, boolean training, double distance, int imageId, ArrayList<Question> questions, int requiredCorrect) {
+               String time, String pay, boolean completed, double distance, int imageId, ArrayList<Question> questions, int requiredCorrect) {
         Random rand = new Random();
         this.jobId = rand.nextInt(10000);
 
@@ -46,13 +44,11 @@ public class Job {
         this.address = address;
         this.time = time;
         this.pay = pay;
-        this.training = training;
+        this.completed = completed;
         this.imageId = imageId;
         this.distance = distance;
         this.saved = false;
-        this.completed = false;
         this.haveQuestions = false;
-        this.questions = new ArrayList<>();
         this.requiredCorrect = requiredCorrect;
 
     }
@@ -101,10 +97,6 @@ public class Job {
         return this.pay;
     }
 
-    public boolean getTraining() {
-        return this.training;
-    }
-
     public boolean getCompleted() {
         return this.completed;
     }
@@ -137,10 +129,6 @@ public class Job {
         this.haveQuestions = !this.haveQuestions;
     }
 
-    public ArrayList<Question> getQuestions() {
-        return questions;
-    }
-
     public int getRequiredCorrect() {
         return requiredCorrect;
     }
@@ -148,12 +136,4 @@ public class Job {
     public void setRequiredCorrect(int requiredCorrect) {
         this.requiredCorrect = requiredCorrect;
     }
-
-    public void setQuestions(ArrayList<Question> questions) {
-        this.questions = questions;
-    }
-
-
-
-
 }
