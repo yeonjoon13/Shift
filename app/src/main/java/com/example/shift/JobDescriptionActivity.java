@@ -92,6 +92,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
         date.setText(currJob.getDate());
 
         String completion = currJob.getCompleted() ? "Requirements Complete" : "Incomplete Requirements";
+
         training.setText(completion);
 
         String status = currJob.getchecked_in() ? "QUIT" : "APPLY";

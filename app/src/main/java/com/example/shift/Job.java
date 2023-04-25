@@ -25,6 +25,8 @@ public class Job {
     private boolean previous;
     private double distance;
     private boolean haveQuestions;
+
+    private ArrayList<Question> questions;
     private int requiredCorrect;
 
     public Job() {
@@ -32,7 +34,8 @@ public class Job {
 
 
     public Job(String role, int jobType, String company, String description, String date, String address,
-               String time, String pay, boolean completed, boolean previous, double distance, int imageId, int requiredCorrect) {
+               String time, String pay, boolean completed, boolean previous, double distance, int imageId,
+               ArrayList<Question> questions, int requiredCorrect) {
         Random rand = new Random();
         this.jobId = rand.nextInt(10000);
 
@@ -52,6 +55,7 @@ public class Job {
         this.distance = distance;
         this.saved = false;
         this.haveQuestions = false;
+        this.questions = questions;
         this.requiredCorrect = requiredCorrect;
 
     }
@@ -138,6 +142,10 @@ public class Job {
 
     public int getRequiredCorrect() {
         return requiredCorrect;
+    }
+
+    public ArrayList<Question> getQuestions() {
+        return this.questions;
     }
 
     public void setRequiredCorrect(int requiredCorrect) {
