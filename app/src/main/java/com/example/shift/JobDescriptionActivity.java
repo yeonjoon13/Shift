@@ -80,20 +80,42 @@ public class JobDescriptionActivity extends AppCompatActivity {
         TextView company = findViewById(R.id.textCompany);
         TextView address = findViewById(R.id.textAddress);
         TextView date = findViewById(R.id.textDate);
-        TextView training = findViewById(R.id.textComplete);
+        TextView completed = findViewById(R.id.textComplete);
         Button apply = findViewById(R.id.buttonQuit);
+        Button training = findViewById(R.id.buttonTraining);
         TextView description = findViewById(R.id.textDescriptionWord);
         TextView role = findViewById(R.id.textRoleName);
+        Button star = findViewById(R.id.star_fill);
+        TextView time = findViewById(R.id.textTime);
+        TextView pay = findViewById(R.id.textPay);
 
         logo.setImageResource(currJob.getImageId());
 
         company.setText(currJob.getCompany());
         address.setText(currJob.getAddress());
         date.setText(currJob.getDate());
+        time.setText(currJob.getTime());
+        pay.setText(currJob.getPay());
 
-        String completion = currJob.getCompleted() ? "Requirements Complete" : "Incomplete Requirements";
+        if (currJob.getPrevious()) {
+            apply.setVisibility(View.INVISIBLE);
+            completed.setVisibility(View.INVISIBLE);
+            training.setVisibility(View.INVISIBLE);
+            star.setVisibility(View.INVISIBLE);
+        }
 
-        training.setText(completion);
+        if (!currJob.getchecked_in()) {
+            completed.setVisibility(View.INVISIBLE);
+            training.setVisibility(View.INVISIBLE);
+        } else {
+            if (currJob.getCompleted()) {
+                completed.setText("Requirements Complete");
+                completed.setTextColor(getResources().getColor(R.color.green, getTheme()));
+            } else {
+                completed.setText("Incomplete Requirements");
+                completed.setTextColor(getResources().getColor(R.color.red, getTheme()));
+            }
+        }
 
         String status = currJob.getchecked_in() ? "QUIT" : "APPLY";
         apply.setText(status);
@@ -142,7 +164,9 @@ public class JobDescriptionActivity extends AppCompatActivity {
 
     public void changeStatus(View view) {
 
-        Button apply = (Button) findViewById(R.id.buttonQuit);
+        TextView completed = findViewById(R.id.textComplete);
+        Button apply = findViewById(R.id.buttonQuit);
+        Button training = findViewById(R.id.buttonTraining);
         mAuth = FirebaseAuth.getInstance();
         String userID = mAuth.getCurrentUser().getUid();
 
@@ -172,6 +196,16 @@ public class JobDescriptionActivity extends AppCompatActivity {
                     popupWindow.dismiss();
                     String status = currJob.getchecked_in() ? "Quit" : "Apply";
                     apply.setText(status);
+                    completed.setVisibility(View.INVISIBLE);
+                    training.setVisibility(View.INVISIBLE);
+                    if (currJob.getCompleted()) {
+                        completed.setText("Requirements Complete");
+                        completed.setTextColor(getResources().getColor(R.color.green, getTheme()));
+                    } else {
+                        completed.setText("Incomplete Requirements");
+                        completed.setTextColor(getResources().getColor(R.color.red, getTheme()));
+                    }
+
                     DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
                     masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -201,6 +235,15 @@ public class JobDescriptionActivity extends AppCompatActivity {
             });
         } else {
             currJob.setchecked_in();
+            completed.setVisibility(View.VISIBLE);
+            training.setVisibility(View.VISIBLE);
+            if (currJob.getCompleted()) {
+                completed.setText("Requirements Complete");
+                completed.setTextColor(getResources().getColor(R.color.green, getTheme()));
+            } else {
+                completed.setText("Incomplete Requirements");
+                completed.setTextColor(getResources().getColor(R.color.red, getTheme()));
+            }
             DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
             masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
