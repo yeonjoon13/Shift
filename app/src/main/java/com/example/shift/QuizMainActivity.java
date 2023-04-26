@@ -1,5 +1,6 @@
 package com.example.shift;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,9 +11,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.shift.databinding.ActivityQuizMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class QuizMainActivity extends AppCompatActivity {
 
@@ -26,6 +34,8 @@ public class QuizMainActivity extends AppCompatActivity {
     public ArrayList<Question> mcDonaldQuestions = new ArrayList<>();
 
     Job currJob;
+
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +57,7 @@ public class QuizMainActivity extends AppCompatActivity {
         mcDonaldQuestions.add(mcdQ3);
 
         TextView question = this.findViewById(R.id.questionBox);
-        questionBank = mcDonaldQuestions;
+        questionBank = currJob.getQuestions();
         Question firstQuestion = questionBank.get(0);
         question.setText(firstQuestion.getQuestion());
         Button q1 = this.findViewById(R.id.q1);
@@ -71,19 +81,45 @@ public class QuizMainActivity extends AppCompatActivity {
         Button q4 = findViewById(R.id.q4);
         TextView question = findViewById(R.id.questionBox);
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String userID = mAuth.getCurrentUser().getUid();
+
         q1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (q1.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
+                if (currQIndex < questionBank.size() - 1 && q1.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
                     numCorrect ++;
                 }
 
                 if (currQIndex >= questionBank.size() - 1) {
                     //if numright score is greater than or equal to target score
+                    if (q1.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
+                        numCorrect ++;
+                    }
+
                     if(numCorrect >= currJob.getRequiredCorrect()) {
                         //TODO: move back to main activity
                         currJob.setCompleted();
+
+                        DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
+                        masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot d : snapshot.getChildren()) {
+                                    Job j = d.getValue(Job.class);
+                                    if (j.getCompany().equals(currJob.getCompany())) {
+                                        HashMap<String, Object> User = new HashMap<>();
+                                        User.put("completed", !j.getCompleted());
+                                        masterReference.child(d.getKey()).updateChildren(User);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        });
 
                         Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
 
@@ -101,8 +137,6 @@ public class QuizMainActivity extends AppCompatActivity {
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
                     }
-
-                    //return to main activity
                 }
 
                 currQIndex++;
@@ -114,9 +148,6 @@ public class QuizMainActivity extends AppCompatActivity {
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
                 q4.setText(nextQuestion.getqBank().get(3));
-
-
-
             }
         });
 
@@ -124,15 +155,37 @@ public class QuizMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (q2.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
+                if (currQIndex < questionBank.size() - 1 && q2.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
                     numCorrect ++;
                 }
 
                 if (currQIndex >= questionBank.size() - 1) {
                     //if numright score is greater than or equal to target score
+                    if (q2.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
+                        numCorrect ++;
+                    }
+
                     if(numCorrect >= currJob.getRequiredCorrect()) {
                         //TODO: move back to main activity
                         currJob.setCompleted();
+
+                        DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
+                        masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot d : snapshot.getChildren()) {
+                                    Job j = d.getValue(Job.class);
+                                    if (j.getCompany().equals(currJob.getCompany())) {
+                                        HashMap<String, Object> User = new HashMap<>();
+                                        User.put("completed", !j.getCompleted());
+                                        masterReference.child(d.getKey()).updateChildren(User);
+                                        break;
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        });
 
                         Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
 
@@ -150,8 +203,6 @@ public class QuizMainActivity extends AppCompatActivity {
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
                     }
-
-                    //return to main activity
                 }
 
                 currQIndex++;
@@ -163,9 +214,6 @@ public class QuizMainActivity extends AppCompatActivity {
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
                 q4.setText(nextQuestion.getqBank().get(3));
-
-
-
             }
         });
 
@@ -173,15 +221,38 @@ public class QuizMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (q3.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
+                if (currQIndex < questionBank.size() - 1 && q3.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
                     numCorrect ++;
                 }
 
                 if (currQIndex >= questionBank.size() - 1) {
                     //if numright score is greater than or equal to target score
+                    if (q3.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
+                        numCorrect ++;
+                    }
+
                     if(numCorrect >= currJob.getRequiredCorrect()) {
                         //TODO: move back to main activity
                         currJob.setCompleted();
+
+                        DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
+                        masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot d : snapshot.getChildren()) {
+                                    Job j = d.getValue(Job.class);
+                                    if (j.getCompany().equals(currJob.getCompany())) {
+                                        HashMap<String, Object> User = new HashMap<>();
+                                        User.put("completed", !j.getCompleted());
+                                        masterReference.child(d.getKey()).updateChildren(User);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        });
 
                         Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
 
@@ -199,8 +270,6 @@ public class QuizMainActivity extends AppCompatActivity {
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
                     }
-
-                    //return to main activity
                 }
 
                 currQIndex++;
@@ -212,9 +281,6 @@ public class QuizMainActivity extends AppCompatActivity {
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
                 q4.setText(nextQuestion.getqBank().get(3));
-
-
-
             }
         });
 
@@ -222,15 +288,38 @@ public class QuizMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (q4.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
+                if (currQIndex < questionBank.size() - 1 && q4.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
                     numCorrect ++;
                 }
 
                 if (currQIndex >= questionBank.size() - 1) {
                     //if numright score is greater than or equal to target score
+                    if (q4.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
+                        numCorrect ++;
+                    }
+
                     if(numCorrect >= currJob.getRequiredCorrect()) {
                         //TODO: move back to main activity
                         currJob.setCompleted();
+
+                        DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
+                        masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot d : snapshot.getChildren()) {
+                                    Job j = d.getValue(Job.class);
+                                    if (j.getCompany().equals(currJob.getCompany())) {
+                                        HashMap<String, Object> User = new HashMap<>();
+                                        User.put("completed", !j.getCompleted());
+                                        masterReference.child(d.getKey()).updateChildren(User);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        });
 
                         Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
 
@@ -259,9 +348,6 @@ public class QuizMainActivity extends AppCompatActivity {
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
                 q4.setText(nextQuestion.getqBank().get(3));
-
-
-
             }
         });
     }
