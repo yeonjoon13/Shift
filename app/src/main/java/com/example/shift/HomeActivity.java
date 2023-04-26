@@ -493,6 +493,12 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    public void clearSearch(){
+        searchView = findViewById(R.id.searchV);
+        searchView.setQuery("", false);
+        //searchView.clearFocus();
+    }
+
     private void filterList(String text) {
         ArrayList<Job> jobs = new ArrayList<>();
         RecyclerView searchView = findViewById(R.id.searchRecycler);

@@ -34,6 +34,11 @@ public class SearchFragment extends Fragment {
         ((HomeActivity) getActivity()).filterJobs();
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        ((HomeActivity) getActivity()).clearSearch();
+    }
 
     @Override
     public void onDestroyView() {
