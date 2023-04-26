@@ -111,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
                     Job j = new Job("Cashier", 1, "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
                             "2:00 pm", "$18/hr", false, false, 1.2, R.drawable.mcdonalds_logo, mcDonaldQuestions, 2);
                     Job k = new Job("Delivery", 4, "FedEx", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
-                            "2:00 pm", "$18/hr", true, false, 2.2, R.drawable.fedex_logo, mcDonaldQuestions,1);
+                            "2:00 pm", "$18/hr", false, false, 2.2, R.drawable.fedex_logo, mcDonaldQuestions,1);
                     Job a = new Job("Package Handler", 3, "Amazon", "Chuck packages across the warehouse", "05/10/2023", "Yellow Street",
                             "4:00 am", "$20/hr", false, false, 1.5, R.drawable.amazon_logo, mcDonaldQuestions,1);
                     Job b = new Job("Barista", 2, "Starbucks", "Cook up some coffee and serve it to caffeine to people who are addicted", "05/09/2023", "Green Street",
@@ -140,42 +140,44 @@ public class HomeActivity extends AppCompatActivity {
 
 
         });
-        DatabaseReference jobReference2 = FirebaseDatabase.getInstance().getReference("Jobs");
-        jobReference2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String company;
-                for (DataSnapshot d : snapshot.getChildren()) {
-                    Job j = d.getValue(Job.class);
-                    String jobKey = d.getKey();
-                    if (!j.getHaveQuestions()) {
-                        company = j.getCompany();
-                        if ((company).equals("McDonalds")) {
-                            HashMap<String, Object> User = new HashMap<>();
-                            User.put("haveQuestions", !j.getHaveQuestions());
-                            jobReference2.child(jobKey).updateChildren(User);
-                            j.setHaveQuestions();
-                            DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
-                            jobReference.child(jobKey).child("questions").setValue(mcDonaldQuestions);
-                        }
-                        if ((company).equals("Fedex")) {
-                            HashMap<String, Object> User = new HashMap<>();
-                            User.put("haveQuestions", !j.getHaveQuestions());
-                            j.setHaveQuestions();
-                            jobReference2.child(jobKey).updateChildren(User);
-                            DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
-                            jobReference.child(jobKey).child("questions").setValue(fedexQuestions);
-                        }
-                    }
-                }
-            }
+//        DatabaseReference jobReference2 = FirebaseDatabase.getInstance().getReference("Jobs");
+//        jobReference2.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                String company;
+//                for (DataSnapshot d : snapshot.getChildren()) {
+//                    Job j = d.getValue(Job.class);
+//                    String jobKey = d.getKey();
+//                    if (!j.getHaveQuestions()) {
+//                        company = j.getCompany();
+//                        if ((company).equals("McDonalds")) {
+//                            HashMap<String, Object> User = new HashMap<>();
+//                            User.put("haveQuestions", !j.getHaveQuestions());
+//                            jobReference2.child(jobKey).updateChildren(User);
+//                            j.setHaveQuestions();
+//                            DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
+//                            jobReference.child(jobKey).child("questions").setValue(mcDonaldQuestions);
+//                        }
+//                        if ((company).equals("Fedex")) {
+//                            HashMap<String, Object> User = new HashMap<>();
+//                            User.put("haveQuestions", !j.getHaveQuestions());
+//                            j.setHaveQuestions();
+//                            jobReference2.child(jobKey).updateChildren(User);
+//                            DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
+//                            jobReference.child(jobKey).child("questions").setValue(fedexQuestions);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        BottomNavigationView navView = findViewById(R.id.nav_view);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-        BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
