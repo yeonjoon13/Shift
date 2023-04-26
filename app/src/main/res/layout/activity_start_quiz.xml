@@ -75,6 +75,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="40dp"
+        android:paddingTop="6dp"
         android:background="@drawable/blackborder3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
