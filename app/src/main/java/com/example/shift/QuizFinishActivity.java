@@ -34,6 +34,7 @@ public class QuizFinishActivity extends AppCompatActivity {
         TextView congratsText = findViewById(R.id.congratsText);
         TextView completedText = findViewById(R.id.completedText);
 
+
         if (currJob.getCompleted()) {
             congratsText.setText(R.string.congrats);
             completedText.setText(R.string.finished_quiz);
