@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shift.databinding.ActivityQuizFinishBinding;
@@ -33,14 +34,19 @@ public class QuizFinishActivity extends AppCompatActivity {
 
         TextView congratsText = findViewById(R.id.congratsText);
         TextView completedText = findViewById(R.id.completedText);
+        ImageView background = findViewById(R.id.imageView2);
 
 
         if (currJob.getCompleted()) {
             congratsText.setText(R.string.congrats);
-            completedText.setText(R.string.finished_quiz);
+            String passed = "You passed the quiz for " + currJob.getCompany() + " " + currJob.getRole() +"!";
+            completedText.setText(passed);
+            background.setImageResource(R.drawable.baseline_check_circle_outline_24);
         } else {
-            congratsText.setText(R.string.failed);
-            completedText.setText(R.string.try_again);
+            String failed = "You failed the quiz for " + currJob.getCompany() + " " + currJob.getRole() +"!";
+            completedText.setText(failed);
+            congratsText.setText(R.string.try_again);
+            background.setImageResource(R.drawable.baseline_close_24);
         }
     }
 
