@@ -113,6 +113,9 @@ public class HomeActivity extends AppCompatActivity {
                     mcDonaldQuestions.add(mcdQ1);
                     mcDonaldQuestions.add(mcdQ2);
                     mcDonaldQuestions.add(mcdQ3);
+                    fedexQuestions = initializeFedex();
+
+
 
                     Training t1 = new Training("How to operate cashier", "https://www.youtube.com/embed/3ZrlcDgS7qc", R.drawable.cashier);
                     Training t2 = new Training("How to interact with customers", "https://www.youtube.com/embed/f3A5d7pvWlM", R.drawable.customer);
@@ -154,7 +157,7 @@ public class HomeActivity extends AppCompatActivity {
                     Job j = new Job("Cashier", 1, "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
                             "2:00 pm", "$18/hr", false, false, 1.2, R.drawable.mcdonalds_logo, mcDonaldQuestions, 2, v1);
                     Job k = new Job("Delivery", 4, "FedEx", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
-                            "2:00 pm", "$18/hr", false, false, 2.2, R.drawable.fedex_logo, mcDonaldQuestions, 1, v2);
+                            "2:00 pm", "$18/hr", false, false, 2.2, R.drawable.fedex_logo, fedexQuestions, 3, v2);
                     Job a = new Job("Package Handler", 3, "Amazon", "Chuck packages across the warehouse", "05/10/2023", "Yellow Street",
                             "4:00 am", "$20/hr", false, false, 1.5, R.drawable.amazon_logo, mcDonaldQuestions,1, v3);
                     Job b = new Job("Barista", 2, "Starbucks", "Cook up some coffee and serve it to caffeine to people who are addicted", "05/09/2023", "Green Street",
@@ -164,7 +167,7 @@ public class HomeActivity extends AppCompatActivity {
                     Job d = new Job("Cashier", 1, "Wendys", "Make some 4 for 4s for the people", "5/11/2023", "Red Street",
                             "1:00 am", "$16/hr", false, false, 8.5, R.drawable.wendys_logo, mcDonaldQuestions,1, v6);
                     Job e = new Job("Delivery", 4, "UPS", "Drive and Learn to have Fun", "05/09/2023", "Brown Street",
-                            "4:00 am", "$20/hr", false, false, 0.8, R.drawable.ups_logo, mcDonaldQuestions,1, v7);
+                            "4:00 am", "$20/hr", false, false, 0.8, R.drawable.ups_logo, fedexQuestions,1, v7);
 
                     jobDBRef.push().setValue(j);
                     jobDBRef.push().setValue(k);
@@ -259,7 +262,7 @@ public class HomeActivity extends AppCompatActivity {
         qBank.add("What do you want?");
         qBank.add("Hi, Welcome to Wendys! How can I help you today?");
         qBank.add("Hi, Welcome to McDonalds! How can I help you today?");
-        Question retQ = new Question(qBank, "What is an example of a proper way to greet a customer", "Hi, Welcome to McDonalds! How can I help you today?");
+        Question retQ = new Question(qBank, "What is an example of a proper way to greet a customer?", "Hi, Welcome to McDonalds! How can I help you today?");
         return retQ;
     }
 
@@ -269,8 +272,44 @@ public class HomeActivity extends AppCompatActivity {
         qBank.add("Calculate");
         qBank.add("Tip");
         qBank.add("Receive");
-        Question retQ = new Question(qBank, "What button on the POS system opens the register", "Cash");
+        Question retQ = new Question(qBank, "What button on the POS system opens the register?", "Cash");
         return retQ;
+    }
+
+    private ArrayList<Question> initializeFedex() {
+        ArrayList<Question> questions = new ArrayList<>();
+        ArrayList<String> qBank1 = new ArrayList<>();
+        qBank1.add("Feet");
+        qBank1.add("Back");
+        qBank1.add("Arms");
+        qBank1.add("Legs");
+        Question q1 = new Question(qBank1, "What part of your body should be most active when moving a box?", "Legs");
+        questions.add(q1);
+
+        ArrayList<String> qBank2 = new ArrayList<>();
+        qBank2.add("Red");
+        qBank2.add("Yellow");
+        qBank2.add("Purple");
+        qBank2.add("Green");
+        Question q2 = new Question(qBank2, "What color is the button to stop the forklift?", "Red");
+        questions.add(q2);
+
+        ArrayList<String> qBank3 = new ArrayList<>();
+        qBank3.add("Assess the situation and make sure it is safe to help");
+        qBank3.add("Begin performing CPR");
+        qBank3.add("Find a defibrillator");
+        qBank3.add("Ask your boss if it is okay to help");
+        Question q3 = new Question(qBank3, "A fellow coworker collapses. What is your first action?", "Assess the situation and make sure it is safe to help");
+        questions.add(q3);
+
+        ArrayList<String> qBank4 = new ArrayList<>();
+        qBank4.add("Ask your boss if it is okay to leave");
+        qBank4.add("Run to the nearest fire escape");
+        qBank4.add("Stay where you are and await further instructions");
+        qBank4.add("Calmly locate the nearest exit and leave in an orderly fashion");
+        Question q4 = new Question(qBank4, "What should you do in the event of a fire alarm?", "Calmly locate the nearest exit and leave in an orderly fashion");
+        questions.add(q4);
+        return questions;
     }
 
 
