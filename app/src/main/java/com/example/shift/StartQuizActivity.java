@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shift.databinding.ActivityStartQuizBinding;
@@ -34,6 +35,12 @@ public class StartQuizActivity extends AppCompatActivity {
 
         TextView compNameSmall = findViewById(R.id.textDate);
         compNameSmall.setText(currJob.getCompany());
+
+        ImageView imageView = findViewById(R.id.imageViewLogo);
+        imageView.setImageResource(currJob.getImageId());
+
+        ImageView backBtn = this.findViewById(R.id.button_back);
+        backBtn.setImageResource(R.drawable.baseline_arrow_back_24);
 
         TextView textCompany = findViewById(R.id.textCompany);
         textCompany.setText(currJob.getCompany());

@@ -41,7 +41,6 @@ public class QuizMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //setContentView(R.layout.activity_quiz_main);
         binding = ActivityQuizMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -71,6 +70,7 @@ public class QuizMainActivity extends AppCompatActivity {
 
         numCorrect = 0;
         currQIndex = 0;
+
     }
 
     public void doQuiz(View view) {
@@ -121,7 +121,7 @@ public class QuizMainActivity extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError error) {}
                         });
 
-                        Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
+                        Intent intent = new Intent(QuizMainActivity.this, QuizFinishActivity.class);
 
                         Gson gson = new Gson();
                         String json = gson.toJson(currJob);
@@ -131,7 +131,7 @@ public class QuizMainActivity extends AppCompatActivity {
                         return;
                     } else {
                         //Make toast that they were incorrect and send back to main activity
-                        Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
+                        Intent intent = new Intent(QuizMainActivity.this, QuizFinishActivity.class);
 
                         Gson gson = new Gson();
                         String json = gson.toJson(currJob);
@@ -190,7 +190,7 @@ public class QuizMainActivity extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError error) {}
                         });
 
-                        Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
+                        Intent intent = new Intent(QuizMainActivity.this, QuizFinishActivity.class);
 
                         Gson gson = new Gson();
                         String json = gson.toJson(currJob);
@@ -200,7 +200,7 @@ public class QuizMainActivity extends AppCompatActivity {
                         return;
                     } else {
                         //Make toast that they were incorrect and send back to main activity
-                        Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
+                        Intent intent = new Intent(QuizMainActivity.this, QuizFinishActivity.class);
 
                         Gson gson = new Gson();
                         String json = gson.toJson(currJob);
@@ -260,7 +260,7 @@ public class QuizMainActivity extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError error) {}
                         });
 
-                        Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
+                        Intent intent = new Intent(QuizMainActivity.this, QuizFinishActivity.class);
 
                         Gson gson = new Gson();
                         String json = gson.toJson(currJob);
@@ -270,7 +270,7 @@ public class QuizMainActivity extends AppCompatActivity {
                         return;
                     } else {
                         //Make toast that they were incorrect and send back to main activity
-                        Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
+                        Intent intent = new Intent(QuizMainActivity.this, QuizFinishActivity.class);
 
                         Gson gson = new Gson();
                         String json = gson.toJson(currJob);
@@ -331,7 +331,7 @@ public class QuizMainActivity extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError error) {}
                         });
 
-                        Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
+                        Intent intent = new Intent(QuizMainActivity.this, QuizFinishActivity.class);
 
                         Gson gson = new Gson();
                         String json = gson.toJson(currJob);
@@ -341,7 +341,7 @@ public class QuizMainActivity extends AppCompatActivity {
                         return;
                     } else {
                         //Make toast that they were incorrect and send back to main activity
-                        Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
+                        Intent intent = new Intent(QuizMainActivity.this, QuizFinishActivity.class);
 
                         Gson gson = new Gson();
                         String json = gson.toJson(currJob);

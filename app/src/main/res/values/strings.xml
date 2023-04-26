@@ -45,6 +45,11 @@
     <string name="Search...">Search</string>
     <string name="enter_email">Email</string>
     <string name="enter_password">Password</string>
+    <string name="cont">Continue</string>
+    <string name="congrats">Congratulations!</string>
+    <string name="finished_quiz">You have passed the quiz</string>
+    <string name="failed">You have failed the quiz</string>
+    <string name="try_again">Try again later</string>
     <string name="title_activity_quiz_start">QuizStartActivity</string>
     <string name="contact">Contact Manager</string>
     <string name="description">Each quiz must be completed in one session; make sure you have a stable internet connection and you have submitted the quiz before exiting. The quiz is in English. If you don’t pass, your results will not be shared. ~15 minutes duration. You must get at least an 80% to pass and become qualified. Retry will be available in 2 hours if you do not pass.</string>
