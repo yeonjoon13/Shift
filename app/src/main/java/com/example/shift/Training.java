@@ -8,6 +8,9 @@ public class Training {
 
     private int imageId;
 
+    public Training() {
+
+    }
     public Training(String description, String videoLink, int imageId) {
         this.description = description;
         this.videoLink = videoLink;

@@ -36,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -120,22 +121,50 @@ public class HomeActivity extends AppCompatActivity {
                     Training t5 = new Training("How to use the coffee machine", "https://www.youtube.com/embed/7kSSP41QEPE", R.drawable.barista);
                     Training t6 = new Training("How to process payment", "https://www.youtube.com/embed/oNi48KKvtSI", R.drawable.payment);
 
+                    ArrayList<Training> v1 = new ArrayList<>();
+                    v1.add(t1);
+                    v1.add(t2);
+
+                    ArrayList<Training> v2 = new ArrayList<>();
+                    v2.add(t2);
+                    v2.add(t3);
+
+                    ArrayList<Training> v3 = new ArrayList<>();
+                    v3.add(t3);
+                    v3.add(t4);
+
+                    ArrayList<Training> v4 = new ArrayList<>();
+                    v4.add(t4);
+                    v4.add(t5);
+
+                    ArrayList<Training> v5 = new ArrayList<>();
+                    v5.add(t5);
+                    v5.add(t6);
+
+                    ArrayList<Training> v6 = new ArrayList<>();
+                    v6.add(t6);
+                    v6.add(t1);
+
+                    ArrayList<Training> v7 = new ArrayList<>();
+                    v7.add(t4);
+                    v7.add(t6);
+
 
                     jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
                     Job j = new Job("Cashier", 1, "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
-                            "2:00 pm", "$18/hr", false, false, 1.2, R.drawable.mcdonalds_logo, mcDonaldQuestions, 2);
+                            "2:00 pm", "$18/hr", false, false, 1.2, R.drawable.mcdonalds_logo, mcDonaldQuestions, 2, v1);
                     Job k = new Job("Delivery", 4, "FedEx", "Drive and Learn to Have Fun", "05/08/2023", "Purple Street",
-                            "2:00 pm", "$18/hr", false, false, 2.2, R.drawable.fedex_logo, mcDonaldQuestions,1);
+                            "2:00 pm", "$18/hr", false, false, 2.2, R.drawable.fedex_logo, mcDonaldQuestions, 1, v2);
                     Job a = new Job("Package Handler", 3, "Amazon", "Chuck packages across the warehouse", "05/10/2023", "Yellow Street",
-                            "4:00 am", "$20/hr", false, false, 1.5, R.drawable.amazon_logo, mcDonaldQuestions,1);
+                            "4:00 am", "$20/hr", false, false, 1.5, R.drawable.amazon_logo, mcDonaldQuestions,1, v3);
                     Job b = new Job("Barista", 2, "Starbucks", "Cook up some coffee and serve it to caffeine to people who are addicted", "05/09/2023", "Green Street",
-                            "6:00 am", "$20/hr", false, false, 3.6, R.drawable.starbucks_logo, mcDonaldQuestions,1);
+                            "6:00 am", "$20/hr", false, false, 3.6, R.drawable.starbucks_logo, mcDonaldQuestions,1, v4);
                     Job c = new Job("Boba Barista", 2, "7 Leaves", "Make some matcha thai teas for the homies", "05/10/2023", "Leaves Boulevard",
-                            "2:00 pm", "$19/hr", false, false, 5.7, R.drawable.leaves_logo, mcDonaldQuestions,1);
+                            "2:00 pm", "$19/hr", false, false, 5.7, R.drawable.leaves_logo, mcDonaldQuestions,1, v5);
                     Job d = new Job("Cashier", 1, "Wendys", "Make some 4 for 4s for the people", "5/11/2023", "Red Street",
-                            "1:00 am", "$16/hr", false, false, 8.5, R.drawable.wendys_logo, mcDonaldQuestions,1);
+                            "1:00 am", "$16/hr", false, false, 8.5, R.drawable.wendys_logo, mcDonaldQuestions,1, v6);
                     Job e = new Job("Delivery", 4, "UPS", "Drive and Learn to have Fun", "05/09/2023", "Brown Street",
-                            "4:00 am", "$20/hr", false, false, 0.8, R.drawable.ups_logo, mcDonaldQuestions,1);
+                            "4:00 am", "$20/hr", false, false, 0.8, R.drawable.ups_logo, mcDonaldQuestions,1, v7);
 
                     jobDBRef.push().setValue(j);
                     jobDBRef.push().setValue(k);
@@ -342,9 +371,9 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<Job> previous = new ArrayList<>();
                 ArrayList<Job> training = new ArrayList<>();
-
+                ArrayList<Training> v1 = new ArrayList<>();
                 previous.add(new Job("Barista", 2, "Starbucks", "Cook up some coffee", "04/20/2023", "Orange Street",
-                        "2:00 pm", "$20/hr", false, true, 1.2, R.drawable.fedex_logo, mcDonaldQuestions, 1));
+                        "2:00 pm", "$20/hr", false, true, 1.2, R.drawable.fedex_logo, mcDonaldQuestions, 1, v1));
 
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
