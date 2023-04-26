@@ -58,6 +58,7 @@ public class StartQuizActivity extends AppCompatActivity {
                 String json = gson.toJson(currJob);
                 intent.putExtra("currJob", json);
                 StartQuizActivity.this.startActivity(intent);
+                finish();
             }
         });
     }

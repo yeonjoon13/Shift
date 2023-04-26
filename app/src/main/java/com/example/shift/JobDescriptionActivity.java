@@ -59,6 +59,7 @@ public class JobDescriptionActivity extends AppCompatActivity {
                 String json = gson.toJson(currJob);
                 intent.putExtra("currJob", json);
                 JobDescriptionActivity.this.startActivity(intent);
+                finish();
             }
         });
     }

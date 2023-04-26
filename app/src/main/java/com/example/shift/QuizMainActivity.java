@@ -127,7 +127,8 @@ public class QuizMainActivity extends AppCompatActivity {
                         String json = gson.toJson(currJob);
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
-
+                        finish();
+                        return;
                     } else {
                         //Make toast that they were incorrect and send back to main activity
                         Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
@@ -136,6 +137,8 @@ public class QuizMainActivity extends AppCompatActivity {
                         String json = gson.toJson(currJob);
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
+                        finish();
+                        return;
                     }
                 }
 
@@ -193,7 +196,8 @@ public class QuizMainActivity extends AppCompatActivity {
                         String json = gson.toJson(currJob);
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
-
+                        finish();
+                        return;
                     } else {
                         //Make toast that they were incorrect and send back to main activity
                         Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
@@ -202,6 +206,8 @@ public class QuizMainActivity extends AppCompatActivity {
                         String json = gson.toJson(currJob);
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
+                        finish();
+                        return;
                     }
                 }
 
@@ -260,7 +266,8 @@ public class QuizMainActivity extends AppCompatActivity {
                         String json = gson.toJson(currJob);
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
-
+                        finish();
+                        return;
                     } else {
                         //Make toast that they were incorrect and send back to main activity
                         Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
@@ -269,6 +276,8 @@ public class QuizMainActivity extends AppCompatActivity {
                         String json = gson.toJson(currJob);
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
+                        finish();
+                        return;
                     }
                 }
 
@@ -328,7 +337,8 @@ public class QuizMainActivity extends AppCompatActivity {
                         String json = gson.toJson(currJob);
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
-
+                        finish();
+                        return;
                     } else {
                         //Make toast that they were incorrect and send back to main activity
                         Intent intent = new Intent(QuizMainActivity.this, TrainingTasksActivity.class);
@@ -337,6 +347,8 @@ public class QuizMainActivity extends AppCompatActivity {
                         String json = gson.toJson(currJob);
                         intent.putExtra("currJob", json);
                         QuizMainActivity.this.startActivity(intent);
+                        finish();
+                        return;
                     }
                 }
 

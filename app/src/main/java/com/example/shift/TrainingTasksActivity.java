@@ -36,7 +36,7 @@ public class TrainingTasksActivity extends AppCompatActivity {
             String json = gson.toJson(job);
             intent.putExtra("currJob", json);
             startActivity(intent);
-
+            finish();
         }
 
         @Override
@@ -49,6 +49,7 @@ public class TrainingTasksActivity extends AppCompatActivity {
             intent.putExtra("currJob", json2);
             intent.putExtra("video", json);
             startActivity(intent);
+            finish();
         }
 
     };
