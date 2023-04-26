@@ -10,6 +10,7 @@
         android:id="@+id/likedRecycler"
         android:layout_width="409dp"
         android:layout_height="175dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recommendedRecycler" />
@@ -19,14 +20,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/rubik_bold"
         android:text="@string/liked"
+        android:textColor="#000000"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/likedRecycler"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/upcommingRecycler"
         android:layout_width="409dp"
+        android:layout_marginStart="20dp"
         android:layout_height="175dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,9 +41,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/rubik_medium"
         android:text="Jobs"
-        android:textSize="24sp"
+        android:textColor="#000000"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,9 +53,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-black"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/rubik_bold"
         android:text="Your Upcoming Jobs"
+        android:textColor="#000000"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome" />
 
@@ -61,6 +68,8 @@
         android:layout_marginStart="20dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/recommended"
+        android:textColor="#000000"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/recommendedRecycler"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -86,6 +95,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recommendedRecycler"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
         android:layout_width="409dp"
         android:layout_height="175dp"
         app:layout_constraintEnd_toEndOf="parent"
