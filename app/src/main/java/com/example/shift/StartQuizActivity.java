@@ -71,6 +71,11 @@ public class StartQuizActivity extends AppCompatActivity {
     }
 
     public void startBack(View view) {
+        Intent intent = new Intent(StartQuizActivity.this, TrainingTasksActivity.class);
+        Gson gson = new Gson();
+        String json = gson.toJson(currJob);
+        intent.putExtra("currJob", json);
+        StartQuizActivity.this.startActivity(intent);
         finish();
     }
 

@@ -51,12 +51,8 @@ public class QuizFinishActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuizFinishActivity.this, TrainingTasksActivity.class);
-
-                Gson gson = new Gson();
-                String json = gson.toJson(currJob);
-                intent.putExtra("currJob", json);
-                QuizFinishActivity.this.startActivity(intent);
+                Intent intent = new Intent(QuizFinishActivity.this, HomeActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
