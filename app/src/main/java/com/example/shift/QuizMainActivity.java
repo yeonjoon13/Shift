@@ -356,6 +356,7 @@ public class QuizMainActivity extends AppCompatActivity {
 
                 currQIndex++;
 
+
                 //set new texts for questions
                 Question nextQuestion = questionBank.get(currQIndex);
                 question.setText(nextQuestion.getQuestion());

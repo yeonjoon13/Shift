@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".QuizMainActivity">
 
+
     <TextView
         android:id="@+id/questionBox"
         android:layout_width="262dp"
