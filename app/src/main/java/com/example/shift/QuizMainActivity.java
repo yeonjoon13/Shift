@@ -63,6 +63,8 @@ public class QuizMainActivity extends AppCompatActivity {
         q3.setText(firstQuestion.getqBank().get(2));
         Button q4 = this.findViewById(R.id.q4);
         q4.setText(firstQuestion.getqBank().get(3));
+        TextView progress = findViewById(R.id.progressText);
+        progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size());
 
         numCorrect = 0;
         currQIndex = 0;
@@ -75,6 +77,7 @@ public class QuizMainActivity extends AppCompatActivity {
         Button q2 = findViewById(R.id.q2);
         Button q3 = findViewById(R.id.q3);
         Button q4 = findViewById(R.id.q4);
+        TextView progress = findViewById(R.id.progressText);
         TextView question = findViewById(R.id.questionBox);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -142,8 +145,8 @@ public class QuizMainActivity extends AppCompatActivity {
 
                 //set new texts for questions
                 Question nextQuestion = questionBank.get(currQIndex);
-                Collections.shuffle(nextQuestion.getqBank());
                 question.setText(nextQuestion.getQuestion());
+                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size());
                 q1.setText(nextQuestion.getqBank().get(0));
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
@@ -213,6 +216,7 @@ public class QuizMainActivity extends AppCompatActivity {
                 //set new texts for questions
                 Question nextQuestion = questionBank.get(currQIndex);
                 question.setText(nextQuestion.getQuestion());
+                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size());
                 q1.setText(nextQuestion.getqBank().get(0));
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
@@ -283,6 +287,7 @@ public class QuizMainActivity extends AppCompatActivity {
                 //set new texts for questions
                 Question nextQuestion = questionBank.get(currQIndex);
                 question.setText(nextQuestion.getQuestion());
+                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size());
                 q1.setText(nextQuestion.getqBank().get(0));
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
@@ -354,6 +359,7 @@ public class QuizMainActivity extends AppCompatActivity {
                 //set new texts for questions
                 Question nextQuestion = questionBank.get(currQIndex);
                 question.setText(nextQuestion.getQuestion());
+                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size());
                 q1.setText(nextQuestion.getqBank().get(0));
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
