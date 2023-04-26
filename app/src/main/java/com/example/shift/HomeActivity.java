@@ -545,8 +545,9 @@ public class HomeActivity extends AppCompatActivity {
         searchView.setAdapter(searchAdapter);
         searchView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
 
-        DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
-        jobReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+        DatabaseReference masterReference = userReference.child("masterJobs");
+        masterReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot d : snapshot.getChildren()) {
