@@ -48,13 +48,6 @@ public class QuizMainActivity extends AppCompatActivity {
         Gson gson = new Gson();
         currJob = gson.fromJson(json, Job.class);
 
-        Question mcdQ1 = initalizeMcDQ1();
-        Question mcdQ2 = initalizeMcDQ2();
-        Question mcdQ3 = initializeMcDQ3();
-        mcDonaldQuestions.add(mcdQ1);
-        mcDonaldQuestions.add(mcdQ2);
-        mcDonaldQuestions.add(mcdQ3);
-
         TextView question = this.findViewById(R.id.questionBox);
         questionBank = currJob.getQuestions();
         Question firstQuestion = questionBank.get(0);
@@ -363,36 +356,5 @@ public class QuizMainActivity extends AppCompatActivity {
                 q4.setText(nextQuestion.getqBank().get(3));
             }
         });
-    }
-
-    private Question initializeMcDQ3() {
-        ArrayList<String> qBank = new ArrayList<>();
-        qBank.add("Yes, it is on the menu!");
-        qBank.add("No, but it may be back soon!");
-        qBank.add("It is part of our secret menu. Would you like one?");
-        qBank.add("I do not know what you are talking about it?");
-        Question retQ = new Question(qBank, "What is an example of something you could say " +
-                "to a customer after they ask about a menu item that is no longer on the menu?", "No, but it may be back soon!");
-        return retQ;
-    }
-
-    private Question initalizeMcDQ2() {
-        ArrayList<String> qBank = new ArrayList<>();
-        qBank.add("We're about to close and our ice cream machine does not work");
-        qBank.add("What do you want?");
-        qBank.add("Hi, Welcome to Wendys! How can I help you today?");
-        qBank.add("Hi, Welcome to McDonalds! How can I help you today?");
-        Question retQ = new Question(qBank, "What is an example of a proper way to greet a customer", "Hi, Welcome to McDonalds! How can I help you today?");
-        return retQ;
-    }
-
-    private Question initalizeMcDQ1() {
-        ArrayList<String> qBank = new ArrayList<>();
-        qBank.add("Cash");
-        qBank.add("Calculate");
-        qBank.add("Tip");
-        qBank.add("Receive");
-        Question retQ = new Question(qBank, "What button on the POS system opens the register", "Cash");
-        return retQ;
     }
 }

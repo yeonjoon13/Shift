@@ -84,13 +84,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rating" />
 
-    <ImageView
-        android:id="@+id/history"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/baseline_history_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
