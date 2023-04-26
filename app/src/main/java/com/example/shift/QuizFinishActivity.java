@@ -27,11 +27,20 @@ public class QuizFinishActivity extends AppCompatActivity {
         binding = ActivityQuizFinishBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        TextView textCompany = findViewById(R.id.textCompany);
-        textCompany.setText(currJob.getCompany());
+        String json = getIntent().getStringExtra("currJob");
+        Gson gson = new Gson();
+        currJob = gson.fromJson(json, Job.class);
 
-        TextView roleName = findViewById(R.id.roleName);
-        roleName.setText(currJob.getRole());
+        TextView congratsText = findViewById(R.id.congratsText);
+        TextView completedText = findViewById(R.id.completedText);
+
+        if (currJob.getCompleted()) {
+            congratsText.setText(R.string.congrats);
+            completedText.setText(R.string.finished_quiz);
+        } else {
+            congratsText.setText(R.string.failed);
+            completedText.setText(R.string.try_again);
+        }
     }
 
     protected void onStart() {
