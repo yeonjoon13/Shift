@@ -95,12 +95,6 @@ public class HomeActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
-//        Question mcdQ1 = initalizeMcDQ1();
-//        Question mcdQ2 = initalizeMcDQ2();
-//        Question mcdQ3 = initalizeMcDQ3();
-//        mcDonaldQuestions.add(mcdQ1);
-//        mcDonaldQuestions.add(mcdQ2);
-//        mcDonaldQuestions.add(mcdQ3);
 
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
         root.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -114,7 +108,6 @@ public class HomeActivity extends AppCompatActivity {
                     mcDonaldQuestions.add(mcdQ2);
                     mcDonaldQuestions.add(mcdQ3);
                     fedexQuestions = initializeFedex();
-
 
 
                     Training t1 = new Training("How to operate cashier", "https://www.youtube.com/embed/3ZrlcDgS7qc", R.drawable.cashier);
