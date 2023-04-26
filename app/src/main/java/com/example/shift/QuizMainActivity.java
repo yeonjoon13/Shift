@@ -20,6 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class QuizMainActivity extends AppCompatActivity {
@@ -50,6 +52,7 @@ public class QuizMainActivity extends AppCompatActivity {
 
         TextView question = this.findViewById(R.id.questionBox);
         questionBank = currJob.getQuestions();
+        Collections.shuffle(questionBank);
         Question firstQuestion = questionBank.get(0);
         question.setText(firstQuestion.getQuestion());
         Button q1 = this.findViewById(R.id.q1);
@@ -139,6 +142,7 @@ public class QuizMainActivity extends AppCompatActivity {
 
                 //set new texts for questions
                 Question nextQuestion = questionBank.get(currQIndex);
+                Collections.shuffle(nextQuestion.getqBank());
                 question.setText(nextQuestion.getQuestion());
                 q1.setText(nextQuestion.getqBank().get(0));
                 q2.setText(nextQuestion.getqBank().get(1));
