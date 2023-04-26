@@ -122,28 +122,29 @@ public class HomeActivity extends AppCompatActivity {
                     v1.add(t2);
 
                     ArrayList<Training> v2 = new ArrayList<>();
-                    v2.add(t2);
-                    v2.add(t3);
+                    v2.add(t4);
 
                     ArrayList<Training> v3 = new ArrayList<>();
                     v3.add(t3);
                     v3.add(t4);
 
                     ArrayList<Training> v4 = new ArrayList<>();
-                    v4.add(t4);
+                    v4.add(t2);
                     v4.add(t5);
+                    v4.add(t6);
 
                     ArrayList<Training> v5 = new ArrayList<>();
                     v5.add(t5);
                     v5.add(t6);
 
                     ArrayList<Training> v6 = new ArrayList<>();
-                    v6.add(t6);
+                    v6.add(t2);
                     v6.add(t1);
+                    v6.add(t6);
 
                     ArrayList<Training> v7 = new ArrayList<>();
                     v7.add(t4);
-                    v7.add(t6);
+                    v7.add(t3);
 
 
                     jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
@@ -405,7 +406,7 @@ public class HomeActivity extends AppCompatActivity {
                 ArrayList<Job> training = new ArrayList<>();
                 ArrayList<Training> v1 = new ArrayList<>();
                 previous.add(new Job("Barista", 2, "Starbucks", "Cook up some coffee", "04/20/2023", "Orange Street",
-                        "2:00 pm", "$20/hr", false, true, 1.2, R.drawable.fedex_logo, mcDonaldQuestions, 1, v1));
+                        "2:00 pm", "$20/hr", false, true, 1.2, R.drawable.starbucks_logo, mcDonaldQuestions, 1, v1));
 
                 for (DataSnapshot jobDatasnap : snapshot.getChildren()) {
                     Job j = jobDatasnap.getValue(Job.class);
@@ -523,6 +524,12 @@ public class HomeActivity extends AppCompatActivity {
                 popupWindow.dismiss();
             }
         });
+    }
+
+    public void settingsClick(View view) {
+        Intent intent = new Intent(HomeActivity.this, LogInActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void clearSearch(){
