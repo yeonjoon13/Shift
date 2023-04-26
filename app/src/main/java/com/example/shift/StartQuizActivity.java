@@ -34,7 +34,7 @@ public class StartQuizActivity extends AppCompatActivity {
         currJob = gson.fromJson(json, Job.class);
 
         TextView compNameSmall = findViewById(R.id.textDate);
-        compNameSmall.setText(currJob.getCompany());
+        compNameSmall.setText("Back to Training");
 
         ImageView imageView = findViewById(R.id.imageViewLogo);
         imageView.setImageResource(currJob.getImageId());
