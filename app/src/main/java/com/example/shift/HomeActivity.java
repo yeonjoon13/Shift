@@ -94,19 +94,33 @@ public class HomeActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
-        Question mcdQ1 = initalizeMcDQ1();
-        Question mcdQ2 = initalizeMcDQ2();
-        Question mcdQ3 = initalizeMcDQ3();
-        mcDonaldQuestions.add(mcdQ1);
-        mcDonaldQuestions.add(mcdQ2);
-        mcDonaldQuestions.add(mcdQ3);
-
+//        Question mcdQ1 = initalizeMcDQ1();
+//        Question mcdQ2 = initalizeMcDQ2();
+//        Question mcdQ3 = initalizeMcDQ3();
+//        mcDonaldQuestions.add(mcdQ1);
+//        mcDonaldQuestions.add(mcdQ2);
+//        mcDonaldQuestions.add(mcdQ3);
 
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
         root.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (!snapshot.hasChild("Jobs")) {
+                    Question mcdQ1 = initalizeMcDQ1();
+                    Question mcdQ2 = initalizeMcDQ2();
+                    Question mcdQ3 = initalizeMcDQ3();
+                    mcDonaldQuestions.add(mcdQ1);
+                    mcDonaldQuestions.add(mcdQ2);
+                    mcDonaldQuestions.add(mcdQ3);
+
+                    Training t1 = new Training("How to operate cashier", "https://www.youtube.com/embed/3ZrlcDgS7qc", R.drawable.cashier);
+                    Training t2 = new Training("How to interact with customers", "https://www.youtube.com/embed/f3A5d7pvWlM", R.drawable.customer);
+                    Training t3 = new Training("How to lift boxes properly", "https://www.youtube.com/embed/SEtQK_qgLjU", R.drawable.warehouse);
+                    Training t4 = new Training("How to ensure safe deliveries", "https://www.youtube.com/embed/fTcZw4S0Beo", R.drawable.delivery);
+                    Training t5 = new Training("How to use the coffee machine", "https://www.youtube.com/embed/7kSSP41QEPE", R.drawable.barista);
+                    Training t6 = new Training("How to process payment", "https://www.youtube.com/embed/oNi48KKvtSI", R.drawable.payment);
+
+
                     jobDBRef = FirebaseDatabase.getInstance().getReference("Jobs");
                     Job j = new Job("Cashier", 1, "McDonalds", "Manage People and Learn to Have Fun", "05/08/2023", "Purple Street",
                             "2:00 pm", "$18/hr", false, false, 1.2, R.drawable.mcdonalds_logo, mcDonaldQuestions, 2);
@@ -140,42 +154,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
         });
-//        DatabaseReference jobReference2 = FirebaseDatabase.getInstance().getReference("Jobs");
-//        jobReference2.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                String company;
-//                for (DataSnapshot d : snapshot.getChildren()) {
-//                    Job j = d.getValue(Job.class);
-//                    String jobKey = d.getKey();
-//                    if (!j.getHaveQuestions()) {
-//                        company = j.getCompany();
-//                        if ((company).equals("McDonalds")) {
-//                            HashMap<String, Object> User = new HashMap<>();
-//                            User.put("haveQuestions", !j.getHaveQuestions());
-//                            jobReference2.child(jobKey).updateChildren(User);
-//                            j.setHaveQuestions();
-//                            DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
-//                            jobReference.child(jobKey).child("questions").setValue(mcDonaldQuestions);
-//                        }
-//                        if ((company).equals("Fedex")) {
-//                            HashMap<String, Object> User = new HashMap<>();
-//                            User.put("haveQuestions", !j.getHaveQuestions());
-//                            j.setHaveQuestions();
-//                            jobReference2.child(jobKey).updateChildren(User);
-//                            DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference("Jobs");
-//                            jobReference.child(jobKey).child("questions").setValue(fedexQuestions);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        BottomNavigationView navView = findViewById(R.id.nav_view);
 
 
         // Passing each menu ID as a set of Ids because each
@@ -484,11 +462,6 @@ public class HomeActivity extends AppCompatActivity {
                 popupWindow.dismiss();
             }
         });
-    }
-
-
-    private void addQuestions(ArrayList<String> questions) {
-
     }
 
     private void filterList(String text) {
