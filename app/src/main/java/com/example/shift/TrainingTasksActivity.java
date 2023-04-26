@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shift.databinding.ActivityTrainingTasksBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,12 +39,17 @@ public class TrainingTasksActivity extends AppCompatActivity {
     public OnClickJobListener jobListener = new OnClickJobListener() {
         @Override
         public void onJobClick(Job job) {
-            Intent intent = new Intent(TrainingTasksActivity.this, StartQuizActivity.class);
-            Gson gson = new Gson();
-            String json = gson.toJson(job);
-            intent.putExtra("currJob", json);
-            startActivity(intent);
-            finish();
+            if (!currJob.getCompleted()) {
+                Intent intent = new Intent(TrainingTasksActivity.this, StartQuizActivity.class);
+                Gson gson = new Gson();
+                String json = gson.toJson(job);
+                intent.putExtra("currJob", json);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(TrainingTasksActivity.this, "User has already completed this quiz", Toast.LENGTH_SHORT).show();
+            }
+
         }
 
         @Override
