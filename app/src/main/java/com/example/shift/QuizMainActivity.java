@@ -146,7 +146,7 @@ public class QuizMainActivity extends AppCompatActivity {
                 //set new texts for questions
                 Question nextQuestion = questionBank.get(currQIndex);
                 question.setText(nextQuestion.getQuestion());
-                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size() + " " + numCorrect);
+                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size());
                 q1.setText(nextQuestion.getqBank().get(0));
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
@@ -216,7 +216,7 @@ public class QuizMainActivity extends AppCompatActivity {
                 //set new texts for questions
                 Question nextQuestion = questionBank.get(currQIndex);
                 question.setText(nextQuestion.getQuestion());
-                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size() + " " + numCorrect);
+                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size());
                 q1.setText(nextQuestion.getqBank().get(0));
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
@@ -287,7 +287,7 @@ public class QuizMainActivity extends AppCompatActivity {
                 //set new texts for questions
                 Question nextQuestion = questionBank.get(currQIndex);
                 question.setText(nextQuestion.getQuestion());
-                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size() + " " + numCorrect);
+                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size());
                 q1.setText(nextQuestion.getqBank().get(0));
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
@@ -360,7 +360,7 @@ public class QuizMainActivity extends AppCompatActivity {
                 //set new texts for questions
                 Question nextQuestion = questionBank.get(currQIndex);
                 question.setText(nextQuestion.getQuestion());
-                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size() + " " + numCorrect);
+                progress.setText("Question " + (currQIndex + 1) + "/" + questionBank.size());
                 q1.setText(nextQuestion.getqBank().get(0));
                 q2.setText(nextQuestion.getqBank().get(1));
                 q3.setText(nextQuestion.getqBank().get(2));
