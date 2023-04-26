@@ -288,6 +288,7 @@ public class QuizMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 if (currQIndex < questionBank.size() - 1 && q4.getText().equals(questionBank.get(currQIndex).getCorrectAns())){
                     numCorrect ++;
                 }
