@@ -40,6 +40,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         public TextView trainingText;
 
         public ImageView logoImage;
+        public TextView distText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -50,6 +51,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
             trainingText = itemView.findViewById(R.id.training);
             logoImage = itemView.findViewById(R.id.logoImage);
             card = itemView.findViewById(R.id.cards);
+            distText = itemView.findViewById(R.id.distance);
 
 
         }
@@ -89,6 +91,9 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
         TextView payText = holder.payText;
         payText.setText(current.getPay());
+
+        TextView distText = holder.distText;
+        distText.setText(String.format("%.1f miles", current.getDistance()));
 
         TextView trainingText = holder.trainingText;
         if (current.getchecked_in()) {
