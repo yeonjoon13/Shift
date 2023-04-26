@@ -52,7 +52,7 @@ public class QuizMainActivity extends AppCompatActivity {
 
         TextView question = this.findViewById(R.id.questionBox);
         questionBank = currJob.getQuestions();
-        Collections.shuffle(questionBank);
+        //Collections.shuffle(questionBank);
         Question firstQuestion = questionBank.get(0);
         question.setText(firstQuestion.getQuestion());
         Button q1 = this.findViewById(R.id.q1);
