@@ -43,7 +43,6 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
 
@@ -52,12 +51,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textSize="16sp"
         android:fontFamily="@font/rubik_medium"
+        android:text="TextView"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/textCompany"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textCompany" />
 
     <TextView
@@ -65,11 +63,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         android:fontFamily="@font/rubik_medium"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/textCompany"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textDate" />
 
     <TextView
@@ -77,11 +74,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         android:fontFamily="@font/rubik_medium"
+        android:text="TextView"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/textCompany"
+        app:layout_constraintStart_toStartOf="@+id/textAddress"
         app:layout_constraintTop_toBottomOf="@+id/textAddress" />
 
     <TextView
@@ -89,45 +87,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         android:fontFamily="@font/rubik_medium"
+        android:text="TextView"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/textCompany"
+        app:layout_constraintStart_toStartOf="@+id/textTime"
         app:layout_constraintTop_toBottomOf="@+id/textTime" />
 
     <TextView
         android:id="@+id/textComplete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/rubik_medium"
+        android:layout_marginTop="6dp"
         android:text="TextView"
         android:textAlignment="textEnd"
         android:textColor="#DE1738"
-        android:fontFamily="@font/rubik_medium"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/buttonTraining"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/textAddress" />
 
     <Button
         android:id="@+id/buttonTraining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="46dp"
         android:backgroundTint="@color/button_color"
+        android:fontFamily="@font/rubik_medium"
         android:onClick="goTraining"
         android:text="@string/finishTraining"
-        android:fontFamily="@font/rubik_medium"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/textRoleName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.851"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textComplete" />
 
@@ -135,15 +129,16 @@
         android:id="@+id/textRole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:fontFamily="@font/rubik_bold"
-        android:layout_marginBottom="8dp"
         android:text="@string/role"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/textRoleName"
         app:layout_constraintEnd_toEndOf="@+id/textRoleName"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textRoleName" />
+        app:layout_constraintStart_toStartOf="@+id/textRoleName"
+        app:layout_constraintTop_toBottomOf="@+id/buttonTraining" />
 
     <TextView
         android:id="@+id/textDescription"
@@ -194,7 +189,7 @@
         android:layout_gravity="bottom"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/rubik_medium"
         android:paddingTop="6dp"
         android:background="@drawable/blackborder3"
