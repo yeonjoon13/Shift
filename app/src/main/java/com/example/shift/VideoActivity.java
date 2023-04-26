@@ -41,7 +41,7 @@ public class VideoActivity extends AppCompatActivity {
         heading.setText(heading_text);
 
         ImageView logo = findViewById(R.id.imageView3);
-        logo.setImageResource(R.drawable.mcdonalds_logo);
+        logo.setImageResource(currJob.getImageId());
 
         String link = video.getVideoLink();
 
@@ -55,6 +55,11 @@ public class VideoActivity extends AppCompatActivity {
     }
 
     public void goBackTraining(View view) {
+        Intent intent = new Intent(VideoActivity.this, TrainingTasksActivity.class);
+        Gson gson = new Gson();
+        String json = gson.toJson(currJob);
+        intent.putExtra("currJob", json);
+        startActivity(intent);
         finish();
     }
 

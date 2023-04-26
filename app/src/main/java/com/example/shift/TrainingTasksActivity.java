@@ -1,5 +1,6 @@
 package com.example.shift;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,9 +14,15 @@ import android.widget.TextView;
 
 import com.example.shift.databinding.ActivityTrainingTasksBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TrainingTasksActivity extends AppCompatActivity {
 
@@ -83,14 +90,46 @@ public class TrainingTasksActivity extends AppCompatActivity {
         subheading2.setText(subheading_text2);
 
 
-        Video video1 = new Video("How to operate cashier", R.drawable.cashier, "https://www.youtube.com/embed/3ZrlcDgS7qc");
-        Video video2 = new Video("How to interact with customers", R.drawable.customer, "https://www.youtube.com/embed/f3A5d7pvWlM");
-        training_videos.add(video1);
-        training_videos.add(video2);
-        RecyclerView videoView = findViewById(R.id.videoRecycler);
-        VideoAdapter videoAdapter = new VideoAdapter(training_videos, getApplicationContext(), jobListener, currJob);
-        videoView.setAdapter(videoAdapter);
-        videoView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL,false));
+
+        String userID = mAuth.getCurrentUser().getUid();
+        DatabaseReference masterReference = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("masterJobs");
+        masterReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Video> training_array = new ArrayList<>();
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    Job j = d.getValue(Job.class);
+                    if (j.getCompany().equals(currJob.getCompany())) {
+                        ArrayList<Training> trainingVids = j.getTrainingVids();
+                        for (Training t : trainingVids) {
+                            Video video = new Video(t.getDescription(), t.getImageId(), t.getVideoLink());
+                            training_array.add(video);
+                        }
+                        break;
+                    }
+                }
+                RecyclerView videoView = findViewById(R.id.videoRecycler);
+                VideoAdapter videoAdapter = new VideoAdapter(training_array, getApplicationContext(), jobListener, currJob);
+                videoView.setAdapter(videoAdapter);
+                videoView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL,false));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
+/*
+       Hardcoding the adapter
+ */
+
+//        Video video1 = new Video("How to operate cashier", R.drawable.cashier, "https://www.youtube.com/embed/3ZrlcDgS7qc");
+//        Video video2 = new Video("How to interact with customers", R.drawable.customer, "https://www.youtube.com/embed/f3A5d7pvWlM");
+//        training_videos.add(video1);
+//        training_videos.add(video2);
+//        RecyclerView videoView = findViewById(R.id.videoRecycler);
+//        VideoAdapter videoAdapter = new VideoAdapter(training_videos, getApplicationContext(), jobListener, currJob);
+//        videoView.setAdapter(videoAdapter);
+//        videoView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL,false));
+
         jobs.add(currJob);
 
         RecyclerView quizView = findViewById(R.id.quizRecycler);
