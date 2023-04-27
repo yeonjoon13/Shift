@@ -9,6 +9,7 @@ import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,6 +43,12 @@ public class VideoActivity extends AppCompatActivity {
 
         ImageView logo = findViewById(R.id.imageView3);
         logo.setImageResource(currJob.getImageId());
+
+        Button takeQuiz = findViewById(R.id.button_quiz);
+
+        if (currJob.getCompleted()) {
+            takeQuiz.setVisibility(View.INVISIBLE);
+        }
 
         String link = video.getVideoLink();
 
