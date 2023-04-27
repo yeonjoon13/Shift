@@ -40,3 +40,49 @@ Password: 123456
 
 Username: test55@gmail.com
 Password: 123456
+
+
+Sprint 2:
+
+Welcome to Sprint 2. Our main things we did this sprint was doing the tags, search, quiz and video 
+watching sections of our app, as well as the necessary screens for each.
+
+Our existing work was updated a lot during this sprint. We modified our Job Description Activity to 
+include information about job requirements, since they were implemented in this sprint. We also
+modified our browse section of the app, since the requirements of videos and quizzes were
+implemented. Our job class in the code and firebase was also modified to contain the new quizzes and
+videos. We also were able to modify the search tab in our bottom navigation to give it some
+functionality.
+
+For the videos, we had to implement a video watching service. We made a video class to store the
+information about the videos, a video adapter to show how the videos would look in the training task
+activity, and a video activity that would show when the videos would play. After this, we made the
+xmls for the video cards as well as the start of the training task activity class. We finally got
+the sample videos and used those for our app.
+
+For the quizzes, we had to make a question class that would contain all the information for the
+question banks, and add those question banks to the firebase. Then, we made the quiz activty, which
+involved tracking the correct answers and storing information from button presses, as well as
+sending updated statuses to the firebase and using that information to update the text and
+containers for the jobs. We also made customized quiz thumbnails and debugged everything.
+
+For the filters and tags, we added a lot of functionality to the job class and the home activity.
+We added a menu that would allow the user to select which tags they wanted to see, which would be
+updated in the recommended jobs tab. We also updated the firebase to reflect which jobs had which
+tags.
+
+For the search, we made a new activity to be able to view the items when searched, but most of the
+search functionality was done in home activity. We made sure that users could search case
+insensitive and could substring search. We then made sure that clicking on the searched items would
+allow you to edit the job description normally.
+
+We fixed most of our bugs, but we still have a few. Creating a new user does not immediately 
+populate the jobs database, but that is changed once the screens are switched back and forth. The 
+first tap on the quiz also sometimes does not work.
+
+In our last sprint, we want to implement the settings activity, and improve some of the design
+aesthetics we feel are lacking.
+
+Login Information: (You can create your own)
+Username: 2@gmail.com
+Password: 123456 
