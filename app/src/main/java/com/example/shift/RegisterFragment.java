@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,7 +22,6 @@ public class RegisterFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -34,14 +34,14 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((LogInActivity) getActivity()).registerClick(view);
-
+/*
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 LoginScreenFragment first = new LoginScreenFragment();
                 fragmentTransaction.replace(R.id.fragment_content_main, first);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
             }
         });
     }

@@ -68,6 +68,7 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         // set firstFragment as default view
 
@@ -75,8 +76,8 @@ public class LogInActivity extends AppCompatActivity {
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        getSupportActionBar().hide();
         setContentView(binding.getRoot());
-
 //        setSupportActionBar(binding.toolbar);
+
 
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -180,6 +181,8 @@ public class LogInActivity extends AppCompatActivity {
         ArrayList<Job> upcomingJobs = new ArrayList<>();
         ArrayList<Job> likedJobs = new ArrayList<>();
         ArrayList<Job> recommendedJobs = new ArrayList<>();
+        String specialCharactersString = "!#$%&*()'+,-./:;<=>?[]^_`{|}";
+
 
         if (email2.isEmpty()) {
             email.setError("Email can't be empty");
@@ -189,6 +192,14 @@ public class LogInActivity extends AppCompatActivity {
             mAuth.createUserWithEmailAndPassword(email2, password2).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
+                    boolean containsSpecial = false;
+                    for (int i = 0; i < email2.length(); i++) {
+                        char ch = email2.charAt(i);
+                        if (specialCharactersString.contains(Character.toString(ch))) {
+                            containsSpecial = true;
+                            break;
+                        }
+                    }
                     if (task.isSuccessful()) {
                         Toast.makeText(LogInActivity.this, "Authentication created.",
                                 Toast.LENGTH_SHORT).show();
@@ -202,8 +213,16 @@ public class LogInActivity extends AppCompatActivity {
                         transaction.commit();
 
                     } else {
-                        Toast.makeText(LogInActivity.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
+                        if (!email2.contains("@")) {
+                            Toast.makeText(LogInActivity.this, "Email is not valid.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else if (containsSpecial)  {
+                            Toast.makeText(LogInActivity.this, "Email contains special character.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LogInActivity.this, "Password is incorrect",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
