@@ -68,6 +68,7 @@ public class QuizMainActivity extends AppCompatActivity {
 
         numCorrect = 0;
         currQIndex = 0;
+        q1.performClick();
 
     }
 
@@ -82,7 +83,6 @@ public class QuizMainActivity extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = mAuth.getCurrentUser().getUid();
-        q1.performClick();
 
         q1.setOnClickListener(new View.OnClickListener() {
             @Override
